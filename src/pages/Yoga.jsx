@@ -217,7 +217,7 @@ const Yoga = () => {
                                             <img 
                                                  src={asanaImages[asana.name] || `/api/placeholder/320/240`}  
                                                 alt={`${asana.name} demonstration`} 
-                                                className="mx-auto rounded shadow-sm h-100"
+                                                className="mx-auto rounded shadow-sm h-64"
                                             />
                                             <p className="mt-1 text-xs text-gray-500">Demonstration of {asana.name}</p>
                                         </div>
