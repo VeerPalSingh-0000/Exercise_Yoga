@@ -213,15 +213,18 @@ const Yoga = () => {
                                     
                                     {/* Image container that shows/hides based on expandedAsanas state */}
                                     {expandedAsanas[`${day}-${index}`] && (
-                                        <div className="mt-2 text-center">
-                                            <img 
-                                                 src={asanaImages[asana.name] || `/api/placeholder/320/240`}  
-                                                alt={`${asana.name} demonstration`} 
-                                                className="mx-auto rounded shadow-sm h-64"
-                                            />
-                                            <p className="mt-1 text-xs text-gray-500">Demonstration of {asana.name}</p>
-                                        </div>
-                                    )}
+    <div className="mt-2 text-center rounded-lg p-2 sm:p-4">
+        <img 
+            src={asanaImages[asana.name] || `/api/placeholder/320/240`}  
+            alt={`${asana.name} demonstration`} 
+            className="mx-auto rounded shadow-sm w-full max-w-xs sm:max-w-md md:max-w-lg h-auto object-contain"
+        />
+        <p className="mt-2 text-sm text-gray-600 sm:text-base">
+            Demonstration of {asana.name}
+        </p>
+    </div>
+)}
+
                                 </div>
                             ))}
                         </div>
