@@ -77,28 +77,66 @@ const weeklyYogaRoutine = {
 
 const Yoga = () => {
     const [expandedDay, setExpandedDay] = useState(null);
+    // New state to track which asanas have their images shown
+    const [expandedAsanas, setExpandedAsanas] = useState({});
 
     const toggleDay = (day) => {
         setExpandedDay(expandedDay === day ? null : day);
     };
 
+    // Function to toggle image visibility for a specific asana
+    const toggleAsanaImage = (day, asanaIndex, event) => {
+        // Prevent the click from bubbling up to the parent elements
+        event.stopPropagation();
+        
+        const key = `${day}-${asanaIndex}`;
+        setExpandedAsanas(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
+
     const [audioSrc, setAudioSrc] = useState(null);
-const audioRef = useRef(null);
+    const audioRef = useRef(null);
 
-const playMusic = (type) => {
-    const selected = type === 'relax' ? relaxAudio : energizeAudio;
-    setAudioSrc(selected);
-    setTimeout(() => {
-        audioRef.current.play();
-    }, 100); // Slight delay to ensure audio src is updated
-};
+    const playMusic = (type) => {
+        const selected = type === 'relax' ? relaxAudio : energizeAudio;
+        setAudioSrc(selected);
+        setTimeout(() => {
+            audioRef.current.play();
+        }, 100); // Slight delay to ensure audio src is updated
+    };
 
-const pauseMusic = () => {
-    if (audioRef.current) {
-        audioRef.current.pause();
-    }
-};
+    const pauseMusic = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+        }
+    };
 
+
+    const asanaImages = {
+        // Asanas------------------------------
+        "Tadasana (Mountain Pose)": "https://media.istockphoto.com/id/1366703229/vector/palm-tree-pose-urdhva-hastasana-upward-hand-stretch-pose-upward-salute-raised-hands-pose.jpg?s=612x612&w=0&k=20&c=rY1lIudAf5GTFGFQq1FP_aIMOSXDuwBgTp5ipngSu5E=",
+        "Shavasana (Corpse Pose)": "https://www.keralatourism.org/images/yoga/static-banner/large/Savasana_-_The_Corpse_Pose-07032020145736.jpg",
+        "Paschimottanasana (Seated Forward Bend)":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgLuSptm7cxCe84Beq-t_b8y_uoqL-FuijTg&s",
+        "Janu Sirsasana (Head-to-Knee Pose)":"https://www.gaia.com/wp-content/uploads/JanuSirsasana-NicoLuce.jpg",
+        "Baddha Konasana (Bound Angle Pose)":"https://cdn.yogajournal.com/wp-content/uploads/2022/10/Bound-Angle-Pose_Mod-1_Andrew-Clark_2400x1350.jpeg",
+        "Supta Baddha Konasana (Reclined Bound Angle Pose)":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDqAMO8WE998Ylj-mWg36EIHxsbNl7MIYU2A&s",
+        "Viparita Karani (Legs-up-the-Wall Pose)":"https://cdn.yogaeasy.de/production/uploads/article/picture/5853/large_legs-up-the-wall-pose.jpg",
+        "Vrikshasana (Tree Pose)":"https://www.arhantayoga.org/wp-content/uploads/2022/03/Tree-Pose-%E2%80%93-Vrikshasana.jpg",
+        "Surya Namaskar (Sun Salutation)":"https://harithayogshala.com/upload/blog/steps-of-surya-namaskar_1650126696.jpg",
+        "Adho Mukha Svanasana (Downward-Facing Dog)":"https://cdn.yogaeasy.de/production/uploads/article/picture/6282/large_article_Downward-Facing-Dog-Pose-Adho-Mukha-Svanasana.jpg",
+        "Uttanasana (Standing Forward Bend)":"https://cdn.yogajournal.com/wp-content/uploads/2021/11/Uttanasana-Pose_Andrew-Clark_2400x1350.jpeg",
+        "Phalakasana (Plank Pose)":"https://cdn.prod.website-files.com/67691f03eb5bfa3289b3dae7/67691f03eb5bfa3289b3eb6d_Untitled-design-24.jpg",
+        "Bhujangasana (Cobra Pose)":"https://rishikeshashtangayogaschool.com/blog/wp-content/uploads/2021/11/cobra-pose_11zon.jpg",
+        "Navasana (Boat Pose)":"https://cdn.prod.website-files.com/67691f03eb5bfa3289b3dae7/67691f03eb5bfa3289b3ea9b_boat-pose-yoga.jpeg",
+        "Trikonasana (Triangle Pose)":"https://lh3.googleusercontent.com/1lFCiwdr0bqa_JDFaYD84M_TfvJ3RYy5mWpV0UfRTU7xWcEtRjbrG8vNowmL9pK1tWUVWng9jDML5TQJzC3i10hKS3JXMACiD_tV8sScPBGBF-Bhybv1Vw55Hvul60Z9pL09cCrP",
+        "Parivrtta Trikonasana (Revolved Triangle Pose)":"https://cdn.yogajournal.com/wp-content/uploads/2021/10/Revolved-Triangle-Pose_Andrew-Clark.jpg",
+        "Balasana (Child's Pose)":"https://karunayoga.in/wp-content/uploads/2020/03/balasana.jpg",
+        "Garudasana (Eagle Pose)":"https://www.vinyasayogaashram.com/blog/wp-content/uploads/2021/06/Garudasana-Eagle-Pose-2.jpg",
+        "Natarajasana (Dancer Pose)":"https://omstars.com/blog/wp-content/uploads/2023/02/how-to-do-Natarajasana-Dancer-Pose.png",
+        
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-teal-100 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -109,26 +147,25 @@ const pauseMusic = () => {
                 </h1>
 
                 <div className="flex justify-end mb-4">
-    <button
-        onClick={() => playMusic('relax')}
-        className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-1 px-3 rounded-l-xl shadow"
-    >
-        🎵 Relax
-    </button>
-    <button
-        onClick={() => playMusic('energize')}
-        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-1 px-3 shadow"
-    >
-        ⚡ Energize
-    </button>
-    <button
-        onClick={pauseMusic}
-        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-3 rounded-r-xl shadow"
-    >
-        ⏸️ Pause
-    </button>
-</div>
-
+                    <button
+                        onClick={() => playMusic('relax')}
+                        className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-1 px-3 rounded-l-xl shadow"
+                    >
+                        🎵 Relax
+                    </button>
+                    <button
+                        onClick={() => playMusic('energize')}
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-1 px-3 shadow"
+                    >
+                        ⚡ Energize
+                    </button>
+                    <button
+                        onClick={pauseMusic}
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-3 rounded-r-xl shadow"
+                    >
+                        ⏸️ Pause
+                    </button>
+                </div>
 
                 {Object.entries(weeklyYogaRoutine).map(([day, dayData]) => (
                     <div key={day}
@@ -160,16 +197,37 @@ const pauseMusic = () => {
                             <h4 className="text-md font-semibold text-gray-800 mt-2 mb-2">Other Asanas:</h4>
                             {dayData.asanas.map((asana, index) => (
                                 <div key={index} className="mb-2 p-2 rounded-md bg-gray-50 border border-gray-200">
-                                    <h5 className="text-md font-medium text-blue-700">{asana.name} ({asana.Sanskrit})</h5>
+                                    <div className="flex justify-between items-center">
+                                        <h5 className="text-md font-medium text-blue-700">{asana.name} ({asana.Sanskrit})</h5>
+                                        <button 
+                                            onClick={(e) => toggleAsanaImage(day, index, e)}
+                                            className="ml-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-2 rounded flex items-center text-xs"
+                                        >
+                                            <span className="mr-1">{expandedAsanas[`${day}-${index}`] ? 'Hide' : 'Show'}</span>
+                                            <span>{expandedAsanas[`${day}-${index}`] ? '🔼' : '🔽'}</span>
+                                        </button>
+                                    </div>
                                     <p className="text-gray-600 text-sm">
                                         <span className="font-medium">Duration:</span> {asana.duration} | <span className="font-medium">Benefits:</span> {asana.benefits.join(', ')}
                                     </p>
+                                    
+                                    {/* Image container that shows/hides based on expandedAsanas state */}
+                                    {expandedAsanas[`${day}-${index}`] && (
+                                        <div className="mt-2 text-center">
+                                            <img 
+                                                 src={asanaImages[asana.name] || `/api/placeholder/320/240`}  
+                                                alt={`${asana.name} demonstration`} 
+                                                className="mx-auto rounded shadow-sm h-100"
+                                            />
+                                            <p className="mt-1 text-xs text-gray-500">Demonstration of {asana.name}</p>
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
                     </div>
                 ))}
-<audio ref={audioRef} src={audioSrc} loop />
+                <audio ref={audioRef} src={audioSrc} loop />
 
                 <footer
                     className="text-center mt-12 text-gray-500 text-sm"
