@@ -9,8 +9,12 @@ import {
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import AuthOptions from "./pages/AuthOptions";
 
-// ✅ Import exercise pages
+// Import the new WorkoutHistory component
+import WorkoutHistory from "./components/WorkoutHistory"; // Assuming it's in components folder
+
+// Import exercise pages
 import Chest from "./pages/Chest";
 import Tricep from "./pages/Tricep";
 import Bicep from "./pages/Bicep";
@@ -46,28 +50,38 @@ const App = () => {
   }
 
   return (
-   
-
-       <Router>
+    <Router>
       <Routes>
         <Route
           path="/"
-          element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+          // If user exists, navigate to dashboard.
+          // If user does NOT exist, show the AuthOptions page.
+          element={user ? <Navigate to="/dashboard" /> : <AuthOptions />}
         />
         <Route
           path="/login"
+          // Keep existing logic: if user logged in, redirect from login page
           element={!user ? <Login /> : <Navigate to="/dashboard" />}
         />
         <Route
           path="/signup"
+          // Keep existing logic: if user logged in, redirect from signup page
           element={!user ? <Signup /> : <Navigate to="/dashboard" />}
         />
         <Route
           path="/dashboard"
+          // Protected route: only accessible if logged in
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
 
-        {/* ✅ Exercise Pages */}
+        {/* --- New: Workout History Route - Protected --- */}
+        <Route
+          path="/history"
+          // Protected route: only accessible if logged in
+          element={user ? <WorkoutHistory /> : <Navigate to="/login" />}
+        />
+
+        {/* Exercise Pages - Protected Routes */}
         <Route
           path="/exercises/tricep"
           element={user ? <Tricep /> : <Navigate to="/login" />}
@@ -88,14 +102,12 @@ const App = () => {
           path="/exercises/shoulder"
           element={user ? <Shoulder /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/exercises/yoga"
-          element={user ? <Yoga /> : <Navigate to="/login" />}
-        />
+         <Route
+            path="/exercises/yoga"
+            element={user ? <Yoga /> : <Navigate to="/login" />}
+         />
       </Routes>
     </Router>
-    
-   
   );
 };
 
