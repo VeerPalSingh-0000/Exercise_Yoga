@@ -9,91 +9,84 @@ const formatTime = (totalSeconds) => {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
 
-// --- Define General Warm-up Exercises ---
+// --- Define Warm-up Exercises ---
 const warmupExercises = [
     { name: "Warm-up: Jumping Jacks", img: "https://cdn.fitimg.in/content_blog_inner_E4B1CDF6.gif", duration: "60 seconds" },
     { name: "Warm-up: Arm Circles (Forward)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/867.gif", duration: "30 seconds" },
     { name: "Warm-up: Arm Circles (Backward)", img: "https://flabfix.com/wp-content/uploads/2019/08/Reverse-Arm-Circles.gif", duration: "30 seconds" },
-    { name: "Warm-up: Dynamic Chest Stretch", img: "https://cdn.jefit.com/assets/img/exercises/gifs/846.gif", duration: "30 seconds" }, // Can skip arm/chest specific for legs if preferred, but keeping template consistent
-    { name: "Warm-up: Torso Twists", img: "https://cdn.jefit.com/assets/img/exercises/gifs/677.gif", duration: "30 seconds" },
-     { name: "Warm-up: Bodyweight Squats", img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/squat-1585330081.gif", duration: "30 seconds" }, // Added leg-specific warm-up
-     { name: "Warm-up: Lunges (Alternating)", img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/how-to-do-a-lunge-1553612001.gif", duration: "30 seconds" }, // Added leg-specific warm-up
+    { name: "Warm-up: Wrist Curls (Light/No Weight)", img: "https://www.verywellfit.com/thmb/ToOlI6kmhRUNeGqDbvo3tVJK-fQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/wristcurl-1056698feeaa4cf88a7586827ad70895.gif", duration: "30 seconds" },
 ];
 
-// --- Define General Cooldown Stretches ---
+// --- Define Cooldown Stretches ---
 const cooldownStretches = [
-    { name: "Cooldown: Hamstring Stretch", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", duration: "30 seconds each leg" },
-    { name: "Cooldown: Quad Stretch", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", duration: "30 seconds each leg" },
-    { name: "Cooldown: Calf Stretch", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", duration: "30 seconds each leg" },
-    { name: "Cooldown: Hip Flexor Stretch", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", duration: "30 seconds each side" },
-    { name: "Cooldown: Child's Pose", img: "https://media.post.rvohealth.io/wp-content/uploads/2018/07/Childs-Pose-Balasana.gif", duration: "30 seconds" }, // Keeping a general one too
+    { name: "Cooldown: Bicep Wall Stretch", img: "https://post.healthline.com/wp-content/uploads/2019/06/Wall-bicep-stretch-.gif", duration: "30 seconds each arm" },
+    { name: "Cooldown: Wrist Extensor Stretch", img: "https://www.spotebi.com/wp-content/uploads/2015/04/wrist-stretch-exercise-illustration.gif", duration: "30 seconds each wrist" },
+    { name: "Cooldown: Overhead Triceps Stretch (indirectly stretches bicep)", img: "https://www.vissco.com/wp-content/uploads/animation/sub/triceps-stretch.gif", duration: "30 seconds each arm" },
+    { name: "Cooldown: Child's Pose", img: "https://media.post.rvohealth.io/wp-content/uploads/2018/07/Childs-Pose-Balasana.gif", duration: "30 seconds" },
 ];
 
-// --- Leg Workouts by Type (Home/Gym) and Level ---
-const legWorkouts = {
+// --- Combine Warm-ups, Main Exercises, and Cooldowns for Biceps ---
+// Includes both Home (Bodyweight) and Gym sections.
+const bicepsWorkouts = {
     Home: {
         Beginner: [
             ...warmupExercises,
-            { name: "Bodyweight Squats", img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/squat-1585330081.gif", reps: "3 sets × 15-20 reps" },
-            { name: "Lunges (Alternating)", img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/how-to-do-a-lunge-1553612001.gif", reps: "3 sets × 10-12 reps per leg" },
-            { name: "Glute Bridges", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.12.GluteBridge.gif", reps: "3 sets × 15-20 reps" },
-            { name: "Calf Raises (Bodyweight)", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.8.StandingCalfRaise.gif", reps: "3 sets × 15-20 reps" },
-             { name: "Wall Sit", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.13.WallSit.gif", duration: "3 sets x 30-60 seconds" },
+            { name: "Isometric Bicep Contraction (against wall/other hand)", img: "https://www.inspireusafoundation.org/wp-content/uploads/2023/04/wall-push-ups.gif", reps: "3 sets × 15-20 sec hold each arm" },
+            { name: "Towel Bicep Curls (provide resistance yourself)", img: "https://cdn.shopify.com/s/files/1/0618/9462/3460/files/StandingBicepCurl.gif", reps: "3 sets × 12-15 reps" },
+            { name: "Door Frame Rows (Underhand Grip)", img: "https://www.nerdfitness.com/wp-content/uploads/2020/04/doorway-row.gif", reps: "3 sets × 10-12 reps" },
+            { name: "Wall Pulls / Scapular Retraction", img: "https://i.pinimg.com/originals/82/77/25/827725c8e3653c95be7a09d0611523c2.gif", reps: "3 sets × 15 reps" }, // Engages back but assists
             ...cooldownStretches
         ],
         Intermediate: [
             ...warmupExercises,
-            { name: "Bulgarian Split Squats (Bodyweight)", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.4.BulgarianSplitSquat.gif", reps: "3 sets × 10-12 reps per leg" },
-            { name: "Pistol Squat (Assisted)", img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-assisted-pistol-squats-m1.gif", reps: "3 sets × 8-10 reps per leg" },
-            { name: "Single Leg Glute Bridges", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.14.SingleLegGluteBridge.gif", reps: "3 sets × 15 reps per leg" },
-             { name: "Skater Squats", img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-skater-squat-m1.gif", reps: "3 sets x 10-12 reps per leg" },
-            { name: "Standing Calf Raises (Elevated)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/240.gif", reps: "3 sets × 15-20 reps" },
+            { name: "Chin-Up Negatives (if bar available)", img: "https://i.pinimg.com/originals/82/77/25/827725c8e3653c95be7a09d0611523c2.gif", reps: "3 sets × 5-8 reps" },
+            { name: "Inverted Rows (Underhand Grip, feet elevated)", img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2023/03/inverted-row-with-underhand-grip-new.gif?fit=600%2C600&ssl=1", reps: "3 sets × 8-12 reps" },
+            { name: "Bodyweight Hammer Curls (using towel tension)", img: "https://i.pinimg.com/originals/fe/0a/85/fe0a853605de67a2b6bc33ce1e4ad8a8.gif", reps: "3 sets × 10-12 reps" },
+            { name: "Concentration Curls (Isometric against leg)", img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Concentration-curl.gif?fit=600%2C600&ssl=1", reps: "3 sets × 10-15 sec hold each arm" },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
-            { name: "Pistol Squats (Unassisted)", img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-pistol-squats-m1.gif", reps: "3 sets × 5-8 reps per leg" },
-            { name: "Jump Squats", img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.11.JumpSquat.gif", reps: "3 sets × 10-15 reps" },
-            { name: "Single Leg Romanian Deadlifts (Bodyweight)", img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-bodyweight-single-leg-deadlift-m1.gif", reps: "3 sets × 10-12 reps per leg" },
-             { name: "Lateral Lunges", img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-bodyweight-side-lunge-m1.gif", reps: "3 sets x 10-12 reps per leg" },
-             { name: "Explosive Step-Ups", img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-plyo-step-ups-m1.gif", reps: "3 sets x 8-10 reps per leg" },
+            { name: "Chin-Ups (if bar available)", img: "https://www.verywellfit.com/thmb/MfbjgOZJaqecnhZSvKl8H2YLfvs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/67-3120735-Pullups-GIF-b08bf524e15c4bb2a70c7fc43e1fe9c0.gif", reps: "3 sets × AMRAP" },
+            { name: "Towel Hang (Underhand Grip)", img: "https://barbend.com/wp-content/uploads/2023/12/towel-pullup-barbend-movement-gif-masters.gif", reps: "3 sets × Max Hold Time" },
+            { name: "One-Arm Door Frame Rows (Underhand)", img: "https://i.makeagif.com/media/8-26-2015/yPAHwb.gif", reps: "3 sets × 8-10 reps each side" },
+            { name: "Pelican Curls (using rings/suspension trainer if available)", img: "https://bodyweighttrainingarena.com/wp-content/uploads/2020/08/Pelican-Curls-Low-Bicep-exercises.gif", reps: "3 sets x 6-10 reps"},
+            { name: "Commando Pull-Ups (alternating grip)", img: "https://dl.beigi.fit/harakat/Lats-muscles/Alt-commando-pullup.gif", reps: "3 sets x 6-10 reps total" },
             ...cooldownStretches
         ],
     },
     Gym: {
         Beginner: [
              ...warmupExercises,
-            { name: "Leg Press (Machine)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/397.gif", reps: "3 sets × 12-15 reps" },
-            { name: "Goblet Squats (Dumbbell/Kettlebell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/396.gif", reps: "3 sets × 10-12 reps" },
-            { name: "Hamstring Curls (Machine, Seated/Lying)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/303.gif", reps: "3 sets × 12-15 reps" },
-            { name: "Quad Extensions (Machine)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/304.gif", reps: "3 sets × 12-15 reps" },
-            { name: "Seated Calf Raises (Machine)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/242.gif", reps: "3 sets × 15-20 reps" },
+            { name: "Machine Bicep Curls", img: "https://cdn.jefit.com/assets/img/exercises/gifs/123.gif", reps: "3 sets × 12-15 reps" },
+            { name: "Seated Dumbbell Curls", img: "https://cdn.jefit.com/assets/img/exercises/gifs/102.gif", reps: "3 sets × 10-12 reps" },
+            { name: "Seated Dumbbell Hammer Curls", img: "https://cdn.jefit.com/assets/img/exercises/gifs/98.gif", reps: "3 sets × 12-15 reps" },
+            { name: "Standing Cable Curls (EZ Bar)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/114.gif", reps: "3 sets × 12-15 reps" },
              ...cooldownStretches
         ],
         Intermediate: [
              ...warmupExercises,
-            { name: "Barbell Back Squats", img: "https://cdn.jefit.com/assets/img/exercises/gifs/11.gif", reps: "3 sets × 8-10 reps" },
-            { name: "Romanian Deadlifts (Barbell/Dumbbell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/45.gif", reps: "3 sets × 10-12 reps" },
-            { name: "Walking Lunges (Dumbbell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/42.gif", reps: "3 sets × 10-12 reps per leg" },
-            { name: "Hack Squat (Machine)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/398.gif", reps: "3 sets × 10-12 reps" },
-             { name: "Leg Press (Single Leg)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/400.gif", reps: "3 sets x 10-12 reps per leg"},
+            { name: "Standing Barbell Curls (EZ Bar)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/100.gif", reps: "3 sets × 8-10 reps" },
+            { name: "Incline Dumbbell Curls", img: "https://cdn.jefit.com/assets/img/exercises/gifs/104.gif", reps: "3 sets × 10-12 reps" },
+            { name: "Cable Hammer Curls (Rope)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/106.gif", reps: "3 sets × 12-15 reps" },
+            { name: "Concentration Curls (Dumbbell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/103.gif", reps: "3 sets × 10-12 reps" },
              ...cooldownStretches
         ],
         Hard: [
              ...warmupExercises,
-            { name: "Heavy Barbell Back Squats", img: "https://cdn.jefit.com/assets/img/exercises/gifs/11.gif", reps: "4 sets × 5-8 reps" },
-            { name: "Stiff-Leg Deadlifts (Barbell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/48.gif", reps: "3 sets × 8-10 reps" },
-            { name: "Leg Press (Heavy)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/397.gif", reps: "3 sets × 8-10 reps" },
-             { name: "Bulgarian Split Squats (Dumbbell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/36.gif", reps: "3 sets x 8-10 reps per leg"},
-             { name: "Hip Thrusts (Barbell)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/237.gif", reps: "3 sets x 10-15 reps"},
-             { name: "Standing Calf Raises (Smith Machine)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/241.gif", reps: "4 sets x 15-20 reps"},
+            { name: "Standing Barbell Curls (Straight Bar)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/99.gif", reps: "4 sets × 6-8 reps" },
+            { name: "Preacher Curls (EZ Bar)", img: "https://cdn.jefit.com/assets/img/exercises/gifs/101.gif", reps: "3 sets × 8-10 reps" },
+            { name: "High Cable Curls", img: "https://cdn.jefit.com/assets/img/exercises/gifs/110.gif", reps: "3 sets × 12-15 reps" },
+             // Added Weighted Chin-Ups as they are often used in gyms for bicep/back
+            { name: "Weighted Chin-Ups", img: "https://cdn.jefit.com/assets/img/exercises/gifs/229.gif", reps: "3 sets × 5-8 reps" },
+             { name: "Reverse Barbell Curls", img: "https://cdn.jefit.com/assets/img/exercises/gifs/109.gif", reps: "3 sets x 10-12 reps"}, // Good for brachialis/forearm
              ...cooldownStretches
         ],
     }
 };
 
 
-const Leg = () => { // Component name changed to Leg
+const Biceps = () => {
     const [workoutType, setWorkoutType] = useState('Home'); // 'Home' or 'Gym'
     const [level, setLevel] = useState(null); // 'Beginner', 'Intermediate', 'Hard', or null
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -109,15 +102,16 @@ const Leg = () => { // Component name changed to Leg
     // --- Load Last Workout Info on Mount ---
     useEffect(() => {
         try {
-            const savedInfo = localStorage.getItem("lastLegWorkout"); // Updated key
+            const savedInfo = localStorage.getItem("lastBicepsWorkout"); // Keep Biceps specific key
             if (savedInfo) {
                 const parsedInfo = JSON.parse(savedInfo);
-                 if (!parsedInfo.type) parsedInfo.type = 'Home';
+                 // Add type handling for display, default to Home if not present (for compatibility)
+                if (!parsedInfo.type) parsedInfo.type = 'Home';
                 setLastWorkoutInfo(parsedInfo);
             }
         } catch (error) {
-            console.error("Failed to load last leg workout info:", error); // Updated console log
-            localStorage.removeItem("lastLegWorkout"); // Updated key
+            console.error("Failed to load last biceps workout info:", error);
+            localStorage.removeItem("lastBicepsWorkout"); // Keep Biceps specific key
         }
     }, []);
 
@@ -160,8 +154,8 @@ const Leg = () => { // Component name changed to Leg
 
     const startWorkout = (lvl) => {
          // Prevent starting if the selected type/level has no exercises
-         if (!legWorkouts[workoutType]?.[lvl]?.length) { // Use legWorkouts
-             alert(`No ${lvl} Leg workouts available for ${workoutType}.`); // Updated alert
+         if (!bicepsWorkouts[workoutType]?.[lvl]?.length) {
+             alert(`No ${lvl} Biceps workouts available for ${workoutType}.`);
              return;
          }
         setLevel(lvl);
@@ -179,7 +173,7 @@ const Leg = () => { // Component name changed to Leg
         setIsRunning(false);
         const finalTime = timer;
         const completedLevel = level;
-        const completedType = workoutType;
+        const completedType = workoutType; // Capture workout type
 
         setLevel(null); // Reset level first
         setCurrentIndex(0);
@@ -188,26 +182,31 @@ const Leg = () => { // Component name changed to Leg
 
         if (completed && completedLevel && completedType) {
             const workoutData = {
-                type: completedType,
+                type: completedType, // Save workout type
                 level: completedLevel,
                 duration: finalTime,
                 date: new Date().toISOString().split('T')[0]
             };
             try {
-                 localStorage.setItem("lastLegWorkout", JSON.stringify(workoutData)); // Updated key
+                 // Keep Biceps specific localStorage key
+                localStorage.setItem("lastBicepsWorkout", JSON.stringify(workoutData));
                 setLastWorkoutInfo(workoutData);
-                 alert(`${completedType} - ${completedLevel} Leg Workout Complete! 💪🦵\nDuration: ${formatTime(finalTime)}`); // Updated alert and emoji
+                 // Keep Biceps specific alert text, include type
+                alert(`${completedType} - ${completedLevel} Biceps Workout Complete! 💪\nDuration: ${formatTime(finalTime)}`);
             } catch (error) {
-                console.error("Failed to save leg workout data:", error); // Updated console log
-                 alert(`${completedType} - ${completedLevel} Leg Workout Complete! 💪🦵\nDuration: ${formatTime(finalTime)}\n(Could not save duration)`); // Updated alert and emoji
+                console.error("Failed to save biceps workout data:", error);
+                 // Keep Biceps specific alert text
+                alert(`${completedType} - ${completedLevel} Biceps Workout Complete! 💪\nDuration: ${formatTime(finalTime)}\n(Could not save duration)`);
             }
         } else if (!completed && completedLevel) {
-             alert("Leg workout stopped early."); // Updated alert
+             // Keep Biceps specific alert text
+             alert("Biceps workout stopped early.");
         }
     };
 
     const nextExercise = () => {
-        const currentWorkoutList = legWorkouts[workoutType]?.[level]; // Use legWorkouts
+        // Use the combined bicepsWorkouts data
+        const currentWorkoutList = bicepsWorkouts[workoutType]?.[level];
         if (currentWorkoutList && currentIndex < currentWorkoutList.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else if (level && workoutType) { // Ensure workout was active and type/level selected
@@ -219,8 +218,9 @@ const Leg = () => { // Component name changed to Leg
         setIsSoundEnabled(!isSoundEnabled);
     };
 
-    const currentExercise = isRunning && workoutType && level && legWorkouts[workoutType]?.[level] // Use legWorkouts
-        ? legWorkouts[workoutType][level][currentIndex]
+    // Use the combined bicepsWorkouts data
+    const currentExercise = isRunning && workoutType && level && bicepsWorkouts[workoutType]?.[level]
+        ? bicepsWorkouts[workoutType][level][currentIndex]
         : null;
 
     // --- Framer Motion Variants (Copied directly from Chest template) ---
@@ -270,7 +270,7 @@ const Leg = () => { // Component name changed to Leg
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 } }}
                 >
-                    <span role="img" aria-label="leg">🦵</span> Leg Crusher {/* Updated title and emoji */}
+                    <span role="img" aria-label="bicep flex">💪</span> Biceps Builder {/* Changed title slightly to be more general */}
                 </motion.h1>
 
                 {/* --- Display Last Workout Info --- */}
@@ -281,8 +281,8 @@ const Leg = () => { // Component name changed to Leg
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1, transition: { delay: 0.5 } }}
                     >
-                        {/* Updated info text */}
-                        Last Leg Workout ({lastWorkoutInfo.date}): {lastWorkoutInfo.type} - {lastWorkoutInfo.level} - {formatTime(lastWorkoutInfo.duration)}
+                        {/* Keep Biceps info text, handle type display */}
+                        Last Biceps Workout ({lastWorkoutInfo.date}): {lastWorkoutInfo.type} - {lastWorkoutInfo.level} - {formatTime(lastWorkoutInfo.duration)}
                     </motion.div>
                 )}
 
@@ -294,8 +294,8 @@ const Leg = () => { // Component name changed to Leg
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1, transition: { delay: 0.3 } }}
                     >
-                        {/* Use legWorkouts keys (Home/Gym) for toggles */}
-                        {Object.keys(legWorkouts).map((type) => (
+                        {/* Use bicepsWorkouts keys (Home/Gym) for toggles */}
+                        {Object.keys(bicepsWorkouts).map((type) => (
                             <motion.button
                                 key={type}
                                 variants={toggleButtonVariants}
@@ -329,7 +329,7 @@ const Leg = () => { // Component name changed to Leg
                         animate="animate"
                     >
                          {/* Map over levels for the currently selected workoutType */}
-                        {Object.keys(legWorkouts[workoutType]).map((lvl) => (
+                        {Object.keys(bicepsWorkouts[workoutType]).map((lvl) => (
                             <motion.button
                                 key={`${workoutType}-${lvl}`}
                                 variants={levelButtonVariants}
@@ -363,7 +363,7 @@ const Leg = () => { // Component name changed to Leg
                     >
                         {/* --- Live Timer --- */}
                         <div className="absolute top-4 left-4 bg-black bg-opacity-60 px-4 py-1.5 rounded-full text-lg font-mono z-10 shadow-md">
-                            ⏱️ {formatTime(timer)}
+                            ⏱️ {formatTime(timer)} {/* Keep timer */}
                         </div>
 
                         {/* --- Sound Toggle --- */}
@@ -382,17 +382,17 @@ const Leg = () => { // Component name changed to Leg
                              </motion.button>
                         </div>
 
-                        {/* --- Exercise Info (Uses Leg data, styled like Chest template) --- */}
+                        {/* --- Exercise Info (Uses Biceps data, styled like Chest template) --- */}
                         {/* Apply Chest template text color and size */}
                         <motion.h2 className="text-2xl md:text-2xl font-bold mt-12 mb-1 text-gray-100">{workoutType} - {level} Level</motion.h2> {/* Include workoutType */}
                          {/* Apply Chest template text color and margin */}
                         <p className="text-sm text-gray-400 mb-5">
-                             {/* Use legWorkouts data */}
-                            Item {currentIndex + 1} of {legWorkouts[workoutType]?.[level]?.length ?? 0}
+                             {/* Use combined bicepsWorkouts data */}
+                            Item {currentIndex + 1} of {bicepsWorkouts[workoutType]?.[level]?.length ?? 0}
                         </p>
                          {/* Apply Chest template margin */}
                         <motion.div className="flex flex-col items-center mb-8">
-                             {/* Apply Chest template image container styles and keep image handling */}
+                             {/* Apply Chest template image container styles and keep Biceps image handling */}
                              <motion.div
                                 className="h-56 md:h-64 w-full rounded-lg mb-5 bg-gray-800 flex items-center justify-center overflow-hidden shadow-inner"
                                 initial={{ opacity: 0, scale: 0.8 }}
@@ -400,8 +400,8 @@ const Leg = () => { // Component name changed to Leg
                              >
                                 {currentExercise.img ? (
                                      <img
-                                         src={currentExercise.img}
-                                         alt={currentExercise.name}
+                                         src={currentExercise.img} // Use Biceps img src
+                                         alt={currentExercise.name} // Use Biceps exercise name
                                          className="h-full w-full object-contain"
                                          onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span class="text-gray-500 italic">Image not available</span>'; }}
                                      />
@@ -410,9 +410,9 @@ const Leg = () => { // Component name changed to Leg
                                  )}
                              </motion.div>
                              {/* Apply Chest template text color and size */}
-                            <motion.h3 className="text-xl md:text-2xl font-semibold text-gray-100">{currentExercise.name}</motion.h3>
+                            <motion.h3 className="text-xl md:text-2xl font-semibold text-gray-100">{currentExercise.name}</motion.h3> {/* Use Biceps exercise name */}
                              {/* Apply Chest template text color and margin */}
-                            <motion.p className="text-lg text-yellow-400 mt-2 font-medium">{currentExercise.reps || currentExercise.duration}</motion.p>
+                            <motion.p className="text-lg text-yellow-400 mt-2 font-medium">{currentExercise.reps || currentExercise.duration}</motion.p> {/* Use Biceps reps/duration */}
                         </motion.div>
 
                         {/* --- Next Button (Styled like Chest template) --- */}
@@ -422,10 +422,10 @@ const Leg = () => { // Component name changed to Leg
                             className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xl px-8 py-4 rounded-lg font-bold shadow-xl hover:from-green-600 hover:to-emerald-700 transition duration-300 w-full transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-emerald-500"
                             onClick={nextExercise}
                         >
-                             {/* Use legWorkouts data for button text logic */}
-                            {workoutType && level && legWorkouts[workoutType]?.[level] && currentIndex === legWorkouts[workoutType][level].length - 1
-                                ? "Finish Workout 🎉"
-                                : "Next Exercise →"}
+                             {/* Use combined bicepsWorkouts data for button text logic */}
+                            {workoutType && level && bicepsWorkouts[workoutType]?.[level] && currentIndex === bicepsWorkouts[workoutType][level].length - 1
+                                ? "Finish Workout 🎉" // Apply Chest template finish text
+                                : "Next Exercise →"} {/* Apply Chest template next text */}
                         </motion.button>
 
                         {/* --- Stop Button (Styled like Chest template) --- */}
@@ -434,7 +434,7 @@ const Leg = () => { // Component name changed to Leg
                             // Apply Chest template stop button styles
                             className="mt-5 text-xs text-gray-400 hover:text-red-500 transition-colors"
                         >
-                            Stop Early
+                            Stop Early {/* Apply Chest template stop text */}
                         </button>
                     </motion.div>
                 )}
@@ -443,4 +443,4 @@ const Leg = () => { // Component name changed to Leg
     );
 };
 
-export default Leg;
+export default Biceps;

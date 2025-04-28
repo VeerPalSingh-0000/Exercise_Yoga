@@ -17,7 +17,7 @@ import WorkoutHistory from "./components/WorkoutHistory"; // Assuming it's in co
 // Import exercise pages
 import Chest from "./pages/Chest";
 import Tricep from "./pages/Tricep";
-import Bicep from "./pages/Bicep";
+import Bicep from "./pages/Biceps";
 import Abs from "./pages/Abs";
 import Shoulder from "./pages/Shoulder";
 import Yoga from "./pages/Yoga";
@@ -26,6 +26,9 @@ import Yoga from "./pages/Yoga";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
+import Biceps from "./pages/Biceps";
+import Back from "./pages/Back";
+import Leg from "./pages/Leg";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -105,6 +108,18 @@ const App = () => {
          <Route
             path="/exercises/yoga"
             element={user ? <Yoga /> : <Navigate to="/login" />}
+         />
+         <Route
+            path="/exercises/bicep"
+            element={user ? <Biceps /> : <Navigate to="/login" />}
+         />
+         <Route
+            path="/exercises/back"
+            element={user ? <Back /> : <Navigate to="/login" />}
+         />
+         <Route
+            path="/exercises/leg"
+            element={user ? <Leg /> : <Navigate to="/login" />}
          />
       </Routes>
     </Router>
