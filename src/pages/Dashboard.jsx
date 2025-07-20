@@ -262,11 +262,36 @@ const useNutritionProgress = (currentUser, logDate) => {
     console.log('Fetching nutrition data for date:', logDate);
     
     try {
+      // ✅ NEW: Check if this is a guest user
+      if (currentUser.uid === 'guest-user') {
+        // Read from localStorage for guest mode
+        const guestNutritionHistory = JSON.parse(localStorage.getItem('guestNutritionHistory') || '[]');
+        
+        const totals = {
+          calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0, sugar: 0,
+          sodium: 0, vitamin_c: 0, vitamin_d: 0, calcium: 0, iron: 0, potassium: 0
+        };
+        
+        // Filter entries for the selected date
+        const dayEntries = guestNutritionHistory.filter(entry => entry.date === logDate);
+        
+        dayEntries.forEach(entry => {
+          Object.keys(totals).forEach(nutrient => {
+            if (entry[nutrient] !== undefined && !isNaN(entry[nutrient])) {
+              totals[nutrient] += Number(entry[nutrient]);
+            }
+          });
+        });
+        
+        console.log('Guest nutrition totals:', totals);
+        setNutritionData(totals);
+        return;
+      }
+      
+      // Original Firebase logic for authenticated users
       const nutritionCollectionRef = collection(db, "nutritionLogs");
       const startDate = getStartOfDayUTC(logDate);
       const endDate = getEndOfDayUTC(logDate);
-      
-      console.log('Querying between:', startDate.toDate(), 'and', endDate.toDate());
       
       const q = query(
         nutritionCollectionRef,
@@ -285,8 +310,6 @@ const useNutritionProgress = (currentUser, logDate) => {
       
       querySnapshot.forEach(doc => {
         const data = doc.data();
-        console.log('Processing document:', doc.id, data);
-        
         Object.keys(totals).forEach(nutrient => {
           if (data[nutrient] !== undefined && !isNaN(data[nutrient])) {
             totals[nutrient] += Number(data[nutrient]);
@@ -294,7 +317,6 @@ const useNutritionProgress = (currentUser, logDate) => {
         });
       });
       
-      console.log('Calculated totals:', totals);
       setNutritionData(totals);
       
     } catch (error) {
@@ -310,6 +332,7 @@ const useNutritionProgress = (currentUser, logDate) => {
 
   return { nutritionData, isLoading, refetch: fetchNutritionProgress };
 };
+
 
 
 const useWeeklySchedule = () => {
@@ -358,6 +381,30 @@ const useWorkoutProgress = (currentUser, logDate) => {
     
     setIsLoading(true);
     try {
+      // ✅ NEW: Check if this is a guest user
+      if (currentUser.uid === 'guest-user') {
+        // Read from localStorage for guest mode
+        const guestWorkoutHistory = JSON.parse(localStorage.getItem('guestWorkoutHistory') || '[]');
+        
+        const totals = { duration: 0, steps: 0, yogaDuration: 0 };
+        
+        // Filter entries for the selected date
+        const dayEntries = guestWorkoutHistory.filter(entry => entry.date === logDate);
+        
+        dayEntries.forEach(entry => {
+          totals.duration += entry.duration || 0;
+          totals.steps += entry.steps || 0;
+          if (entry.exercises && entry.exercises.includes("yoga")) {
+            totals.yogaDuration += entry.duration || 0;
+          }
+        });
+        
+        console.log('Guest workout totals:', totals);
+        setProgressData(totals);
+        return;
+      }
+      
+      // Original Firebase logic for authenticated users
       const logsCollectionRef = collection(db, "workoutLogs");
       const q = query(
         logsCollectionRef,
@@ -394,6 +441,7 @@ const useWorkoutProgress = (currentUser, logDate) => {
   return { progressData, isLoading, refetch: fetchProgress };
 };
 
+
 const useChartData = (currentUser) => {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -418,33 +466,50 @@ const useChartData = (currentUser) => {
     
     setIsLoading(true);
     try {
-      const logsCollectionRef = collection(db, "workoutLogs");
-      const endDateForChartQuery = getEndOfDayUTC(formatDateToUTCDayString(new Date()));
+      let dailyData = {};
       
-      const startDateObj = new Date();
-      startDateObj.setUTCDate(startDateObj.getUTCDate() - 6);
-      const startDateForChartQuery = getStartOfDayUTC(formatDateToUTCDayString(startDateObj));
+      // ✅ NEW: Check if this is a guest user
+      if (currentUser.uid === 'guest-user') {
+        // Read from localStorage for guest mode
+        const guestWorkoutHistory = JSON.parse(localStorage.getItem('guestWorkoutHistory') || '[]');
+        
+        guestWorkoutHistory.forEach(entry => {
+          const dateStr = entry.date;
+          if (!dailyData[dateStr]) {
+            dailyData[dateStr] = 0;
+          }
+          dailyData[dateStr] += entry.duration || 0;
+        });
+      } else {
+        // Original Firebase logic for authenticated users
+        const logsCollectionRef = collection(db, "workoutLogs");
+        const endDateForChartQuery = getEndOfDayUTC(formatDateToUTCDayString(new Date()));
+        
+        const startDateObj = new Date();
+        startDateObj.setUTCDate(startDateObj.getUTCDate() - 6);
+        const startDateForChartQuery = getStartOfDayUTC(formatDateToUTCDayString(startDateObj));
 
-      const q = query(
-        logsCollectionRef,
-        where("userId", "==", currentUser.uid),
-        where("date", ">=", startDateForChartQuery),
-        where("date", "<=", endDateForChartQuery),
-        orderBy("date", "asc")
-      );
-      
-      const querySnapshot = await getDocs(q);
-      const dailyData = {};
+        const q = query(
+          logsCollectionRef,
+          where("userId", "==", currentUser.uid),
+          where("date", ">=", startDateForChartQuery),
+          where("date", "<=", endDateForChartQuery),
+          orderBy("date", "asc")
+        );
+        
+        const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach(doc => {
-        const data = doc.data();
-        const dateStrUTC = formatDateToUTCDayString(data.date.toDate());
-        if (!dailyData[dateStrUTC]) {
-          dailyData[dateStrUTC] = 0;
-        }
-        dailyData[dateStrUTC] += data.duration || 0;
-      });
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          const dateStrUTC = formatDateToUTCDayString(data.date.toDate());
+          if (!dailyData[dateStrUTC]) {
+            dailyData[dateStrUTC] = 0;
+          }
+          dailyData[dateStrUTC] += data.duration || 0;
+        });
+      }
 
+      // Generate chart data for last 7 days
       const labels = [];
       const dataPoints = [];
       for (let i = 6; i >= 0; i--) {
@@ -478,6 +543,7 @@ const useChartData = (currentUser) => {
 
   return { chartData, isLoading, refetch: fetchChartData };
 };
+
 
 // ======================== COMPONENTS ========================
 const Toast = memo(({ toast, onRemove }) => {
@@ -1053,10 +1119,63 @@ const WeeklyPlanTable = memo(({
 const Dashboard = () => {
   const navigate = useNavigate();
   const currentUser = auth.currentUser;
+  const [isGuestMode, setIsGuestMode] = useState(false);
   const { toasts, addToast, removeToast } = useToast();
   const { goals, updateGoal } = useUserGoals();
   const { nutritionGoals, updateNutritionGoal } = useNutritionGoals();
   const { schedule, saveSchedule, setSchedule } = useWeeklySchedule();
+
+// ✅ FIXED: Stable authentication check without infinite loops
+useEffect(() => {
+  let isMounted = true;
+  
+  const checkAuthStatus = () => {
+    if (!isMounted) return;
+    
+    // Check for guest mode first
+    const guestMode = localStorage.getItem('isGuestMode');
+    const guestTimestamp = localStorage.getItem('guestModeTimestamp');
+    
+    console.log('🔍 Auth check - Guest mode:', guestMode, 'Current user:', !!currentUser);
+    
+    if (guestMode === 'true' && guestTimestamp) {
+      const now = Date.now();
+      const twentyFourHours = 24 * 60 * 60 * 1000;
+      
+      if (now - parseInt(guestTimestamp) < twentyFourHours) {
+        if (!isGuestMode && isMounted) {
+          console.log('✅ Setting guest mode to true');
+          setIsGuestMode(true);
+        }
+        return; // Stay on dashboard
+      } else {
+        // Guest mode expired
+        console.log('❌ Guest session expired');
+        localStorage.removeItem('isGuestMode');
+        localStorage.removeItem('guestModeTimestamp');
+        if (isGuestMode && isMounted) {
+          setIsGuestMode(false);
+        }
+      }
+    }
+    
+    // If not guest mode and no authenticated user, redirect
+    if (!currentUser && !guestMode && isMounted) {
+      console.log('🔄 Redirecting to auth options');
+      navigate('/', { replace: true });
+    }
+  };
+
+  // Use timeout to prevent immediate re-renders
+  const timeoutId = setTimeout(checkAuthStatus, 100);
+  
+  return () => {
+    isMounted = false;
+    clearTimeout(timeoutId);
+  };
+}, [currentUser, navigate]); // Keep dependencies minimal
+
+
 
   // Form states
   const [logDate, setLogDate] = useState(formatDate(new Date()));
@@ -1066,10 +1185,17 @@ const Dashboard = () => {
   const [isFixedExercisesEditable, setIsFixedExercisesEditable] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Data hooks
-  const { progressData, isLoading: isLoadingProgress, refetch: refetchProgress } = useWorkoutProgress(currentUser, logDate);
-  const { nutritionData, isLoading: isLoadingNutrition, refetch: refetchNutrition } = useNutritionProgress(currentUser, logDate);
-  const { chartData, isLoading: isLoadingChart, refetch: refetchChart } = useChartData(currentUser);
+  // ✅ UPDATED: Create effective user for both auth and guest mode
+  const effectiveUser = currentUser || (isGuestMode ? { 
+    uid: 'guest-user',
+    email: 'guest@fitpro.com',
+    displayName: 'Guest User'
+  } : null);
+
+  // Data hooks with effective user
+  const { progressData, isLoading: isLoadingProgress, refetch: refetchProgress } = useWorkoutProgress(effectiveUser, logDate);
+  const { nutritionData, isLoading: isLoadingNutrition, refetch: refetchNutrition } = useNutritionProgress(effectiveUser, logDate);
+  const { chartData, isLoading: isLoadingChart, refetch: refetchChart } = useChartData(effectiveUser);
 
   // Memoized values
   const chartOptions = useMemo(() => ({
@@ -1102,16 +1228,48 @@ const Dashboard = () => {
     [chartData]
   );
 
-  // Event handlers
-  const handleLogout = useCallback(async () => {
-    try {
+  // ✅ UPDATED: Enhanced logout handler for guest mode
+// ✅ FIXED: Stable logout handler without freezing
+const handleLogout = useCallback(async () => {
+  // Prevent multiple logout attempts
+  if (handleLogout._inProgress) return;
+  handleLogout._inProgress = true;
+  
+  try {
+    console.log('🚪 Logout initiated, guest mode:', isGuestMode);
+    
+    if (isGuestMode) {
+      // Clear all guest data at once
+      const keysToRemove = [
+        'isGuestMode',
+        'guestModeTimestamp', 
+        'guestWorkoutHistory',
+        'guestNutritionHistory'
+      ];
+      
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      
+      console.log('✅ Guest data cleared, redirecting...');
+      
+      // Use window.location for immediate, clean redirect
+      window.location.href = '/';
+      
+    } else {
       await signOut(auth);
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error.message);
-      addToast(`Logout failed: ${error.message}`, TOAST_TYPES.ERROR);
+      navigate("/", { replace: true });
     }
-  }, [navigate, addToast]);
+  } catch (error) {
+    console.error("Logout failed:", error.message);
+    addToast(`Logout failed: ${error.message}`, TOAST_TYPES.ERROR);
+  } finally {
+    // Reset the flag after a delay
+    setTimeout(() => {
+      handleLogout._inProgress = false;
+    }, 1000);
+  }
+}, [navigate, addToast, isGuestMode]);
+
+
 
   const handleExerciseClick = useCallback((index, exerciseIndex) => {
     if (isFixedExercisesEditable) return;
@@ -1143,7 +1301,6 @@ const Dashboard = () => {
 
   const toggleFixedExercisesEdit = useCallback(() => {
     if (isFixedExercisesEditable) {
-      // Cancel editing - reload from localStorage
       const savedExercises = localStorage.getItem("userFixedWeeklyExercises");
       if (savedExercises) {
         try {
@@ -1163,6 +1320,7 @@ const Dashboard = () => {
     setIsFixedExercisesEditable(prev => !prev);
   }, [isFixedExercisesEditable, setSchedule]);
 
+  // ✅ UPDATED: Enhanced workout logging for guest mode
   const handleLogWorkout = useCallback(async (e) => {
     e.preventDefault();
     
@@ -1181,21 +1339,46 @@ const Dashboard = () => {
       return;
     }
 
-    if (!currentUser) {
+    if (!effectiveUser) {
       addToast("You must be logged in to log workouts.", TOAST_TYPES.ERROR);
-      navigate("/login");
+      navigate("/");
+      return;
+    }
+
+    // ✅ NEW: Handle guest mode differently
+    if (isGuestMode) {
+      // For guest mode, just show success message without saving to Firebase
+      addToast(`Workout logged locally for ${logDate}! Sign up to save permanently.`, TOAST_TYPES.SUCCESS);
+      
+      // Save to localStorage for guest mode
+      const guestWorkoutHistory = JSON.parse(localStorage.getItem('guestWorkoutHistory') || '[]');
+      guestWorkoutHistory.unshift({
+        ...formData,
+        timestamp: Date.now(),
+        userId: 'guest-user'
+      });
+      localStorage.setItem('guestWorkoutHistory', JSON.stringify(guestWorkoutHistory.slice(0, 10))); // Keep last 10
+      
+      // Reset form
+      setLogDuration("");
+      setLogSteps("");
+      setLogWorkoutExercises([]);
+      
+      // Refresh data
+      refetchProgress();
+      refetchChart();
       return;
     }
 
     const workoutData = {
-      userId: currentUser.uid,
+      userId: effectiveUser.uid,
       date: getStartOfDayUTC(logDate),
       duration: formData.duration,
       steps: formData.steps,
       exercises: logWorkoutExercises,
       createdAt: serverTimestamp(),
     };
-
+    
     setIsSubmitting(true);
     try {
       await addDoc(collection(db, "workoutLogs"), workoutData);
@@ -1215,94 +1398,148 @@ const Dashboard = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [logDate, logDuration, logSteps, logWorkoutExercises, currentUser, addToast, navigate, refetchProgress, refetchChart]);
+  }, [logDate, logDuration, logSteps, logWorkoutExercises, effectiveUser, addToast, navigate, refetchProgress, refetchChart, isGuestMode]);
 
-const handleLogNutrition = useCallback(async (nutritionInfo) => {
-  if (!currentUser) {
-    addToast("You must be logged in to log nutrition.", TOAST_TYPES.ERROR);
-    navigate("/login");
-    return;
-  }
-
-  if (!nutritionInfo || !nutritionInfo.name) {
-    addToast("Invalid nutrition data provided.", TOAST_TYPES.ERROR);
-    return;
-  }
-
-  // Ensure all numeric values are valid numbers
-  const nutritionData = {
-    userId: currentUser.uid,
-    date: getStartOfDayUTC(logDate),
-    foodName: String(nutritionInfo.name || ''),
-    calories: Number(nutritionInfo.calories || 0),
-    protein: Number(nutritionInfo.protein || 0),
-    carbs: Number(nutritionInfo.carbs || 0),
-    fats: Number(nutritionInfo.fats || 0),
-    fiber: Number(nutritionInfo.fiber || 0),
-    sugar: Number(nutritionInfo.sugar || 0),
-    sodium: Number(nutritionInfo.sodium || 0),
-    vitamin_c: Number(nutritionInfo.vitamin_c || 0),
-    vitamin_d: Number(nutritionInfo.vitamin_d || 0),
-    calcium: Number(nutritionInfo.calcium || 0),
-    iron: Number(nutritionInfo.iron || 0),
-    potassium: Number(nutritionInfo.potassium || 0),
-    createdAt: serverTimestamp(),
-  };
-
-  // Validate that at least calories is provided
-  if (nutritionData.calories <= 0) {
-    addToast("Please provide at least calorie information.", TOAST_TYPES.ERROR);
-    return;
-  }
-
-  console.log('Logging nutrition data:', nutritionData);
-
-  setIsSubmitting(true);
-  try {
-    const docRef = await addDoc(collection(db, "nutritionLogs"), nutritionData);
-    console.log('Document written with ID: ', docRef.id);
-    
-    addToast(`${nutritionInfo.name} added successfully!`, TOAST_TYPES.SUCCESS);
-    
-    // Add a small delay to ensure Firebase processes the write, then refetch
-    setTimeout(async () => {
-      try {
-        await refetchNutrition();
-        console.log('Nutrition data refreshed');
-      } catch (error) {
-        console.error('Error refreshing nutrition data:', error);
-      }
-    }, 1000);
-    
-  } catch (error) {
-    console.error("Error adding nutrition document:", error);
-    console.error("Error code:", error.code);
-    console.error("Error message:", error.message);
-    
-    let errorMessage = "Failed to log nutrition. ";
-    if (error.code === 'permission-denied') {
-      errorMessage += "Permission denied. Please check your login status.";
-    } else if (error.code === 'invalid-argument') {
-      errorMessage += "Invalid data provided.";
-    } else {
-      errorMessage += error.message;
+  // ✅ UPDATED: Enhanced nutrition logging for guest mode
+  const handleLogNutrition = useCallback(async (nutritionInfo) => {
+    if (!effectiveUser) {
+      addToast("You must be logged in to log nutrition.", TOAST_TYPES.ERROR);
+      navigate("/");
+      return;
     }
-    
-    addToast(errorMessage, TOAST_TYPES.ERROR);
-  } finally {
-    setIsSubmitting(false);
-  }
-}, [currentUser, logDate, addToast, navigate, refetchNutrition]);
 
+    if (!nutritionInfo || !nutritionInfo.name) {
+      addToast("Invalid nutrition data provided.", TOAST_TYPES.ERROR);
+      return;
+    }
 
+    // ✅ NEW: Handle guest mode differently
+    if (isGuestMode) {
+      // For guest mode, just show success message without saving to Firebase
+      addToast(`${nutritionInfo.name} added locally! Sign up to save permanently.`, TOAST_TYPES.SUCCESS);
+      
+      // Save to localStorage for guest mode
+      const guestNutritionHistory = JSON.parse(localStorage.getItem('guestNutritionHistory') || '[]');
+      guestNutritionHistory.unshift({
+        ...nutritionInfo,
+        date: logDate,
+        timestamp: Date.now(),
+        userId: 'guest-user'
+      });
+      localStorage.setItem('guestNutritionHistory', JSON.stringify(guestNutritionHistory.slice(0, 50))); // Keep last 50
+      
+      // Refresh data
+      setTimeout(() => refetchNutrition(), 500);
+      return;
+    }
+
+    // Ensure all numeric values are valid numbers
+    const nutritionData = {
+      userId: effectiveUser.uid,
+      date: getStartOfDayUTC(logDate),
+      foodName: String(nutritionInfo.name || ''),
+      calories: Number(nutritionInfo.calories || 0),
+      protein: Number(nutritionInfo.protein || 0),
+      carbs: Number(nutritionInfo.carbs || 0),
+      fats: Number(nutritionInfo.fats || 0),
+      fiber: Number(nutritionInfo.fiber || 0),
+      sugar: Number(nutritionInfo.sugar || 0),
+      sodium: Number(nutritionInfo.sodium || 0),
+      vitamin_c: Number(nutritionInfo.vitamin_c || 0),
+      vitamin_d: Number(nutritionInfo.vitamin_d || 0),
+      calcium: Number(nutritionInfo.calcium || 0),
+      iron: Number(nutritionInfo.iron || 0),
+      potassium: Number(nutritionInfo.potassium || 0),
+      createdAt: serverTimestamp(),
+    };
+
+    // Validate that at least calories is provided
+    if (nutritionData.calories <= 0) {
+      addToast("Please provide at least calorie information.", TOAST_TYPES.ERROR);
+      return;
+    }
+
+    console.log('Logging nutrition data:', nutritionData);
+
+    setIsSubmitting(true);
+    try {
+      const docRef = await addDoc(collection(db, "nutritionLogs"), nutritionData);
+      console.log('Document written with ID: ', docRef.id);
+      
+      addToast(`${nutritionInfo.name} added successfully!`, TOAST_TYPES.SUCCESS);
+      
+      setTimeout(async () => {
+        try {
+          await refetchNutrition();
+          console.log('Nutrition data refreshed');
+        } catch (error) {
+          console.error('Error refreshing nutrition data:', error);
+        }
+      }, 1000);
+      
+    } catch (error) {
+      console.error("Error adding nutrition document:", error);
+      console.error("Error code:", error.code);
+      console.error("Error message:", error.message);
+      
+      let errorMessage = "Failed to log nutrition. ";
+      if (error.code === 'permission-denied') {
+        errorMessage += "Permission denied. Please check your login status.";
+      } else if (error.code === 'invalid-argument') {
+        errorMessage += "Invalid data provided.";
+      } else {
+        errorMessage += error.message;
+      }
+      
+      addToast(errorMessage, TOAST_TYPES.ERROR);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [effectiveUser, logDate, addToast, navigate, refetchNutrition, isGuestMode]);
 
   const handleGoalChange = useCallback((goalType, value) => {
     updateGoal(goalType, value);
     addToast(`${goalType.replace('_', ' ')} goal updated!`, TOAST_TYPES.SUCCESS);
   }, [updateGoal, addToast]);
 
-  // Don't render if no current user
-  if (!currentUser) {
+const renderGuestModeIndicator = () => {
+  if (!isGuestMode) return null;
+  
+  return (
+    <div className="fixed top-16 left-4 sm:top-20 sm:left-6 z-20 bg-yellow-600 text-white px-4 py-2 rounded-lg shadow-lg">
+      <div className="flex items-center space-x-2">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        <span className="text-sm font-medium">Guest Mode</span>
+        <button
+  onClick={() => {
+    // Clear ALL guest data
+    localStorage.removeItem('isGuestMode');
+    localStorage.removeItem('guestModeTimestamp');
+    localStorage.removeItem('guestWorkoutHistory');
+    localStorage.removeItem('guestNutritionHistory');
+    
+    // Reset guest mode state immediately
+    setIsGuestMode(false);
+    
+    // Use window.location for clean navigation
+    window.location.href = '/signup';
+  }}
+  className="text-yellow-200 hover:text-white text-xs underline ml-2"
+>
+  Sign Up
+</button>
+
+      </div>
+    </div>
+  );
+};
+
+
+  // ✅ UPDATED: Don't render if no effective user
+  if (!effectiveUser) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="text-center">
@@ -1315,6 +1552,9 @@ const handleLogNutrition = useCallback(async (nutritionInfo) => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200 relative px-4 sm:px-6 lg:px-8 py-6">
+      {/* ✅ NEW: Guest mode indicator */}
+      {renderGuestModeIndicator()}
+
       {/* Toast notifications */}
       {toasts.map(toast => (
         <Toast key={toast.id} toast={toast} onRemove={removeToast} />
@@ -1335,17 +1575,55 @@ const handleLogNutrition = useCallback(async (nutritionInfo) => {
         <button
           onClick={handleLogout}
           className="flex items-center bg-red-600 text-sm px-4 py-1.5 rounded-md font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-950 focus:ring-red-500 transition duration-150 ease-in-out shadow"
-          title="Logout"
+          title={isGuestMode ? "Exit Guest Mode" : "Logout"}
         >
-          <FiLogOut className="mr-1.5" /> Logout
+          <FiLogOut className="mr-1.5" /> {isGuestMode ? "Exit" : "Logout"}
         </button>
       </div>
 
       <div className="max-w-7xl mx-auto mt-16 md:mt-20">
         <h1 className="text-3xl sm:text-4xl font-bold mb-10 text-center text-gray-100">
-          <GiMuscleUp className="inline mr-2 text-emerald-400" />-My Fitness Dashboard-<GiMuscleUp className="inline mr-2 text-emerald-400" />
+          <GiMuscleUp className="inline mr-2 text-emerald-400" />
+          -My Fitness Dashboard-
+          <GiMuscleUp className="inline mr-2 text-emerald-400" />
+          {isGuestMode && <span className="text-yellow-400 text-lg ml-2">(Guest)</span>}
         </h1>
 
+        {/* ✅ NEW: Guest mode info banner */}
+        {isGuestMode && (
+  <div className="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4 mb-8">
+    <div className="flex items-center justify-between">
+      <div>
+        <h3 className="text-yellow-400 font-semibold mb-1">🔍 You're in Guest Mode</h3>
+        <p className="text-yellow-200 text-sm">
+          Data is saved locally. Sign up to sync across devices and never lose your progress!
+        </p>
+      </div>
+      <button
+  onClick={() => {
+    // Clear ALL guest data
+    localStorage.removeItem('isGuestMode');
+    localStorage.removeItem('guestModeTimestamp');
+    localStorage.removeItem('guestWorkoutHistory');
+    localStorage.removeItem('guestNutritionHistory');
+    
+    // Reset guest mode state immediately
+    setIsGuestMode(false);
+    
+    // Use window.location for clean navigation
+    window.location.href = '/signup';
+  }}
+  className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+>
+  Sign Up Now
+</button>
+
+    </div>
+  </div>
+)}
+
+
+        {/* All your existing sections remain the same */}
         {/* ======================== NUTRITION SECTION ======================== */}
         <div className="bg-gray-900 p-6 rounded-xl shadow-lg mb-8 border border-gray-700">
           <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-100 flex items-center">
@@ -1682,5 +1960,6 @@ const handleLogNutrition = useCallback(async (nutritionInfo) => {
     </div>
   );
 };
+
 
 export default Dashboard;
