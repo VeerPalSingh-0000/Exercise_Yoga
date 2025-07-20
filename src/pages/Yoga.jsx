@@ -7,11 +7,14 @@ import React, {
 } from "react";
 import relaxAudio from "../assets/soothing.mp3";
 import energizeAudio from "../assets/suryanamaskar.mp3";
-import forest from "../assets/sounds/forest.mp3";
-import ocean from "../assets/sounds/ocean.mp3";
-import rain from "../assets/sounds/rain.mp3";
-import tibetan from "../assets/sounds/tibetan.mp3";
-
+// import forest from "../assets/sounds/forest.mp3";
+// import ocean from "../assets/sounds/ocean.mp3";
+// import rain from "../assets/sounds/rain.mp3";
+// import tibetan from "../assets/sounds/tibetan.mp3";
+const spring ="https://www.soundjay.com/ambient/sounds/spring-weather-1.mp3";
+const rain="https://www.soundjay.com/nature/sounds/rain-03.mp3";
+const ocean="https://www.soundjay.com/nature/sounds/ocean-waves-1.mp3";
+const tibetan="https://drive.google.com/file/d/1QKNvnAfNuIT5LDLRotRniUFXeLj3ccZW/view";
 // ======================== DATA & CONFIGURATION ========================
 const weeklyYogaRoutine = {
   Sunday: {
@@ -505,7 +508,7 @@ const asanaImages = {
 };
 
 const meditationTracks = [
-  { name: "Forest Sounds", url: forest, duration: "10 mins", emoji: "🌲" },
+  { name: "Spring Sounds", url: spring , duration: "10 mins", emoji: "🌲" },
   { name: "Ocean Waves", url: ocean, duration: "15 mins", emoji: "🌊" },
   { name: "Rain & Thunder", url: rain, duration: "20 mins", emoji: "🌧️" },
   { name: "Tibetan Bowls", url: tibetan, duration: "12 mins", emoji: "🎵" },
