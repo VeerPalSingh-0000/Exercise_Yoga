@@ -505,7 +505,7 @@ const asanaImages = {
 };
 
 const meditationTracks = [
-  { name: "Spring Sounds", url: spring , duration: "10 mins", emoji: "🌲" },
+  { name: "Forest Sounds", url: forest , duration: "10 mins", emoji: "🌲" },
   { name: "Ocean Waves", url: ocean, duration: "15 mins", emoji: "🌊" },
   { name: "Rain & Thunder", url: rain, duration: "20 mins", emoji: "🌧️" },
   { name: "Tibetan Bowls", url: tibetan, duration: "12 mins", emoji: "🎵" },
