@@ -1,2 +1,20 @@
 @import "tailwindcss";
 
+/* In your global CSS (e.g., index.css) */
+.indian-border {
+    background-image: url('/indian-side-border.png'); /* use SVG or PNG with transparent background */
+    background-repeat: repeat-y;
+    background-position: left;
+    background-size: contain;
+  }
+  
+  @keyframes pulse-subtle {
+    50% {
+      opacity: .75;
+    }
+  }
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  

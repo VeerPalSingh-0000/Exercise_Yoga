@@ -1,10 +1,10 @@
+// firebase.js
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,9 +19,71 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+let app;
+let auth;
+let db;
 
-export { auth };
-// const analytics = getAnalytics(app);
-export const db = getFirestore(app);
+try {
+  // Initialize Firebase App
+  app = initializeApp(firebaseConfig);
+  
+  // Initialize Firebase Authentication and get a reference to the service
+  auth = getAuth(app);
+  
+  // Initialize Cloud Firestore and get a reference to the service
+  db = getFirestore(app);
+  
+  // Optional: Enable network persistence (helps with offline functionality)
+  // This is especially useful for mobile apps
+  
+  console.log("Firebase initialized successfully");
+  
+} catch (error) {
+  console.error("Error initializing Firebase:", error);
+  throw new Error("Failed to initialize Firebase");
+}
+
+// Optional: Enable Firebase emulators for local development
+// Uncomment these lines if you're using Firebase emulators for local testing
+/*
+if (process.env.NODE_ENV === 'development') {
+  try {
+    connectAuthEmulator(auth, "http://localhost:9099");
+    connectFirestoreEmulator(db, 'localhost', 8080);
+    console.log("Connected to Firebase emulators");
+  } catch (error) {
+    console.log("Emulators already connected or not available");
+  }
+}
+*/
+
+// Optional: Initialize Analytics (uncomment if needed)
+/*
+import { getAnalytics } from "firebase/analytics";
+let analytics;
+if (typeof window !== 'undefined') {
+  analytics = getAnalytics(app);
+}
+export { analytics };
+*/
+
+// Export Firebase services
+export { auth, db };
+
+// Export the app instance if needed elsewhere
+export default app;
+
+// Helper function to check if Firebase is properly initialized
+export const isFirebaseInitialized = () => {
+  return !!(app && auth && db);
+};
+
+// Helper function to get current user safely
+export const getCurrentUser = () => {
+  return auth.currentUser;
+};
+
+// Helper function to check authentication state
+export const isUserAuthenticated = () => {
+  return !!auth.currentUser;
+};
