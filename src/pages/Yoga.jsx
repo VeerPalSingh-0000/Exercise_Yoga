@@ -7,10 +7,10 @@ import React, {
 } from "react";
 import relaxAudio from "../assets/soothing.mp3";
 import energizeAudio from "../assets/suryanamaskar.mp3";
-import forest from "../assets/sound/forest.wav";
-import ocean from "../assets/sound/ocean.wav";
-import rain from "../assets/sound/rain.wav";
-import tibetan from "../assets/sound/tibetan.wav";
+import forest from "../assets/sounds/forest.mp3";
+import ocean from "../assets/sounds/ocean.mp3";
+import rain from "../assets/sounds/rain.mp3";
+import tibetan from "../assets/sounds/tibetan.mp3";
 
 // ======================== DATA & CONFIGURATION ========================
 const weeklyYogaRoutine = {
