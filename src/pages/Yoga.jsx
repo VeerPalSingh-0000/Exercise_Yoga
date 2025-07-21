@@ -28,7 +28,7 @@ const weeklyYogaRoutine = {
         benefits: ["Improves posture", "Grounding"],
         howTo:
           "Stand tall with feet together or hip-width apart...\nEnsure weight is balanced evenly on both feet.\nEngage your thighs and lift your kneecaps.\nTuck your tailbone slightly.\nReach your arms alongside your body, palms facing forward, or overhead.\nShoulders should be relaxed, away from the ears.\nLook straight ahead or gently close your eyes.",
-        youtubeLink: "http://www.youtube.com/watch?v=2HTvZp5rPrg",
+        youtubeLink: "https://www.youtube.com/watch?v=2HTc_2M22yM",
       },
       {
         name: "Vrikshasana (Tree Pose)",
@@ -71,7 +71,7 @@ const weeklyYogaRoutine = {
           "This completes one round. Repeat for the desired duration.",
           "Maintain a smooth and steady breath.",
         ],
-        youtubeLink: "http://www.youtube.com/watch?v=Nhw92icsQ1A",
+        youtubeLink: "https://www.youtube.com/watch?v=3-S3I_Gk_V4",
       },
       {
         name: "Om Chanting",
@@ -92,7 +92,7 @@ const weeklyYogaRoutine = {
           "Feel the vibration throughout your body.",
           "Repeat for the desired duration, focusing on the sound and sensation.",
         ],
-        youtubeLink: "https://youtu.be/nBFyrKYI6TU?si=GsluZX8NafvUjiEo",
+        youtubeLink: "https://www.youtube.com/watch?v=lsH2a0P_41A",
       },
     ],
     focus: "Grounding and setting intentions for the week",
@@ -120,7 +120,7 @@ const weeklyYogaRoutine = {
         benefits: ["Stretches hamstrings", "Calms the mind"],
         howTo:
           "Start on hands and knees, wrists under shoulders, knees under hips.\nTuck your toes and lift your hips up and back, forming an inverted V shape.\nPress firmly through your palms and distribute weight evenly through hands and feet.\nReach your heels towards the mat (they don't have to touch).\nStraighten your legs as much as comfortable.\nLet your head hang gently between your arms.\nHold for several breaths, lengthening the spine.",
-        youtubeLink: "http://www.youtube.com/watch?v=EC7RGJ975iM",
+        youtubeLink: "https://www.youtube.com/watch?v=68Iq41mW_I4",
       },
       {
         name: "Uttanasana (Standing Forward Bend)",
@@ -152,7 +152,7 @@ const weeklyYogaRoutine = {
           "Rest and repeat for 2-3 rounds.",
           "Avoid if pregnant, have high blood pressure, or heart conditions.",
         ],
-        youtubeLink: "http://www.youtube.com/watch?v=52TOhE94fEg",
+        youtubeLink: "https://www.youtube.com/watch?v=xS-6432a2y4",
       },
     ],
     focus: "Building energy and focus for the week ahead",
@@ -195,7 +195,7 @@ const weeklyYogaRoutine = {
           "Keep your chest lifted and engage your core.",
           "If needed, keep hands on the floor behind you for support.",
         ],
-        youtubeLink: "http://www.youtube.com/watch?v=lgzt416ROSY",
+        youtubeLink: "https://www.youtube.com/watch?v=l-gEM8NK2eY",
       },
     ],
     pranayama: [
@@ -216,7 +216,7 @@ const weeklyYogaRoutine = {
           "Inhale and exhale should be of equal length.",
           "Practice this breath throughout your physical yoga practice.",
         ],
-        youtubeLink: "https://youtu.be/CF3U-4igCVk?si=70411mZ3QBpjwFS8",
+        youtubeLink: "https://www.youtube.com/watch?v=bZ6k7AE-2cE",
       },
     ],
     focus: "Strengthening core muscles and improving stability",
@@ -279,7 +279,7 @@ const weeklyYogaRoutine = {
           "Maintain a smooth and steady breath.",
           "(Note: This technique is very similar to Anulom Vilom, often used interchangeably or with slightly different retention timings).",
         ],
-        youtubeLink: "http://www.youtube.com/watch?v=Nhw92icsQ1A",
+        youtubeLink: "https://www.youtube.com/watch?v=3-S3I_Gk_V4",
       },
     ],
     focus: "Enhancing flexibility and promoting smooth transitions",
@@ -338,7 +338,7 @@ const weeklyYogaRoutine = {
           "Exhale slowly through the nose, making a low-pitched humming sound (like a bee).",
           "Repeat for several rounds, feeling the vibration in your head.",
         ],
-        youtubeLink: "http://www.youtube.com/watch?v=KkurfEQrg94",
+        youtubeLink: "https://www.youtube.com/watch?v=3-S3I_Gk_V4",
       },
     ],
     focus: "Cultivating balance, focus, and grace",
@@ -396,7 +396,7 @@ const weeklyYogaRoutine = {
           "If you cannot curl your tongue, use Sheetkari (sip air through clenched teeth).",
           "Repeat for several rounds.",
         ],
-        youtubeLink: "https://youtu.be/Kqa3l49jij8?si=UenpadJHqIAYkuU-",
+        youtubeLink: "https://www.youtube.com/watch?v=3-S3I_Gk_V4",
       },
     ],
     focus: "Releasing tension and promoting deep relaxation",
@@ -456,13 +456,12 @@ const weeklyYogaRoutine = {
           "Focus on the gentle rise and fall of your belly.",
           "Breathe deeply and rhythmically.",
         ],
-        youtubeLink: "https://youtu.be/qhcBjSirMss?si=VZE9flZ2Mgv9dRnz",
+        youtubeLink: "https://www.youtube.com/watch?v=3-S3I_Gk_V4",
       },
     ],
     focus: "Promoting deep relaxation, mindfulness, and rejuvenation",
   },
 };
-
 const asanaImages = {
   "Tadasana (Mountain Pose)":
     "https://media.istockphoto.com/id/1366703229/vector/palm-tree-pose-urdhva-hastasana-upward-hand-stretch-pose-upward-salute-raised-hands-pose.jpg?s=612x612&w=0&k=20&c=rY1lIudAf5GTFGFQq1FP_aIMOSXDuwBgTp5ipngSu5E=",
@@ -505,7 +504,7 @@ const asanaImages = {
 };
 
 const meditationTracks = [
-  { name: "Forest Sounds", url: forest , duration: "10 mins", emoji: "🌲" },
+  { name: "Forest Sounds", url: forest, duration: "10 mins", emoji: "🌲" },
   { name: "Ocean Waves", url: ocean, duration: "15 mins", emoji: "🌊" },
   { name: "Rain & Thunder", url: rain, duration: "20 mins", emoji: "🌧️" },
   { name: "Tibetan Bowls", url: tibetan, duration: "12 mins", emoji: "🎵" },
@@ -624,7 +623,7 @@ const Yoga = () => {
   // Audio state
   const [audioSrc, setAudioSrc] = useState(null);
   const audioRef = useRef(null);
-
+  const breathingExerciseRef = useRef(null);
   // Quote of the day
   const [dailyQuote, setDailyQuote] = useState(() => {
     const today = new Date().toDateString();
@@ -639,14 +638,20 @@ const Yoga = () => {
   });
 
   // ======================== EFFECTS ========================
-  useEffect(() => {
-    localStorage.setItem("yogaAppTheme", theme);
-    if (theme === "dark") {
+useEffect(() => {
+  localStorage.setItem("yogaAppTheme", theme);
+  
+  // Force remove dark class first
+  document.documentElement.classList.remove("dark");
+  
+  if (theme === "dark") {
+    // Small delay to ensure removal happened first
+    setTimeout(() => {
       document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
+    }, 0);
+  }
+}, [theme]);
+
 
   // Auto-save states
   useEffect(() => {
@@ -676,6 +681,8 @@ const Yoga = () => {
   useEffect(() => {
     setStorageItem("volume", volume);
   }, [volume]);
+
+
 
   // Audio volume control
   useEffect(() => {
@@ -726,7 +733,13 @@ const Yoga = () => {
       [key]: !prev[key],
     }));
   };
-
+  const handleStartBreathing = () => {
+    startBreathingExercise();
+    // Use a short delay to ensure the component is rendered before scrolling
+    setTimeout(() => {
+      breathingExerciseRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
   const playMusic = (type) => {
     const selected = type === "relax" ? relaxAudio : energizeAudio;
 
@@ -1071,7 +1084,7 @@ const Yoga = () => {
 
   const renderAudioControls = () => (
     <div className="mb-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl p-4">
-      <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
+      <h3 className="text-lg font-semibold mb-3 text-slate-800 dark:text-slate-200">
         🎵 Audio Controls
       </h3>
       <div className="flex flex-wrap gap-2 mb-3">
@@ -1110,7 +1123,7 @@ const Yoga = () => {
       </div>
 
       <div className="flex items-center space-x-3">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
+        <span className="text-sm text-gray-600 dark:text-gray-500">
           Volume:
         </span>
         <input
@@ -1130,21 +1143,23 @@ const Yoga = () => {
   );
 
   const renderQuoteOfTheDay = () => (
-    <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
-      <div className="text-center">
-        <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-3">
-          ✨ Quote of the Day
-        </h3>
-        <blockquote className="text-gray-700 dark:text-gray-300 italic text-sm sm:text-base leading-relaxed">
-          "{dailyQuote}"
-        </blockquote>
-      </div>
+    <div className="mb-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-700">
+        <div className="text-center">
+            {/* This h3 now correctly specifies text-pink-800 for light mode */}
+           <h3 className="text-lg font-semibold mb-3 text-red-500   dark:text-pink-500">
+                ✨ Quote of the Day
+            </h3>
+            {/* This blockquote now correctly specifies text-slate-700 for light mode */}
+            <blockquote className="text-slate-700 dark:text-slate-500 italic text-sm sm:text-base leading-relaxed">
+                "{dailyQuote}"
+            </blockquote>
+        </div>
     </div>
-  );
+);
 
   const renderPoseTimer = () => (
-    <div className="mb-6 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-xl p-4 border border-green-200 dark:border-green-800">
-      <h3 className="text-lg font-semibold mb-3 text-green-800 dark:text-green-300">
+    <div className="mb-6 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-xl p-4 border border-green-400 dark:border-green-800">
+      <h3 className="text-lg font-semibold mb-3 text-green-800 dark:text-green-500">
         ⏱️ Pose Timer
       </h3>
       <div className="flex flex-wrap gap-2 mb-3">
@@ -1222,7 +1237,7 @@ const Yoga = () => {
             onClick={startBreathingExercise}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all transform hover:scale-105"
           >
-            🫁 Start 4-2-4-2 Breathing (5 Cycles)
+            💨 Begin Serenity Breath (5 Cycles)
           </button>
         </div>
       );
@@ -1302,20 +1317,20 @@ const Yoga = () => {
               height: `${currentBubbleSize}px`,
               transform: "translate(-50%, -50%)", // Single transform for perfect centering
               background: `radial-gradient(circle at 30% 30%, 
-      ${
-        breathPhase === "Inhale"
-          ? "rgba(34, 197, 94, 0.9)"
-          : breathPhase === "Exhale"
-          ? "rgba(239, 68, 68, 0.9)"
-          : "rgba(59, 130, 246, 0.9)"
-      }, 
-      ${
-        breathPhase === "Inhale"
-          ? "rgba(22, 163, 74, 1)"
-          : breathPhase === "Exhale"
-          ? "rgba(220, 38, 38, 1)"
-          : "rgba(29, 78, 216, 1)"
-      })`,
+    ${
+      breathPhase === "Inhale"
+        ? "rgba(34, 197, 94, 0.9)"
+        : breathPhase === "Exhale"
+        ? "rgba(239, 68, 68, 0.9)"
+        : "rgba(59, 130, 246, 0.9)"
+    }, 
+    ${
+      breathPhase === "Inhale"
+        ? "rgba(22, 163, 74, 1)"
+        : breathPhase === "Exhale"
+        ? "rgba(220, 38, 38, 1)"
+        : "rgba(29, 78, 216, 1)"
+    })`,
               boxShadow: `0 15px 40px ${
                 breathPhase === "Inhale"
                   ? "rgba(34, 197, 94, 0.5)"
@@ -1364,29 +1379,29 @@ const Yoga = () => {
 
   const renderStats = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-500 mb-6">
         📊 Your Progress
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-blue-100 dark:bg-blue-900/30 p-4 rounded-xl text-center">
-          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+        <div className="bg-blue-400 dark:bg-blue-900/30 p-4 rounded-xl text-center">
+          <div className="text-2xl font-bold text-blue-600 dark:text-blue-600">
             {stats.totalCompleted}
           </div>
-          <div className="text-sm text-blue-800 dark:text-blue-300">
+          <div className="text-sm text-blue-800 font-semibold dark:text-blue-500">
             Exercises Completed
           </div>
         </div>
         <div className="bg-pink-100 dark:bg-pink-900/30 p-4 rounded-xl text-center">
-          <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+          <div className="text-2xl font-bold text-pink-600 dark:text-pink-600">
             {stats.totalFavorites}
           </div>
-          <div className="text-sm text-pink-800 dark:text-pink-300">
+          <div className="text-sm text-pink-800 font-semibold dark:text-pink-500">
             Favorites
           </div>
         </div>
         <div className="bg-green-100 dark:bg-green-900/30 p-4 rounded-xl text-center">
-          <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+          <div className="text-2xl font-bold text-green-600 dark:text-green-600">
             {Math.round(
               Object.values(stats.completionByDay).reduce(
                 (acc, day) => acc + day.percentage,
@@ -1395,7 +1410,7 @@ const Yoga = () => {
             )}
             %
           </div>
-          <div className="text-sm text-green-800 dark:text-green-300">
+          <div className="text-sm text-green-800 font-semibold dark:text-green-600">
             Average Completion
           </div>
         </div>
@@ -1426,10 +1441,10 @@ const Yoga = () => {
       </div>
     </div>
   );
-
+  
   const renderMeditation = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-500 mb-6">
         🧘‍♂️ Meditation & Mindfulness
       </h2>
 
@@ -1478,7 +1493,7 @@ const Yoga = () => {
       </div>
 
       <div className="bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
-        <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-4">
+        <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-500 mb-4">
           🔔 Daily Reminder
         </h3>
         <div className="flex items-center space-x-4">
@@ -1494,7 +1509,7 @@ const Yoga = () => {
               }
               className="rounded"
             />
-            <span className="text-sm text-gray-700 dark:text-gray-300">
+            <span className="text-sm text-gray-500 ">
               Enable daily yoga reminder
             </span>
           </label>
@@ -1504,7 +1519,7 @@ const Yoga = () => {
             onChange={(e) =>
               setNotifications((prev) => ({ ...prev, time: e.target.value }))
             }
-            className="px-3 py-1 rounded-lg bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-sm"
+            className="px-3 py-1 text-white rounded-lg bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-sm"
             disabled={!notifications.enabled}
           />
         </div>
@@ -1514,7 +1529,7 @@ const Yoga = () => {
 
   const renderSettings = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-500 mb-6">
         ⚙️ Settings
       </h2>
 
@@ -1610,7 +1625,7 @@ const Yoga = () => {
         {renderQuoteOfTheDay()}
         {renderAudioControls()}
         {renderPoseTimer()}
-        {renderBreathingExercise()}
+        <div ref={breathingExerciseRef}>{renderBreathingExercise()}</div>
         {renderSearchAndFilters()}
 
         {/* All Pranayama Section */}
@@ -1660,15 +1675,15 @@ const Yoga = () => {
                       key={pranKey}
                       className="bg-purple-50 dark:bg-slate-700 rounded-lg p-4 hover:shadow-md transition-all"
                     >
-                      <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                         <div>
-                          <h5 className="text-lg font-semibold text-purple-700 dark:text-purple-300">
+                          <h5 className="text-lg font-semibold text-blue-700 dark:text-blue-300 break-words">
                             {pranayama.name}
-                            <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
+                            <span className="text-sm font-normal text-slate-700 dark:text-gray-400 ml-2">
                               ({pranayama.Sanskrit})
                             </span>
                           </h5>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-slate-600 dark:text-gray-400">
                             ⏱️ {pranayama.duration} • 💫{" "}
                             {pranayama.benefits.join(", ")}
                           </p>
@@ -1876,7 +1891,7 @@ const Yoga = () => {
                             key={asanaIndex}
                             className="bg-gray-50 dark:bg-slate-700 rounded-lg p-4 hover:shadow-md transition-all"
                           >
-                            <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
                               <div className="flex-1 min-w-0">
                                 <h5 className="text-lg font-semibold text-blue-700 dark:text-blue-300 break-words">
                                   {asana.name}
@@ -1884,13 +1899,13 @@ const Yoga = () => {
                                     ({asana.Sanskrit})
                                   </span>
                                 </h5>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                <p className="text-sm text-slate-600 dark:text-gray-400">
                                   ⏱️ {asana.duration} • 💫{" "}
                                   {asana.benefits.join(", ")}
                                 </p>
                               </div>
 
-                              <div className="flex items-center space-x-2 flex-shrink-0">
+                              <div className="flex items-center justify-start sm:justify-end space-x-2 flex-shrink-0">
                                 <button
                                   onClick={() =>
                                     toggleComplete("asana", day, asanaIndex)
@@ -1949,7 +1964,7 @@ const Yoga = () => {
                                     href={asana.youtubeLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm transition-all flex items-center"
+                                    className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm transition-all flex items-center"
                                   >
                                     📺
                                   </a>
@@ -2010,21 +2025,21 @@ const Yoga = () => {
                                 key={pranIndex}
                                 className="bg-purple-50 dark:bg-slate-700 rounded-lg p-4 hover:shadow-md transition-all"
                               >
-                                <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                   <div className="flex-1 min-w-0">
                                     <h5 className="text-lg font-semibold text-purple-700 dark:text-purple-300 break-words">
                                       {pranayama.name}
-                                      <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
+                                      <span className="text-sm font-normal text-slate-600 dark:text-gray-400 ml-2">
                                         ({pranayama.Sanskrit})
                                       </span>
                                     </h5>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                                    <p className="text-sm text-slate-600 dark:text-gray-400">
                                       ⏱️ {pranayama.duration} • 💫{" "}
                                       {pranayama.benefits.join(", ")}
                                     </p>
                                   </div>
 
-                                  <div className="flex items-center space-x-2 flex-shrink-0">
+                                  <div className="flex items-center justify-start sm:justify-end space-x-2 flex-shrink-0">
                                     <button
                                       onClick={() =>
                                         toggleComplete(
@@ -2251,10 +2266,10 @@ const Yoga = () => {
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
-        theme === "dark"
-          ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-100"
-          : "bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-900"
-      }`}
+    theme === "dark"
+        ? "bg-slate-900 text-slate-100"
+        : "bg-slate-100 text-slate-900"
+}`}
     >
       {renderHeader()}
 
@@ -2331,7 +2346,7 @@ const Yoga = () => {
       {/* Floating Action Button - Breathing Exercise */}
       {currentView === "routine" && !isBreathingActive && (
         <button
-          onClick={startBreathingExercise}
+          onClick={handleStartBreathing}
           className="fixed bottom-20 md:bottom-6 right-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 active:scale-95"
           title="Start breathing exercise"
         >
