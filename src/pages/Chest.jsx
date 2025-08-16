@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import motivationalSound from "../assets/workout_motivation.mp3";
 
-<<<<<<< HEAD
 // Warmup and strecthing
 import JumpingJacks from "../images/Warmup and stretch/jumping-jack.gif"
 import Armforward from "../images/Warmup and stretch/arm-circle-forward.gif"
@@ -15,8 +14,6 @@ import catCowPose from "../images/Warmup and stretch/cat-cow.webp"
 import staticChest from "../images/Warmup and stretch/static-chest-stretch.jpg"
 import overheadTricep from "../images/Warmup and stretch/tricep-stretch.jpg"
 
-=======
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
 // ======================== HELPER FUNCTIONS ========================
 const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -46,11 +43,7 @@ const setStorageItem = (key, value) => {
 const warmupExercises = [
     { 
         name: "Warm-up: Jumping Jacks", 
-<<<<<<< HEAD
         img: JumpingJacks, 
-=======
-        img: "https://cdn.fitimg.in/content_blog_inner_E4B1CDF6.gif", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "60 seconds",
         difficulty: 2,
         instructions: "Stand upright with feet together, arms at sides. Jump while spreading legs shoulder-width apart and raising arms overhead. Return to starting position.",
@@ -59,11 +52,7 @@ const warmupExercises = [
     },
     { 
         name: "Warm-up: Arm Circles (Forward)", 
-<<<<<<< HEAD
         img: Armforward, 
-=======
-        img: "https://cdn.jefit.com/assets/img/exercises/gifs/867.gif", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds",
         difficulty: 1,
         instructions: "Extend arms to sides parallel to ground. Make small forward circles, gradually increasing size.",
@@ -72,11 +61,7 @@ const warmupExercises = [
     },
     { 
         name: "Warm-up: Arm Circles (Backward)", 
-<<<<<<< HEAD
         img: ArmReverse, 
-=======
-        img: "https://flabfix.com/wp-content/uploads/2019/08/Reverse-Arm-Circles.gif", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds",
         difficulty: 1,
         instructions: "Same as forward circles but in reverse direction to activate different muscle fibers.",
@@ -85,40 +70,20 @@ const warmupExercises = [
     },
     { 
         name: "Warm-up: Dynamic Chest Stretch", 
-<<<<<<< HEAD
         img: DynamicStretch, 
-=======
-        img: "https://cdn.jefit.com/assets/img/exercises/gifs/846.gif", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds",
         difficulty: 2,
         instructions: "Stand tall, stretch arms across chest and pull back dynamically to open chest muscles.",
         targetMuscles: ["Chest", "Shoulders"],
         tips: "Don't bounce aggressively, use controlled movements."
     },
-<<<<<<< HEAD
     
-=======
-    { 
-        name: "Warm-up: Torso Twists", 
-        img: "https://cdn.jefit.com/assets/img/exercises/gifs/677.gif", 
-        duration: "30 seconds",
-        difficulty: 2,
-        instructions: "Stand with feet shoulder-width apart, hands on hips. Rotate torso left and right while keeping hips stable.",
-        targetMuscles: ["Core", "Back"],
-        tips: "Keep your core engaged throughout the movement."
-    },
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
 ];
 
 const cooldownStretches = [
     { 
         name: "Cooldown: Child's Pose", 
-<<<<<<< HEAD
         img: childPose, 
-=======
-        img: "https://media.post.rvohealth.io/wp-content/uploads/2018/07/Childs-Pose-Balasana.gif", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds",
         difficulty: 1,
         instructions: "Kneel on floor, sit back on heels, then fold forward extending arms in front.",
@@ -127,11 +92,7 @@ const cooldownStretches = [
     },
     { 
         name: "Cooldown: Cobra Stretch", 
-<<<<<<< HEAD
         img: cobraPose, 
-=======
-        img: "https://cdn.yogajournal.com/wp-content/uploads/2022/06/Upward-Facing-Dog-Mod-1_Andrew-Clark-e1670972827524-1024x598.jpg?width=1200", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds",
         difficulty: 2,
         instructions: "Lie face down, place palms under shoulders, slowly push up arching your back.",
@@ -140,11 +101,7 @@ const cooldownStretches = [
     },
     { 
         name: "Cooldown: Cat-Cow Stretch", 
-<<<<<<< HEAD
         img: catCowPose, 
-=======
-        img: "https://www.yogajournal.com/wp-content/uploads/2020/01/cat-cow-1.gif?width=730", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "1 minute",
         difficulty: 1,
         instructions: "On hands and knees, alternate between arching back (cow) and rounding spine (cat).",
@@ -153,11 +110,7 @@ const cooldownStretches = [
     },
     { 
         name: "Cooldown: Static Chest Stretch (Doorway)", 
-<<<<<<< HEAD
         img: staticChest, 
-=======
-        img: "https://images.squarespace-cdn.com/content/v1/5f5e8592d2b0854b18af6975/bf602891-d983-47a2-bab2-d2e1719b5ffd/Doorway+Chest+Stretch.jpg", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds each side",
         difficulty: 2,
         instructions: "Place forearm on doorway, step forward to stretch chest. Switch arms.",
@@ -166,11 +119,7 @@ const cooldownStretches = [
     },
     { 
         name: "Cooldown: Overhead Triceps Stretch", 
-<<<<<<< HEAD
         img: overheadTricep, 
-=======
-        img: "https://i.ytimg.com/vi/zzvDO56B0HE/maxresdefault.jpg", 
->>>>>>> adf7b333b19adacd3463ffad555704561dad05d4
         duration: "30 seconds each arm",
         difficulty: 1,
         instructions: "Reach one arm overhead, bend elbow, use other hand to gently pull elbow.",
