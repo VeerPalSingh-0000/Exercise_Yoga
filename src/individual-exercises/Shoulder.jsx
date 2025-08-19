@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import motivationalSound from "../assets/workout_motivation.mp3";
+import motivationalSound from "../assets/sounds/workout_motivation.mp3";
 
 // ======================== HELPER FUNCTIONS ========================
 const formatTime = (totalSeconds) => {
@@ -30,49 +30,49 @@ const setStorageItem = (key, value) => {
 // ======================== EXERCISE DATA ========================
 const warmupExercises = [
     { 
-        name: "Warm-up: Jumping Jacks", 
-        img: "https://cdn.fitimg.in/content_blog_inner_E4B1CDF6.gif", 
-        duration: "60 seconds",
-        difficulty: 2,
-        instructions: "Stand upright with feet together, arms at sides. Jump while spreading legs shoulder-width apart and raising arms overhead. Return to starting position.",
-        targetMuscles: ["Full Body", "Cardio"],
-        tips: "Keep your core engaged and land softly on your feet."
+        name: "Neck Rolls", 
+        img: "https://flabfix.com/wp-content/uploads/2019/05/Neck-Rolls.gif", 
+        duration: "1 minute",
+        difficulty: 1,
+        instructions: "Slowly roll neck in circular motion, both directions. Keep movements controlled and gentle.",
+        targetMuscles: ["Neck", "Upper Traps"],
+        tips: "Never force the movement. Stop if you feel any pain or dizziness."
     },
     { 
-        name: "Warm-up: Arm Circles (Forward)", 
-        img: "https://cdn.jefit.com/assets/img/exercises/gifs/867.gif", 
+        name: "Shoulder Rolls (forward)", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2021/02/Shoulder-roll.gif", 
         duration: "30 seconds",
         difficulty: 1,
-        instructions: "Extend arms to sides parallel to ground. Make small forward circles, gradually increasing size.",
-        targetMuscles: ["Shoulders", "Arms"],
-        tips: "Keep your shoulders relaxed and maintain good posture."
+        instructions: "Roll shoulders forward in smooth circular motion to warm up shoulder joints.",
+        targetMuscles: ["Shoulders", "Upper Traps"],
+        tips: "Make large, smooth circles. Focus on full range of motion."
     },
     { 
-        name: "Warm-up: Arm Circles (Backward)", 
-        img: "https://flabfix.com/wp-content/uploads/2019/08/Reverse-Arm-Circles.gif", 
+        name: "Shoulder Rolls (backward)", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2021/02/Shoulder-roll.gif", 
         duration: "30 seconds",
         difficulty: 1,
-        instructions: "Same as forward circles but in reverse direction to activate different muscle fibers.",
-        targetMuscles: ["Shoulders", "Arms"],
-        tips: "Focus on controlled movements, don't rush."
+        instructions: "Roll shoulders backward in smooth circular motion to reverse the forward movement.",
+        targetMuscles: ["Shoulders", "Upper Traps"],
+        tips: "This helps counteract forward shoulder posture from daily activities."
     },
     { 
-        name: "Warm-up: Dynamic Chest Stretch", 
-        img: "https://cdn.jefit.com/assets/img/exercises/gifs/846.gif", 
-        duration: "30 seconds",
-        difficulty: 2,
-        instructions: "Stand tall, stretch arms across chest and pull back dynamically to open chest muscles.",
-        targetMuscles: ["Chest", "Shoulders"],
-        tips: "Don't bounce aggressively, use controlled movements."
+        name: "Cross-Body Shoulder Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2021/02/400x400_9_Stretches_to_Benefit_Your_Golf_Game_Shoulder_Swing_Stretch.gif", 
+        duration: "30 seconds each arm",
+        difficulty: 1,
+        instructions: "Pull one arm across body at chest level, hold with opposite hand. Feel stretch in rear shoulder.",
+        targetMuscles: ["Rear Delts", "Posterior Capsule"],
+        tips: "Keep shoulders level and avoid rotating torso."
     },
     { 
-        name: "Warm-up: Torso Twists", 
-        img: "https://cdn.jefit.com/assets/img/exercises/gifs/677.gif", 
-        duration: "30 seconds",
-        difficulty: 2,
-        instructions: "Stand with feet shoulder-width apart, hands on hips. Rotate torso left and right while keeping hips stable.",
-        targetMuscles: ["Core", "Back"],
-        tips: "Keep your core engaged throughout the movement."
+        name: "Overhead Triceps Stretch", 
+        img: "https://www.vissco.com/wp-content/uploads/animation/sub/triceps-stretch.gif", 
+        duration: "30 seconds each arm",
+        difficulty: 1,
+        instructions: "Reach one arm overhead, bend elbow, use other hand to gently pull elbow back.",
+        targetMuscles: ["Triceps", "Shoulders"],
+        tips: "Also prepares shoulders for overhead movements in workout."
     },
 ];
 
@@ -87,163 +87,134 @@ const cooldownStretches = [
         tips: "Focus on deep breathing and let gravity help you stretch."
     },
     { 
-        name: "Cooldown: Cobra Stretch", 
-        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824-Cobra_Stretch-1200x628-facebook.jpg", 
-        duration: "30 seconds",
-        difficulty: 2,
-        instructions: "Lie face down, place palms under shoulders, slowly push up arching your back.",
-        targetMuscles: ["Chest", "Hip Flexors"],
-        tips: "Keep hips on ground and don't overextend your back."
-    },
-    { 
-        name: "Cooldown: Cat-Cow Stretch", 
-        img: "https://www.yogajournal.com/wp-content/uploads/2020/01/cat-cow-1.gif?width=730", 
-        duration: "1 minute",
-        difficulty: 1,
-        instructions: "On hands and knees, alternate between arching back (cow) and rounding spine (cat).",
-        targetMuscles: ["Back", "Core"],
-        tips: "Move slowly and coordinate with your breathing."
-    },
-    { 
-        name: "Cooldown: Static Chest Stretch (Doorway)", 
-        img: "https://images.squarespace-cdn.com/content/v1/5f5e8592d2b0854b18af6975/bf602891-d983-47a2-bab2-d2e1719b5ffd/Doorway+Chest+Stretch.jpg", 
-        duration: "30 seconds each side",
-        difficulty: 2,
-        instructions: "Place forearm on doorway, step forward to stretch chest. Switch arms.",
-        targetMuscles: ["Chest", "Shoulders"],
-        tips: "Don't force the stretch, hold comfortably for best results."
-    },
-    { 
-        name: "Cooldown: Overhead Triceps Stretch", 
-        img: "https://i.ytimg.com/vi/zzvDO56B0HE/maxresdefault.jpg", 
+        name: "Cooldown: Cross-Body Shoulder Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3169_shoulder_stretch_1200x628-facebook.jpg", 
         duration: "30 seconds each arm",
         difficulty: 1,
-        instructions: "Reach one arm overhead, bend elbow, use other hand to gently pull elbow.",
+        instructions: "Pull arm across body at chest level to stretch posterior shoulder muscles.",
+        targetMuscles: ["Rear Delts", "Posterior Capsule"],
+        tips: "Essential after shoulder workout to maintain flexibility."
+    },
+    { 
+        name: "Cooldown: Triceps Stretch", 
+        img: "https://www.vissco.com/wp-content/uploads/animation/sub/triceps-stretch.gif", 
+        duration: "30 seconds each arm",
+        difficulty: 1,
+        instructions: "Overhead triceps stretch also helps stretch shoulder joint capsule.",
         targetMuscles: ["Triceps", "Shoulders"],
-        tips: "Keep your back straight and don't pull too hard."
+        tips: "Hold gentle tension and breathe deeply."
+    },
+    { 
+        name: "Cooldown: Pec Minor Stretch (Doorway)", 
+        img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/04/Pec-minor-stretch-in-doorway.gif?fit=600%2C600&ssl=1", 
+        duration: "30 seconds each side",
+        difficulty: 2,
+        instructions: "Place forearm on doorway at shoulder height, step forward to stretch chest and front shoulder.",
+        targetMuscles: ["Pec Minor", "Front Delts"],
+        tips: "Helps counteract internal rotation after shoulder workout."
     },
 ];
 
-const tricepsWorkouts = {
+const shoulderWorkouts = {
     Home: {
         Beginner: [
             ...warmupExercises,
             { 
-                name: "Wall Triceps Push-ups", 
-                img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Wall-push-up.gif?fit=600%2C600&ssl=1", 
-                reps: "3 sets × 15-20 reps",
-                difficulty: 1,
-                instructions: "Stand arm's length from wall, place hands closer than shoulder-width. Push body toward and away from wall focusing on triceps.",
-                targetMuscles: ["Triceps", "Shoulders"],
-                tips: "Keep elbows close to your body and focus on squeezing triceps.",
-                restTime: 45
-            },
-            { 
-                name: "Kneeling Triceps Push-ups", 
-                img: "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2020/08/GRT-1.17.RegularChestPushupOnKnees.gif", 
+                name: "Pike Push-ups (Elevated Hands)", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/pikepushup-1456956895.gif?resize=640:*", 
                 reps: "3 sets × 10-15 reps",
-                difficulty: 2,
-                instructions: "Perform push-ups on knees with hands in close grip position to emphasize triceps.",
-                targetMuscles: ["Triceps", "Chest", "Shoulders"],
-                tips: "Keep hands close together and elbows tucked to sides.",
-                restTime: 60
-            },
-            { 
-                name: "Chair Dips (Bent Knees)", 
-                img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-chair-dips-m1.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 2,
-                instructions: "Sit on edge of sturdy chair, hands gripping edge. Lower and raise body using triceps, knees bent for easier variation.",
-                targetMuscles: ["Triceps", "Shoulders"],
-                tips: "Keep your back close to the chair and control the movement.",
-                restTime: 60
-            },
-            { 
-                name: "Diamond Push-ups (on knees)", 
-                img: "https://images.ctfassets.net/6ilvqec50fal/3hTY3FIEwYdNloN5V3HL7G/26e28de169b01e5e79332e5418803470/Diamond_Push-Up_GIF.gif", 
-                reps: "3 sets × 8-10 reps",
                 difficulty: 3,
-                instructions: "Form diamond shape with hands, perform push-ups on knees. This targets triceps intensely.",
-                targetMuscles: ["Triceps", "Inner Chest"],
-                tips: "Start slow and focus on perfect form. Progress to full push-ups when ready.",
+                instructions: "Start in downward dog position with hands elevated. Lower head toward hands by bending elbows.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Elevated hands make this easier. Focus on shoulder movement, not triceps.",
                 restTime: 75
+            },
+            { 
+                name: "Wall Supported Handstand Hold", 
+                img: "https://i.pinimg.com/originals/c4/54/0b/c4540b4a13d7586f733138c05e50a199.gif", 
+                reps: "3 sets × 30-60 seconds",
+                difficulty: 4,
+                instructions: "Face away from wall, walk feet up while walking hands toward wall. Hold inverted position.",
+                targetMuscles: ["Front Delts", "Side Delts", "Core"],
+                tips: "Start with short holds. This builds shoulder stability and strength.",
+                restTime: 90
+            },
+            { 
+                name: "Lean Forward Push-ups", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/927.gif", 
+                reps: "3 sets × 10-15 reps",
+                difficulty: 3,
+                instructions: "Perform push-ups with hands positioned forward of shoulders to target front delts more.",
+                targetMuscles: ["Front Delts", "Chest", "Triceps"],
+                tips: "Lean forward slightly to shift emphasis to shoulders.",
+                restTime: 75
+            },
+            { 
+                name: "Rear Delt Flyes (Band or Towel)", 
+                img: "https://redefiningstrength.com/wp-content/uploads/2015/03/band-pull-apart.gif", 
+                reps: "3 sets × 15-20 reps",
+                difficulty: 2,
+                instructions: "Hold band or towel at chest level, pull apart by squeezing shoulder blades together.",
+                targetMuscles: ["Rear Delts", "Middle Traps", "Rhomboids"],
+                tips: "Focus on squeezing shoulder blades together, not just moving arms.",
+                restTime: 60
             },
             ...cooldownStretches
         ],
         Intermediate: [
             ...warmupExercises,
             { 
-                name: "Standard Triceps Push-ups (Close Grip)", 
-                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3298_Pullovers_1200x628-facebook.jpg", 
-                reps: "3 sets × 12-15 reps",
+                name: "Pike Push-ups", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/pikepushup-1456956895.gif?resize=640:*", 
+                reps: "3 sets × 10-12 reps",
+                difficulty: 4,
+                instructions: "Full pike push-ups from floor level. Focus on shoulder strength and stability.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Keep hips high and move head toward hands, not down to ground.",
+                restTime: 90
+            },
+            { 
+                name: "Decline Pike Push-ups (feet elevated)", 
+                img: "https://static.strengthlevel.com/images/illustrations/decline-pike-push-up-1000x1000.jpg", 
+                reps: "3 sets × 8-10 reps",
+                difficulty: 5,
+                instructions: "Pike push-ups with feet elevated on chair or bed for increased difficulty.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "More challenging variation. Ensure you can do regular pike push-ups first.",
+                restTime: 90
+            },
+            { 
+                name: "Side Lateral Raises (light objects or resistance band)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/120.gif", 
+                reps: "3 sets × 15-20 reps",
                 difficulty: 3,
-                instructions: "Perform standard push-ups with hands placed close together, emphasizing triceps activation.",
-                targetMuscles: ["Triceps", "Chest", "Shoulders"],
-                tips: "Keep elbows close to body and maintain straight line from head to heels.",
+                instructions: "Use water bottles, books, or resistance band. Raise arms to sides until parallel to ground.",
+                targetMuscles: ["Side Delts", "Supraspinatus"],
+                tips: "Light weight only. Focus on form and muscle activation.",
                 restTime: 75
             },
             { 
-                name: "Chair Dips (Straight Legs)", 
-                img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-chair-dips-m2.gif", 
-                reps: "3 sets × 12-15 reps",
-                difficulty: 4,
-                instructions: "Same as beginner dips but with legs straight, making it more challenging.",
-                targetMuscles: ["Triceps", "Shoulders", "Core"],
-                tips: "Extend legs straight out to increase difficulty and core engagement.",
-                restTime: 90
-            },
-            { 
-                name: "Diamond Push-ups", 
-                img: "https://images.ctfassets.net/6ilvqec50fal/3hTY3FIEwYdNloN5V3HL7G/26e28de169b01e5e79332e5418803470/Diamond_Push-Up_GIF.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 4,
-                instructions: "Full diamond push-ups on toes. Form diamond with hands and perform controlled push-ups.",
-                targetMuscles: ["Triceps", "Inner Chest", "Shoulders"],
-                tips: "This is challenging - maintain perfect form over speed.",
-                restTime: 90
-            },
-            { 
-                name: "Pike Push-ups (Close Hand Position)", 
-                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/pikepushup-1456956895.gif?resize=640:*", 
-                reps: "3 sets × 8-10 reps",
-                difficulty: 4,
-                instructions: "Start in pike position with hands close together. Lower head toward hands focusing on triceps.",
-                targetMuscles: ["Triceps", "Shoulders", "Upper Chest"],
-                tips: "Keep hips high and focus on triceps rather than shoulders.",
-                restTime: 90
+                name: "Face Pulls (Resistance Band)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/883.gif", 
+                reps: "3 sets × 15-20 reps",
+                difficulty: 3,
+                instructions: "Pull resistance band to face level, separating handles at your ears.",
+                targetMuscles: ["Rear Delts", "Middle Traps", "External Rotators"],
+                tips: "Excellent for posture and rear delt development.",
+                restTime: 75
             },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
             { 
-                name: "Decline Triceps Push-ups (Close Grip)", 
-                img: "https://www.fitnessbaddies.com/wp-content/uploads/2021/05/Decline-Push-ups.png", 
-                reps: "3 sets × 10-12 reps",
+                name: "Handstand Push-up Negatives (against wall)", 
+                img: "https://www.fitkill.com/wp-content/uploads/2020/07/Handstand-Pushup.gif", 
+                reps: "3 sets × 5-8 reps",
                 difficulty: 5,
-                instructions: "Elevate feet on chair/bed, perform close-grip push-ups for maximum triceps challenge.",
-                targetMuscles: ["Triceps", "Upper Chest", "Shoulders"],
-                tips: "The higher your feet, the harder it becomes. Start low and progress.",
-                restTime: 120
-            },
-            { 
-                name: "Weighted Chair Dips", 
-                img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-chair-dips-m3.gif", 
-                reps: "3 sets × AMRAP",
-                difficulty: 5,
-                instructions: "Perform dips with additional weight (backpack, books, etc.) for increased resistance.",
-                targetMuscles: ["Triceps", "Shoulders", "Core"],
-                tips: "Add weight gradually and maintain perfect form. Safety first!",
-                restTime: 120
-            },
-            { 
-                name: "Explosive Diamond Push-ups", 
-                img: "https://i.makeagif.com/media/10-13-2015/t-c2pD.gif", 
-                reps: "3 sets × 6-8 reps",
-                difficulty: 5,
-                instructions: "Diamond push-ups with explosive upward movement, hands leaving ground if possible.",
-                targetMuscles: ["Triceps", "Power", "Core"],
-                tips: "Land softly and control the descent. Power and control combined.",
+                instructions: "Jump or kick up to handstand position, slowly lower to head touching ground.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Extremely advanced. Master wall handstand holds first.",
                 restTime: 120
             },
             { 
@@ -251,9 +222,29 @@ const tricepsWorkouts = {
                 img: "https://bodyweighttrainingarena.com/wp-content/uploads/2013/06/Pseudo_Planche_Push_Up.gif", 
                 reps: "3 sets × 5-8 reps",
                 difficulty: 5,
-                instructions: "Lean forward significantly with hands by lower ribs. Extremely challenging triceps exercise.",
-                targetMuscles: ["Triceps", "Shoulders", "Core"],
-                tips: "Advanced exercise - start with small lean and build up gradually.",
+                instructions: "Lean forward significantly with hands by lower ribs. Perform push-ups in this position.",
+                targetMuscles: ["Front Delts", "Core", "Triceps"],
+                tips: "Start with small lean. This is extremely challenging for shoulders.",
+                restTime: 120
+            },
+            { 
+                name: "Assisted Handstand Push-ups", 
+                img: "https://www.burnthefatinnercircle.com/members/1274.jpg", 
+                reps: "3 sets × 5-8 reps",
+                difficulty: 5,
+                instructions: "Partial range handstand push-ups with assistance or limited range of motion.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Use assistance to complete the movement. Progress gradually.",
+                restTime: 120
+            },
+            { 
+                name: "Single Arm Pike Push-ups (Assisted)", 
+                img: "https://www.fitkill.com/wp-content/uploads/2020/07/Assisted-One-Handstand-Pushup.gif", 
+                reps: "3 sets × 3-5 reps each side",
+                difficulty: 5,
+                instructions: "One-arm pike push-ups with assistance from other hand on elevated surface.",
+                targetMuscles: ["Front Delts", "Core", "Stabilizers"],
+                tips: "Elite level exercise. Master regular pike push-ups first.",
                 restTime: 120
             },
             ...cooldownStretches
@@ -263,142 +254,152 @@ const tricepsWorkouts = {
         Beginner: [
             ...warmupExercises,
             { 
-                name: "Machine Triceps Extensions", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/424.gif", 
+                name: "Seated Machine Shoulder Press", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/118.gif", 
                 reps: "3 sets × 12-15 reps",
                 difficulty: 2,
-                instructions: "Sit on machine, grip handles, extend arms straight down using triceps. Control both up and down.",
-                targetMuscles: ["Triceps"],
-                tips: "Keep your core tight and elbows stationary throughout the movement.",
-                restTime: 75
-            },
-            { 
-                name: "Cable Triceps Pushdowns (Straight Bar)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/143.gif", 
-                reps: "3 sets × 12-15 reps",
-                difficulty: 2,
-                instructions: "Stand at cable machine, grip straight bar. Push down using triceps, control the return.",
-                targetMuscles: ["Triceps"],
-                tips: "Keep elbows at your sides and focus on squeezing triceps at bottom.",
-                restTime: 75
-            },
-            { 
-                name: "Overhead Cable Triceps Extensions (Rope)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/136.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 3,
-                instructions: "Face away from cable, overhead grip on rope. Extend arms forward using triceps.",
-                targetMuscles: ["Triceps", "Long Head"],
-                tips: "Keep your elbows pointing forward and extend fully for maximum stretch.",
+                instructions: "Sit at shoulder press machine, press handles overhead with controlled movement.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Machine provides stability - perfect for beginners to learn movement pattern.",
                 restTime: 90
             },
             { 
-                name: "Dumbbell Triceps Extensions (Seated, Two Arm)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/132.gif", 
+                name: "Seated Dumbbell Press", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/116.gif", 
                 reps: "3 sets × 10-12 reps",
                 difficulty: 3,
-                instructions: "Sit with one dumbbell held overhead. Lower behind head and extend back up using triceps.",
-                targetMuscles: ["Triceps", "Long Head"],
-                tips: "Control the weight and keep your elbows pointing forward throughout.",
+                instructions: "Sit on bench with back support, press dumbbells overhead from shoulder level.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Start light to learn proper path of motion. Keep core tight.",
                 restTime: 90
+            },
+            { 
+                name: "Dumbbell Side Lateral Raises", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/120.gif", 
+                reps: "3 sets × 12-15 reps",
+                difficulty: 2,
+                instructions: "Stand with dumbbells at sides, raise arms to parallel with slight bend in elbows.",
+                targetMuscles: ["Side Delts", "Supraspinatus"],
+                tips: "Light weight only. Lead with pinkies, stop at shoulder height.",
+                restTime: 75
+            },
+            { 
+                name: "Dumbbell Front Raises", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/119.gif", 
+                reps: "3 sets × 12-15 reps",
+                difficulty: 2,
+                instructions: "Raise dumbbells in front of body to shoulder height with straight or slightly bent arms.",
+                targetMuscles: ["Front Delts", "Upper Chest"],
+                tips: "Use lighter weight than you think. Focus on control and form.",
+                restTime: 75
             },
             ...cooldownStretches
         ],
         Intermediate: [
             ...warmupExercises,
             { 
-                name: "Cable Triceps Pushdowns (Rope Attachment)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/144.gif", 
+                name: "Standing Barbell Overhead Press (Lighter Weight)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/115.gif", 
+                reps: "3 sets × 8-10 reps",
+                difficulty: 4,
+                instructions: "Stand with barbell at shoulder level, press overhead while maintaining tight core.",
+                targetMuscles: ["Front Delts", "Side Delts", "Core"],
+                tips: "Start lighter than you think. This exercise requires significant stability.",
+                restTime: 120
+            },
+            { 
+                name: "Seated Dumbbell Press", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/116.gif", 
                 reps: "3 sets × 10-12 reps",
                 difficulty: 3,
-                instructions: "Use rope attachment, split the rope at bottom for better triceps contraction and stretch.",
-                targetMuscles: ["Triceps"],
-                tips: "Split the rope at the bottom and squeeze your triceps hard.",
-                restTime: 75
-            },
-            { 
-                name: "Lying Dumbbell Triceps Extensions (Skullcrushers)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/134.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 4,
-                instructions: "Lie on bench, hold dumbbells above chest. Lower toward forehead by bending elbows, extend back up.",
-                targetMuscles: ["Triceps", "Long Head"],
-                tips: "Keep elbows stationary and control the weight. Don't actually hit your skull!",
+                instructions: "Seated dumbbell press with heavier weight than beginner level.",
+                targetMuscles: ["Front Delts", "Side Delts", "Triceps"],
+                tips: "Focus on full range of motion and controlled tempo.",
                 restTime: 90
             },
             { 
-                name: "Seated Overhead Dumbbell Extension (One Arm)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/131.gif", 
-                reps: "3 sets × 10-12 reps each arm",
-                difficulty: 4,
-                instructions: "Sit holding one dumbbell overhead. Lower behind head and extend back up, one arm at a time.",
-                targetMuscles: ["Triceps", "Core"],
-                tips: "Support your working arm with the free hand for stability.",
+                name: "Cable Side Lateral Raises", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/121.gif", 
+                reps: "3 sets × 12-15 reps",
+                difficulty: 3,
+                instructions: "Use cable machine for lateral raises to provide constant tension throughout movement.",
+                targetMuscles: ["Side Delts"],
+                tips: "Cable provides better tension curve than dumbbells.",
                 restTime: 75
             },
             { 
-                name: "Parallel Bar Dips (Bodyweight)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/37.gif", 
-                reps: "3 sets × 8-12 reps",
-                difficulty: 4,
-                instructions: "Use parallel bars or dip station. Lower body and push back up using triceps and chest.",
-                targetMuscles: ["Triceps", "Lower Chest", "Shoulders"],
-                tips: "Lean slightly forward for chest, keep upright for more triceps focus.",
-                restTime: 90
+                name: "Face Pulls", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/883.gif", 
+                reps: "3 sets × 15-20 reps",
+                difficulty: 3,
+                instructions: "Pull cable rope to face level, separate handles at ears.",
+                targetMuscles: ["Rear Delts", "Middle Traps", "External Rotators"],
+                tips: "Essential for shoulder health and posture correction.",
+                restTime: 75
+            },
+            { 
+                name: "Dumbbell Rear Delt Flyes (Bent-Over)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/122.gif", 
+                reps: "3 sets × 12-15 reps",
+                difficulty: 3,
+                instructions: "Bend over at hips, raise dumbbells to sides by squeezing shoulder blades together.",
+                targetMuscles: ["Rear Delts", "Middle Traps"],
+                tips: "Light weight, focus on squeezing shoulder blades together.",
+                restTime: 75
             },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
             { 
-                name: "Heavy Cable Triceps Pushdowns", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/143.gif", 
-                reps: "4 sets × 6-8 reps",
+                name: "Standing Barbell Overhead Press", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/115.gif", 
+                reps: "4 sets × 5-8 reps",
                 difficulty: 5,
-                instructions: "Use heavy weight for low reps. Focus on strength and power in the triceps contraction.",
-                targetMuscles: ["Triceps"],
-                tips: "Use proper form even with heavy weight. Control is key for safety.",
+                instructions: "Heavy standing overhead press focusing on strength and power development.",
+                targetMuscles: ["Front Delts", "Side Delts", "Core"],
+                tips: "Master form before adding weight. Use proper warm-up progression.",
                 restTime: 150
             },
             { 
-                name: "Lying EZ Bar Triceps Extensions (Skullcrushers)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/135.gif", 
+                name: "Arnold Press", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/117.gif", 
                 reps: "3 sets × 8-10 reps",
-                difficulty: 5,
-                instructions: "Use EZ curl bar for better wrist position. Lower to forehead and extend back up with control.",
-                targetMuscles: ["Triceps", "Long Head"],
-                tips: "The EZ bar is easier on wrists than straight bar. Focus on controlled movement.",
-                restTime: 120
-            },
-            { 
-                name: "Weighted Parallel Bar Dips", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/38.gif", 
-                reps: "3 sets × 6-10 reps",
-                difficulty: 5,
-                instructions: "Add weight via belt or vest. Perform dips with additional resistance for strength building.",
-                targetMuscles: ["Triceps", "Lower Chest", "Shoulders"],
-                tips: "Start with small amounts of added weight and progress gradually.",
-                restTime: 120
-            },
-            { 
-                name: "Overhead Cable Triceps Extensions (Bar)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/137.gif", 
-                reps: "3 sets × 10-12 reps",
                 difficulty: 4,
-                instructions: "Face away from cable with bar attachment. Extend arms forward keeping elbows high.",
-                targetMuscles: ["Triceps", "Long Head"],
-                tips: "Keep your elbows high and forward throughout the movement.",
+                instructions: "Start with palms facing you, rotate to palms forward while pressing overhead.",
+                targetMuscles: ["Front Delts", "Side Delts", "Rear Delts"],
+                tips: "Unique exercise that hits all three heads of deltoid.",
                 restTime: 90
             },
             { 
-                name: "Close Grip Bench Press", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/530.gif", 
-                reps: "3 sets × 8-10 reps",
-                difficulty: 5,
-                instructions: "Bench press with hands placed closer than shoulder-width to emphasize triceps over chest.",
-                targetMuscles: ["Triceps", "Inner Chest", "Shoulders"],
-                tips: "Keep elbows closer to body and focus on triceps pushing the weight.",
-                restTime: 120
+                name: "Cable Face Pulls", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/883.gif", 
+                reps: "3 sets × 15-20 reps",
+                difficulty: 3,
+                instructions: "Heavy cable face pulls for rear delt development and shoulder health.",
+                targetMuscles: ["Rear Delts", "Middle Traps"],
+                tips: "Never skip these - crucial for balanced shoulder development.",
+                restTime: 75
+            },
+            { 
+                name: "Heavy Dumbbell Lateral Raises", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/120.gif", 
+                reps: "3 sets × 10-12 reps",
+                difficulty: 4,
+                instructions: "Lateral raises with heavier weight for advanced trainees.",
+                targetMuscles: ["Side Delts"],
+                tips: "Still focus on form over weight. Side delts are small muscles.",
+                restTime: 90
+            },
+            { 
+                name: "Landmine Press", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/1021.gif", 
+                reps: "3 sets × 8-10 reps each side",
+                difficulty: 4,
+                instructions: "Press landmine barbell overhead in arc motion, one arm at a time.",
+                targetMuscles: ["Front Delts", "Core", "Serratus"],
+                tips: "Great for athletes. Mimics many real-world movement patterns.",
+                restTime: 90
             },
             ...cooldownStretches
         ],
@@ -407,34 +408,34 @@ const tricepsWorkouts = {
 
 // ======================== ACHIEVEMENTS SYSTEM ========================
 const achievements = [
-    { id: 1, name: "First Flex", description: "Complete your first triceps workout", icon: "💪", unlocked: false },
-    { id: 2, name: "Arm Commander", description: "Complete 5 triceps workouts", icon: "🎖️", unlocked: false },
-    { id: 3, name: "Steel Arms", description: "Complete 10 triceps workouts", icon: "🔩", unlocked: false },
+    { id: 1, name: "First Lift", description: "Complete your first shoulder workout", icon: "🏋️", unlocked: false },
+    { id: 2, name: "Shoulder Soldier", description: "Complete 5 shoulder workouts", icon: "🎖️", unlocked: false },
+    { id: 3, name: "Boulder Shoulders", description: "Complete 10 shoulder workouts", icon: "🗿", unlocked: false },
     { id: 4, name: "Beast Mode", description: "Complete a Hard level workout", icon: "🦍", unlocked: false },
     { id: 5, name: "Iron Will", description: "Workout for 30+ minutes", icon: "⚡", unlocked: false },
-    { id: 6, name: "Triceps Master", description: "Complete 20 triceps workouts", icon: "👑", unlocked: false },
+    { id: 6, name: "Shoulder King", description: "Complete 20 shoulder workouts", icon: "👑", unlocked: false },
 ];
 
 // ======================== MAIN COMPONENT ========================
-const Triceps = () => {
+const Shoulder = () => {
     // ======================== STATE MANAGEMENT ========================
     const [workoutType, setWorkoutType] = useState('Home');
     const [level, setLevel] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [audio] = useState(new Audio(motivationalSound));
-    const [isSoundEnabled, setIsSoundEnabled] = useState(() => getStorageItem('tricepsSoundEnabled', true));
+    const [isSoundEnabled, setIsSoundEnabled] = useState(() => getStorageItem('shoulderSoundEnabled', true));
     const [timer, setTimer] = useState(0);
     const [restTimer, setRestTimer] = useState(0);
     const [isResting, setIsResting] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
-    const [workoutHistory, setWorkoutHistory] = useState(() => getStorageItem('tricepsWorkoutHistory', []));
-    const [userAchievements, setUserAchievements] = useState(() => getStorageItem('tricepsUserAchievements', achievements));
-    const [theme, setTheme] = useState(() => getStorageItem('tricepsTheme', 'dark'));
+    const [workoutHistory, setWorkoutHistory] = useState(() => getStorageItem('shoulderWorkoutHistory', []));
+    const [userAchievements, setUserAchievements] = useState(() => getStorageItem('shoulderUserAchievements', achievements));
+    const [theme, setTheme] = useState(() => getStorageItem('shoulderTheme', 'dark'));
     const [showStats, setShowStats] = useState(false);
     const [completedSets, setCompletedSets] = useState(0);
     const [totalSets, setTotalSets] = useState(0);
-    const [lastWorkoutInfo, setLastWorkoutInfo] = useState(() => getStorageItem('lastTricepsWorkout', null));
+    const [lastWorkoutInfo, setLastWorkoutInfo] = useState(() => getStorageItem('lastShoulderWorkout', null));
     const [newAchievement, setNewAchievement] = useState(null);
 
     const intervalRef = useRef(null);
@@ -442,11 +443,11 @@ const Triceps = () => {
 
     // ======================== EFFECTS ========================
     useEffect(() => {
-        setStorageItem('tricepsSoundEnabled', isSoundEnabled);
+        setStorageItem('shoulderSoundEnabled', isSoundEnabled);
     }, [isSoundEnabled]);
 
     useEffect(() => {
-        setStorageItem('tricepsTheme', theme);
+        setStorageItem('shoulderTheme', theme);
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
@@ -455,11 +456,11 @@ const Triceps = () => {
     }, [theme]);
 
     useEffect(() => {
-        setStorageItem('tricepsWorkoutHistory', workoutHistory);
+        setStorageItem('shoulderWorkoutHistory', workoutHistory);
     }, [workoutHistory]);
 
     useEffect(() => {
-        setStorageItem('tricepsUserAchievements', userAchievements);
+        setStorageItem('shoulderUserAchievements', userAchievements);
     }, [userAchievements]);
 
     // Audio Effect
@@ -552,7 +553,7 @@ const Triceps = () => {
 
     const calculateTotalSets = useCallback(() => {
         if (!workoutType || !level) return 0;
-        const workout = tricepsWorkouts[workoutType]?.[level];
+        const workout = shoulderWorkouts[workoutType]?.[level];
         if (!workout) return 0;
         
         return workout.filter(exercise => exercise.reps && exercise.reps.includes('sets')).length;
@@ -560,8 +561,8 @@ const Triceps = () => {
 
     // ======================== WORKOUT FUNCTIONS ========================
     const startWorkout = (lvl) => {
-        if (!tricepsWorkouts[workoutType]?.[lvl]?.length) {
-            alert(`No ${lvl} triceps workouts available for ${workoutType}.`);
+        if (!shoulderWorkouts[workoutType]?.[lvl]?.length) {
+            alert(`No ${lvl} shoulder workouts available for ${workoutType}.`);
             return;
         }
         
@@ -606,14 +607,14 @@ const Triceps = () => {
             const newHistory = [workoutData, ...workoutHistory.slice(0, 9)];
             setWorkoutHistory(newHistory);
             setLastWorkoutInfo(workoutData);
-            setStorageItem("lastTricepsWorkout", workoutData);
+            setStorageItem("lastShoulderWorkout", workoutData);
             
             checkAchievements(workoutData);
         }
     };
 
     const nextExercise = () => {
-        const currentWorkoutList = tricepsWorkouts[workoutType]?.[level];
+        const currentWorkoutList = shoulderWorkouts[workoutType]?.[level];
         if (!currentWorkoutList) return;
 
         const currentExercise = currentWorkoutList[currentIndex];
@@ -683,8 +684,8 @@ const Triceps = () => {
         };
     };
 
-    const currentExercise = isRunning && workoutType && level && tricepsWorkouts[workoutType]?.[level]
-        ? tricepsWorkouts[workoutType][level][currentIndex]
+    const currentExercise = isRunning && workoutType && level && shoulderWorkouts[workoutType]?.[level]
+        ? shoulderWorkouts[workoutType][level][currentIndex]
         : null;
 
     const stats = getWorkoutStats();
@@ -726,10 +727,10 @@ const Triceps = () => {
             <motion.h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
                 <span className={`bg-gradient-to-r ${
                     theme === 'dark' 
-                        ? 'from-green-400 to-teal-600' 
-                        : 'from-green-600 to-teal-800'
+                        ? 'from-yellow-400 to-orange-600' 
+                        : 'from-yellow-600 to-orange-800'
                 } bg-clip-text text-transparent`}>
-                    💪 Triceps Toner Pro
+                    🏋️ Shoulder Sculptor Pro
                 </span>
             </motion.h1>
             
@@ -741,8 +742,8 @@ const Triceps = () => {
                     onClick={() => setShowStats(!showStats)}
                     className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                         theme === 'dark'
-                            ? 'bg-green-600 hover:bg-green-700 text-white'
-                            : 'bg-green-500 hover:bg-green-600 text-white'
+                            ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
+                            : 'bg-yellow-500 hover:bg-yellow-600 text-white'
                     }`}
                 >
                     📊 Stats
@@ -781,40 +782,40 @@ const Triceps = () => {
             >
                 <h3 className={`text-xl font-bold mb-4 text-center ${
                     theme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>📈 Your Triceps Progress</h3>
+                }`}>📈 Your Shoulder Progress</h3>
                 
                 {workoutHistory.length === 0 ? (
                     <div className="text-center py-8">
-                        <div className="text-6xl mb-4">💪</div>
+                        <div className="text-6xl mb-4">🏋️</div>
                         <div className={`text-xl font-semibold mb-2 ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>Ready to Build?</div>
+                        }`}>Ready to Lift?</div>
                         <div className={`${
                             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                        }`}>Complete your first triceps workout to see statistics here!</div>
+                        }`}>Complete your first shoulder workout to see statistics here!</div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-green-500">{stats.totalWorkouts}</div>
+                            <div className="text-2xl font-bold text-yellow-500">{stats.totalWorkouts}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Total Workouts</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-teal-500">{stats.totalTime}</div>
+                            <div className="text-2xl font-bold text-orange-500">{stats.totalTime}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Total Time</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-yellow-500">{stats.avgTime}</div>
+                            <div className="text-2xl font-bold text-amber-500">{stats.avgTime}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Average Time</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-500">{stats.longestWorkout}</div>
+                            <div className="text-2xl font-bold text-red-500">{stats.longestWorkout}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Longest Workout</div>
@@ -826,7 +827,7 @@ const Triceps = () => {
                 <div className="mt-6">
                     <h4 className={`text-lg font-semibold mb-3 ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
-                    }`}>🏆 Triceps Achievements</h4>
+                    }`}>🏆 Shoulder Achievements</h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                         {userAchievements.map(achievement => (
                             <div 
@@ -834,8 +835,8 @@ const Triceps = () => {
                                 className={`p-3 rounded-lg text-center transition-all duration-300 border ${
                                     achievement.unlocked 
                                         ? theme === 'dark'
-                                            ? 'bg-green-600 bg-opacity-30 border-green-500'
-                                            : 'bg-green-100 border-green-400'
+                                            ? 'bg-yellow-600 bg-opacity-30 border-yellow-500'
+                                            : 'bg-yellow-100 border-yellow-400'
                                         : theme === 'dark'
                                             ? 'bg-gray-600 bg-opacity-30 border-gray-500'
                                             : 'bg-gray-100 border-gray-400'
@@ -883,7 +884,7 @@ const Triceps = () => {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="font-bold text-green-500">{formatTime(workout.duration)}</div>
+                                        <div className="font-bold text-yellow-500">{formatTime(workout.duration)}</div>
                                         <div className={`text-xs ${
                                             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                                         }`}>{workout.setsCompleted || 0} sets</div>
@@ -905,22 +906,22 @@ const Triceps = () => {
                 variants={itemVariants}
                 className={`mb-8 backdrop-blur-md p-4 rounded-xl border ${
                     theme === 'dark'
-                        ? 'bg-gradient-to-r from-green-900/30 to-teal-900/30 border-green-500/30'
-                        : 'bg-gradient-to-r from-green-100/70 to-teal-100/70 border-green-400/50'
+                        ? 'bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-yellow-500/30'
+                        : 'bg-gradient-to-r from-yellow-100/70 to-orange-100/70 border-yellow-400/50'
                 }`}
             >
                 <div className="flex items-center justify-between">
                     <div>
                         <h3 className={`font-semibold ${
-                            theme === 'dark' ? 'text-green-400' : 'text-green-600'
-                        }`}>🎯 Last Triceps Workout</h3>
+                            theme === 'dark' ? 'text-yellow-400' : 'text-yellow-600'
+                        }`}>🎯 Last Shoulder Workout</h3>
                         <p className={`text-sm ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
                         }`}>
                             {lastWorkoutInfo.type} - {lastWorkoutInfo.level} • {formatTime(lastWorkoutInfo.duration)} • {lastWorkoutInfo.date}
                         </p>
                     </div>
-                    <div className="text-2xl">💪</div>
+                    <div className="text-2xl">🏋️</div>
                 </div>
             </motion.div>
         );
@@ -934,7 +935,7 @@ const Triceps = () => {
                 variants={itemVariants}
                 className="flex justify-center gap-4 mb-10"
             >
-                {Object.keys(tricepsWorkouts).map((type) => (
+                {Object.keys(shoulderWorkouts).map((type) => (
                     <motion.button
                         key={type}
                         variants={buttonVariants}
@@ -944,8 +945,8 @@ const Triceps = () => {
                         className={`px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300 ${
                             workoutType === type
                                 ? theme === 'dark'
-                                    ? 'bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-lg transform scale-105'
-                                    : 'bg-gradient-to-r from-green-600 to-teal-700 text-white shadow-lg transform scale-105'
+                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg transform scale-105'
+                                    : 'bg-gradient-to-r from-yellow-600 to-orange-700 text-white shadow-lg transform scale-105'
                                 : theme === 'dark'
                                     ? 'bg-gray-700 bg-opacity-50 text-gray-300 hover:bg-opacity-80'
                                     : 'bg-gray-300 bg-opacity-70 text-gray-700 hover:bg-opacity-90'
@@ -968,9 +969,9 @@ const Triceps = () => {
                 animate="animate"
                 className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
             >
-                {Object.keys(tricepsWorkouts[workoutType]).map((lvl) => {
-                    const exerciseCount = tricepsWorkouts[workoutType][lvl].length;
-                    const workoutTime = tricepsWorkouts[workoutType][lvl]
+                {Object.keys(shoulderWorkouts[workoutType]).map((lvl) => {
+                    const exerciseCount = shoulderWorkouts[workoutType][lvl].length;
+                    const workoutTime = shoulderWorkouts[workoutType][lvl]
                         .filter(ex => ex.restTime)
                         .reduce((sum, ex) => sum + ex.restTime, 0) + (exerciseCount * 45);
                     
@@ -983,8 +984,8 @@ const Triceps = () => {
                             onClick={() => startWorkout(lvl)}
                             className={`p-6 rounded-xl font-bold text-white transition-all duration-300 transform hover:shadow-2xl ${
                                 workoutType === 'Home'
-                                    ? 'bg-gradient-to-br from-green-500 via-teal-600 to-emerald-700 hover:from-green-400 hover:via-teal-500 hover:to-emerald-600'
-                                    : 'bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-700 hover:from-indigo-400 hover:via-purple-500 hover:to-pink-600'
+                                    ? 'bg-gradient-to-br from-yellow-500 via-orange-600 to-red-700 hover:from-yellow-400 hover:via-orange-500 hover:to-red-600'
+                                    : 'bg-gradient-to-br from-amber-500 via-yellow-600 to-orange-700 hover:from-amber-400 hover:via-yellow-500 hover:to-orange-600'
                             }`}
                         >
                             <div className="text-2xl mb-2">
@@ -1010,9 +1011,9 @@ const Triceps = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
             >
-                <div className="bg-gradient-to-br from-green-900 to-teal-900 p-8 rounded-2xl text-center max-w-sm mx-4">
+                <div className="bg-gradient-to-br from-yellow-900 to-orange-900 p-8 rounded-2xl text-center max-w-sm mx-4">
                     <div className="text-6xl mb-4">⏱️</div>
-                    <div className="text-4xl font-bold mb-4 text-green-400">{formatTime(restTimer)}</div>
+                    <div className="text-4xl font-bold mb-4 text-yellow-400">{formatTime(restTimer)}</div>
                     <div className="text-lg mb-6 text-gray-300">Rest Time</div>
                     <div className="flex gap-4">
                         <motion.button
@@ -1071,15 +1072,15 @@ const Triceps = () => {
                         {workoutType} - {level} Level
                     </h2>
                     <p className="text-gray-400 mb-4">
-                        Exercise {currentIndex + 1} of {tricepsWorkouts[workoutType]?.[level]?.length}
+                        Exercise {currentIndex + 1} of {shoulderWorkouts[workoutType]?.[level]?.length}
                     </p>
                     
                     {/* Progress Bar */}
                     <div className="w-full bg-gray-700 rounded-full h-2 mb-6">
                         <div 
-                            className="bg-gradient-to-r from-green-500 to-teal-600 h-2 rounded-full transition-all duration-500"
+                            className="bg-gradient-to-r from-yellow-500 to-orange-600 h-2 rounded-full transition-all duration-500"
                             style={{ 
-                                width: `${((currentIndex + 1) / (tricepsWorkouts[workoutType]?.[level]?.length || 1)) * 100}%` 
+                                width: `${((currentIndex + 1) / (shoulderWorkouts[workoutType]?.[level]?.length || 1)) * 100}%` 
                             }}
                         />
                     </div>
@@ -1127,7 +1128,7 @@ const Triceps = () => {
                             <div className="text-gray-400 mb-2">Target Muscles:</div>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {currentExercise.targetMuscles.map((muscle, idx) => (
-                                    <span key={idx} className="bg-green-600 bg-opacity-30 px-3 py-1 rounded-full text-sm">
+                                    <span key={idx} className="bg-yellow-600 bg-opacity-30 px-3 py-1 rounded-full text-sm">
                                         {muscle}
                                     </span>
                                 ))}
@@ -1143,7 +1144,7 @@ const Triceps = () => {
                         whileHover="hover"
                         whileTap="tap"
                         onClick={toggleInstructions}
-                        className="mb-4 bg-green-600 bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all"
+                        className="mb-4 bg-yellow-600 bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all"
                     >
                         {showInstructions ? '📖 Hide Instructions' : '📖 Show Instructions'}
                     </motion.button>
@@ -1181,9 +1182,9 @@ const Triceps = () => {
                         whileHover="hover"
                         whileTap="tap"
                         onClick={nextExercise}
-                        className="bg-gradient-to-r from-green-500 to-teal-600 text-white text-xl px-8 py-4 rounded-xl font-bold shadow-xl hover:from-green-600 hover:to-teal-700 transition-all duration-300 w-full"
+                        className="bg-gradient-to-r from-yellow-500 to-orange-600 text-white text-xl px-8 py-4 rounded-xl font-bold shadow-xl hover:from-yellow-600 hover:to-orange-700 transition-all duration-300 w-full"
                     >
-                        {currentIndex === (tricepsWorkouts[workoutType]?.[level]?.length || 1) - 1
+                        {currentIndex === (shoulderWorkouts[workoutType]?.[level]?.length || 1) - 1
                             ? "🎉 Finish Workout"
                             : "➡️ Next Exercise"}
                     </motion.button>
@@ -1210,13 +1211,13 @@ const Triceps = () => {
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -100 }}
-                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-500 to-teal-600 p-4 rounded-xl shadow-2xl z-50 max-w-sm mx-4"
+                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-500 to-orange-600 p-4 rounded-xl shadow-2xl z-50 max-w-sm mx-4"
             >
                 <div className="text-center">
                     <div className="text-4xl mb-2">{newAchievement.icon}</div>
                     <div className="font-bold text-white mb-1">Achievement Unlocked!</div>
-                    <div className="text-sm text-green-100">{newAchievement.name}</div>
-                    <div className="text-xs text-green-200">{newAchievement.description}</div>
+                    <div className="text-sm text-yellow-100">{newAchievement.name}</div>
+                    <div className="text-xs text-yellow-200">{newAchievement.description}</div>
                 </div>
             </motion.div>
         );
@@ -1230,8 +1231,8 @@ const Triceps = () => {
             animate="animate"
             className={`min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
                 theme === 'dark' 
-                    ? 'bg-gradient-to-br from-gray-900 via-green-900 to-teal-900 text-white' 
-                    : 'bg-gradient-to-br from-green-50 via-teal-50 to-emerald-50 text-gray-900'
+                    ? 'bg-gradient-to-br from-gray-900 via-yellow-900 to-orange-900 text-white' 
+                    : 'bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 text-gray-900'
             }`}
         >
             <div className="max-w-6xl mx-auto">
@@ -1248,4 +1249,4 @@ const Triceps = () => {
     );
 };
 
-export default Triceps;
+export default Shoulder;

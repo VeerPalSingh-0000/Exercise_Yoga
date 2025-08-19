@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import motivationalSound from "../assets/workout_motivation.mp3";
+import motivationalSound from "../assets/sounds/workout_motivation.mp3";
 
 // Warmup and strecthing
-import JumpingJacks from "../images/Warmup and stretch/jumping-jack.gif"
-import Armforward from "../images/Warmup and stretch/arm-circle-forward.gif"
-import ArmReverse from "../images/Warmup and stretch/Reverse-Arm-Circles.gif"
-import DynamicStretch from "../images/Warmup and stretch/dynamic-chest-stretch.gif"
+import JumpingJacks from "../assets/images/Warmup and stretch/jumping-jack.gif"
+import Armforward from "../assets/images/Warmup and stretch/arm-circle-forward.gif"
+import ArmReverse from "../assets/images/Warmup and stretch/Reverse-Arm-Circles.gif"
+import DynamicStretch from "../assets/images/Warmup and stretch/dynamic-chest-stretch.gif"
 
-import childPose from "../images/Warmup and stretch/child-pose.jpg"
-import cobraPose from "../images/Warmup and stretch/cobra-pose.avif"
-import catCowPose from "../images/Warmup and stretch/cat-cow.webp"
-import staticChest from "../images/Warmup and stretch/static-chest-stretch.jpg"
-import overheadTricep from "../images/Warmup and stretch/tricep-stretch.jpg"
+import childPose from "../assets/images/Warmup and stretch/child-pose.jpg"
+import cobraPose from "../assets/images/Warmup and stretch/cobra-pose.avif"
+import catCowPose from "../assets/images/Warmup and stretch/cat-cow.webp"
+import staticChest from "../assets/images/Warmup and stretch/static-chest-stretch.jpg"
+import overheadTricep from "../assets/images/Warmup and stretch/tricep-stretch.jpg"
 
 // ======================== HELPER FUNCTIONS ========================
 const formatTime = (totalSeconds) => {

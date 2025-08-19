@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import motivationalSound from "../assets/workout_motivation.mp3";
+import motivationalSound from "../assets/sounds/workout_motivation.mp3";
 
 // ======================== HELPER FUNCTIONS ========================
 const formatTime = (totalSeconds) => {
@@ -57,44 +57,26 @@ const warmupExercises = [
         tips: "Focus on controlled movements, don't rush."
     },
     { 
-        name: "Warm-up: Wrist Curls (Light/No Weight)", 
-        img: "https://www.verywellfit.com/thmb/ToOlI6kmhRUNeGqDbvo3tVJK-fQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/wristcurl-1056698feeaa4cf88a7586827ad70895.gif", 
+        name: "Warm-up: Torso Twists", 
+        img: "https://cdn.jefit.com/assets/img/exercises/gifs/677.gif", 
+        duration: "30 seconds",
+        difficulty: 2,
+        instructions: "Stand with feet shoulder-width apart, hands on hips. Rotate torso left and right while keeping hips stable.",
+        targetMuscles: ["Core", "Back"],
+        tips: "Keep your core engaged throughout the movement."
+    },
+    { 
+        name: "Warm-up: Cat-Cow Stretch", 
+        img: "https://www.yogajournal.com/wp-content/uploads/2020/01/cat-cow-1.gif?width=730", 
         duration: "30 seconds",
         difficulty: 1,
-        instructions: "Perform light wrist curls to warm up forearms and prepare for bicep exercises.",
-        targetMuscles: ["Forearms", "Wrists"],
-        tips: "Use very light weight or no weight for warm-up."
+        instructions: "On hands and knees, alternate between arching back (cow) and rounding spine (cat).",
+        targetMuscles: ["Back", "Core"],
+        tips: "Move slowly and coordinate with your breathing."
     },
 ];
 
 const cooldownStretches = [
-    { 
-        name: "Cooldown: Bicep Wall Stretch", 
-        img: "https://post.healthline.com/wp-content/uploads/2019/06/Wall-bicep-stretch-.gif", 
-        duration: "30 seconds each arm",
-        difficulty: 1,
-        instructions: "Place palm against wall, slowly turn body away to stretch bicep and chest.",
-        targetMuscles: ["Biceps", "Chest"],
-        tips: "Don't force the stretch - go to comfortable tension only."
-    },
-    { 
-        name: "Cooldown: Wrist Extensor Stretch", 
-        img: "https://www.spotebi.com/wp-content/uploads/2015/04/wrist-stretch-exercise-illustration.gif", 
-        duration: "30 seconds each wrist",
-        difficulty: 1,
-        instructions: "Extend arm forward, gently pull fingers back with other hand to stretch forearm.",
-        targetMuscles: ["Forearms", "Wrists"],
-        tips: "Hold gentle tension for 30 seconds on each side."
-    },
-    { 
-        name: "Cooldown: Overhead Triceps Stretch", 
-        img: "https://www.vissco.com/wp-content/uploads/animation/sub/triceps-stretch.gif", 
-        duration: "30 seconds each arm",
-        difficulty: 1,
-        instructions: "Reach one arm overhead, bend elbow, use other hand to gently pull elbow.",
-        targetMuscles: ["Triceps", "Shoulders"],
-        tips: "This also helps stretch the bicep indirectly."
-    },
     { 
         name: "Cooldown: Child's Pose", 
         img: "https://media.post.rvohealth.io/wp-content/uploads/2018/07/Childs-Pose-Balasana.gif", 
@@ -104,50 +86,87 @@ const cooldownStretches = [
         targetMuscles: ["Back", "Shoulders"],
         tips: "Focus on deep breathing and let gravity help you stretch."
     },
+    { 
+        name: "Cooldown: Cobra Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824-Cobra_Stretch-1200x628-facebook.jpg", 
+        duration: "30 seconds",
+        difficulty: 2,
+        instructions: "Lie face down, place palms under shoulders, slowly push up arching your back.",
+        targetMuscles: ["Chest", "Hip Flexors"],
+        tips: "Keep hips on ground and don't overextend your back."
+    },
+    { 
+        name: "Cooldown: Knees-to-Chest Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/8245-Knees_To_Chest_Stretch-1200x628-facebook.jpg", 
+        duration: "30 seconds",
+        difficulty: 1,
+        instructions: "Lie on back, pull both knees toward chest and hold gently.",
+        targetMuscles: ["Lower Back", "Hips"],
+        tips: "Rock gently side to side for added benefit."
+    },
+    { 
+        name: "Cooldown: Standing Forward Bend", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/8250_Standing_Forward_Bend-1200x628-facebook.jpg", 
+        duration: "30 seconds",
+        difficulty: 2,
+        instructions: "Stand with feet hip-width apart, fold forward letting arms hang naturally.",
+        targetMuscles: ["Hamstrings", "Calves", "Back"],
+        tips: "Bend knees slightly if hamstrings are tight."
+    },
 ];
 
-const bicepsWorkouts = {
+const absWorkouts = {
     Home: {
         Beginner: [
             ...warmupExercises,
             { 
-                name: "Isometric Bicep Contraction", 
-                img: "https://www.inspireusafoundation.org/wp-content/uploads/2023/04/wall-push-ups.gif", 
-                reps: "3 sets × 15-20 sec hold each arm",
+                name: "Crunches", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/crunch-1457102356.gif?resize=640:*", 
+                reps: "3 sets × 15 reps",
                 difficulty: 2,
-                instructions: "Press one arm against wall or use other hand to provide resistance. Contract bicep and hold.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "Focus on really squeezing the bicep muscle during the hold.",
+                instructions: "Lie on back, knees bent, feet flat. Place hands behind head, lift shoulders off ground using core muscles.",
+                targetMuscles: ["Upper Abs", "Core"],
+                tips: "Don't pull on your neck. Focus on lifting with your core.",
                 restTime: 45
             },
             { 
-                name: "Towel Bicep Curls", 
-                img: "https://cdn.shopify.com/s/files/1/0618/9462/3460/files/StandingBicepCurl.gif", 
-                reps: "3 sets × 12-15 reps",
-                difficulty: 2,
-                instructions: "Loop towel under foot, hold ends, provide resistance as you curl up against your own force.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "Control both the up and down portions of the movement.",
+                name: "Leg Raises", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/08/legraise-1472054568.gif", 
+                reps: "3 sets × 12 reps",
+                difficulty: 3,
+                instructions: "Lie on back, legs straight. Lift legs to 90 degrees, lower slowly without touching ground.",
+                targetMuscles: ["Lower Abs", "Hip Flexors"],
+                tips: "Press lower back into floor and control the movement.",
                 restTime: 60
             },
             { 
-                name: "Door Frame Rows (Underhand Grip)", 
-                img: "https://www.nerdfitness.com/wp-content/uploads/2020/04/doorway-row.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 3,
-                instructions: "Hold door frame with underhand grip, lean back and pull body toward door using biceps.",
-                targetMuscles: ["Biceps", "Back", "Rear Delts"],
-                tips: "Ensure door frame is sturdy. Focus on bicep contraction.",
-                restTime: 75
+                name: "Dead Bug", 
+                img: "https://media2.giphy.com/media/aIyZ9Ra6pyo5ZOHQsm/giphy.gif", 
+                reps: "3 sets × 10 reps each side",
+                difficulty: 2,
+                instructions: "Lie on back, arms up, knees at 90 degrees. Lower opposite arm and leg, return to start.",
+                targetMuscles: ["Core", "Stability"],
+                tips: "Keep lower back pressed to floor throughout movement.",
+                restTime: 45
             },
             { 
-                name: "Wall Pulls / Scapular Retraction", 
-                img: "https://i.pinimg.com/originals/82/77/25/827725c8e3653c95be7a09d0611523c2.gif", 
-                reps: "3 sets × 15 reps",
+                name: "Russian Twists (no weight)", 
+                img: "https://hw.qld.gov.au/wp-content/uploads/2015/07/25_M_WIP02.gif", 
+                reps: "3 sets × 20 twists",
                 difficulty: 2,
-                instructions: "Stand facing wall, pull body toward wall focusing on bicep and back activation.",
-                targetMuscles: ["Biceps", "Back", "Rear Delts"],
-                tips: "Squeeze shoulder blades together and engage biceps.",
+                instructions: "Sit with knees bent, lean back slightly. Rotate torso side to side, touching ground alternately.",
+                targetMuscles: ["Obliques", "Core"],
+                tips: "Keep chest up and core engaged throughout.",
+                restTime: 45
+            },
+            { 
+                name: "Plank", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/hdm119918mh15842-1545237096.png", 
+                reps: "3 sets × 30 sec hold",
+                difficulty: 3,
+                instructions: "Hold push-up position on forearms, body in straight line from head to heels.",
+                targetMuscles: ["Core", "Shoulders", "Glutes"],
+                tips: "Don't let hips sag or pike up. Breathe normally.",
                 restTime: 60
             },
             ...cooldownStretches
@@ -155,98 +174,128 @@ const bicepsWorkouts = {
         Intermediate: [
             ...warmupExercises,
             { 
-                name: "Chin-Up Negatives", 
-                img: "https://i.pinimg.com/originals/82/77/25/827725c8e3653c95be7a09d0611523c2.gif", 
-                reps: "3 sets × 5-8 reps",
-                difficulty: 4,
-                instructions: "Jump or step up to chin-up position, slowly lower yourself down taking 3-5 seconds.",
-                targetMuscles: ["Biceps", "Lats", "Back"],
-                tips: "Focus on controlling the descent. This builds strength for full chin-ups.",
-                restTime: 90
-            },
-            { 
-                name: "Inverted Rows (Underhand Grip, feet elevated)", 
-                img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2023/03/inverted-row-with-underhand-grip-new.gif?fit=600%2C600&ssl=1", 
-                reps: "3 sets × 8-12 reps",
-                difficulty: 4,
-                instructions: "Lie under table, grip edge with underhand grip, pull chest to table with feet elevated.",
-                targetMuscles: ["Biceps", "Back", "Rear Delts"],
-                tips: "Elevating feet increases difficulty. Focus on bicep squeeze.",
-                restTime: 90
-            },
-            { 
-                name: "Bodyweight Hammer Curls (using towel tension)", 
-                img: "https://i.pinimg.com/originals/fe/0a/85/fe0a853605de67a2b6bc33ce1e4ad8a8.gif", 
-                reps: "3 sets × 10-12 reps",
+                name: "Bicycle Crunches", 
+                img: "https://i.pinimg.com/originals/fc/4b/07/fc4b07092d4233d268d43c40dec321d0.gif", 
+                reps: "3 sets × 20 reps",
                 difficulty: 3,
-                instructions: "Use towel or band to create resistance for hammer curl motion (neutral grip).",
-                targetMuscles: ["Biceps", "Brachialis", "Forearms"],
-                tips: "Neutral grip targets different part of bicep and forearms.",
+                instructions: "Lie on back, hands behind head. Bring knee to opposite elbow in cycling motion.",
+                targetMuscles: ["Obliques", "Upper Abs"],
+                tips: "Focus on rotation, not speed. Control the movement.",
+                restTime: 60
+            },
+            { 
+                name: "Reverse Crunches", 
+                img: "https://images.ctfassets.net/6ilvqec50fal/60HBk95X0A7Yh2xfHBkIGE/bbf8f4c8cf49827a7e91836351419792/reverse-crunch-andy-speer.gif", 
+                reps: "3 sets × 15 reps",
+                difficulty: 3,
+                instructions: "Lie on back, knees bent. Pull knees toward chest, lifting hips off ground.",
+                targetMuscles: ["Lower Abs", "Core"],
+                tips: "Use core to lift hips, not momentum.",
+                restTime: 60
+            },
+            { 
+                name: "Plank to Shoulder Taps", 
+                img: "https://i.pinimg.com/originals/08/b1/f8/08b1f8a8de39bc33916af4547dc04b5a.gif", 
+                reps: "3 sets × 20 taps",
+                difficulty: 4,
+                instructions: "Hold plank position, alternate tapping opposite shoulder while maintaining stability.",
+                targetMuscles: ["Core", "Shoulders", "Stability"],
+                tips: "Keep hips level and minimize body rotation.",
                 restTime: 75
             },
             { 
-                name: "Concentration Curls (Isometric against leg)", 
-                img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Concentration-curl.gif?fit=600%2C600&ssl=1", 
-                reps: "3 sets × 10-15 sec hold each arm",
+                name: "Flutter Kicks", 
+                img: "https://i.pinimg.com/originals/26/a7/50/26a750b15b8e6f3b05976b406d52f7b1.gif", 
+                reps: "3 sets × 30 seconds",
                 difficulty: 3,
-                instructions: "Sit down, brace elbow against inner thigh, curl up and hold the contraction.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "Really focus on the peak contraction and squeeze.",
-                restTime: 75
+                instructions: "Lie on back, lift legs slightly. Alternate small up and down leg movements.",
+                targetMuscles: ["Lower Abs", "Hip Flexors"],
+                tips: "Keep movements small and controlled. Press back into floor.",
+                restTime: 60
+            },
+            { 
+                name: "Side Plank (Left)", 
+                img: "https://experiencelife.lifetime.life/wp-content/uploads/2021/07/bid-side-plank.jpg", 
+                reps: "3 sets × 30 sec",
+                difficulty: 4,
+                instructions: "Lie on side, prop up on forearm. Lift hips creating straight line from head to feet.",
+                targetMuscles: ["Obliques", "Core", "Shoulders"],
+                tips: "Keep hips up and body in straight line.",
+                restTime: 45
+            },
+            { 
+                name: "Side Plank (Right)", 
+                img: "https://ik.imagekit.io/02fmeo4exvw/exercise-library/large/101-2.jpg", 
+                reps: "3 sets × 30 sec",
+                difficulty: 4,
+                instructions: "Same as left side plank but on right side.",
+                targetMuscles: ["Obliques", "Core", "Shoulders"],
+                tips: "Keep hips up and body in straight line.",
+                restTime: 60
             },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
             { 
-                name: "Chin-Ups", 
-                img: "https://www.verywellfit.com/thmb/MfbjgOZJaqecnhZSvKl8H2YLfvs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/67-3120735-Pullups-GIF-b08bf524e15c4bb2a70c7fc43e1fe9c0.gif", 
-                reps: "3 sets × AMRAP",
+                name: "V-Ups", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/08/vupmodifiedwithhands-1472155234.gif", 
+                reps: "3 sets × 20 reps",
                 difficulty: 5,
-                instructions: "Hang from bar with underhand grip, pull body up until chin clears bar. Lower with control.",
-                targetMuscles: ["Biceps", "Lats", "Back"],
-                tips: "Underhand grip emphasizes biceps more than overhand pull-ups.",
-                restTime: 120
+                instructions: "Lie flat, simultaneously lift legs and torso to meet in V-shape. Lower with control.",
+                targetMuscles: ["Full Core", "Hip Flexors"],
+                tips: "Use core strength, not momentum. Control both up and down.",
+                restTime: 90
             },
             { 
-                name: "Towel Hang (Underhand Grip)", 
-                img: "https://barbend.com/wp-content/uploads/2023/12/towel-pullup-barbend-movement-gif-masters.gif", 
-                reps: "3 sets × Max Hold Time",
-                difficulty: 5,
-                instructions: "Hang from towels with underhand grip for maximum time to build grip and bicep strength.",
-                targetMuscles: ["Biceps", "Forearms", "Grip Strength"],
-                tips: "This is extremely challenging - builds incredible grip and bicep endurance.",
-                restTime: 120
+                name: "Mountain Climbers", 
+                img: "https://i.pinimg.com/originals/32/a7/d0/32a7d00d6123dd416e459ba67cf1691b.gif", 
+                reps: "3 sets × 30 sec",
+                difficulty: 4,
+                instructions: "Start in plank, alternate bringing knees to chest in running motion.",
+                targetMuscles: ["Core", "Cardio", "Shoulders"],
+                tips: "Keep hips level and core tight throughout.",
+                restTime: 75
             },
             { 
-                name: "One-Arm Door Frame Rows (Underhand)", 
-                img: "https://i.makeagif.com/media/8-26-2015/yPAHwb.gif", 
-                reps: "3 sets × 8-10 reps each side",
-                difficulty: 5,
-                instructions: "Single-arm door frame rows with underhand grip focusing on bicep isolation.",
-                targetMuscles: ["Biceps", "Back", "Core"],
-                tips: "Advanced exercise - requires significant unilateral strength.",
-                restTime: 120
+                name: "Toe Touches (Legs Up)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/76.gif", 
+                reps: "3 sets × 15 reps",
+                difficulty: 4,
+                instructions: "Lie on back, legs straight up. Reach hands toward toes, lifting shoulders off ground.",
+                targetMuscles: ["Upper Abs", "Core"],
+                tips: "Lift with core, not neck. Keep legs straight.",
+                restTime: 75
             },
             { 
-                name: "Pelican Curls", 
-                img: "https://bodyweighttrainingarena.com/wp-content/uploads/2020/08/Pelican-Curls-Low-Bicep-exercises.gif", 
-                reps: "3 sets × 6-10 reps",
+                name: "Russian Twists (with weight)", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/108-weighted-russian-twists-1579279935.gif", 
+                reps: "3 sets × 20 twists",
                 difficulty: 5,
-                instructions: "Using rings or suspension trainer, curl your body up focusing on bicep contraction.",
-                targetMuscles: ["Biceps", "Core", "Shoulders"],
-                tips: "Extremely advanced exercise. Master regular chin-ups first.",
-                restTime: 120
+                instructions: "Hold weight, lean back slightly. Rotate torso side to side touching ground.",
+                targetMuscles: ["Obliques", "Core"],
+                tips: "Control the weight, don't let it control you.",
+                restTime: 90
             },
             { 
-                name: "Commando Pull-Ups (alternating grip)", 
-                img: "https://dl.beigi.fit/harakat/Lats-muscles/Alt-commando-pullup.gif", 
-                reps: "3 sets × 6-10 reps total",
+                name: "Plank to Elbow + Reach Out", 
+                img: "https://cdn.shopify.com/s/files/1/0330/6521/files/1.gif?v=1597238005", 
+                reps: "3 sets × 12 reps each arm",
                 difficulty: 5,
-                instructions: "Pull-up bringing head to alternate sides of bar, emphasizing unilateral bicep work.",
-                targetMuscles: ["Biceps", "Lats", "Core"],
-                tips: "Very advanced. Requires mastery of regular chin-ups first.",
-                restTime: 120
+                instructions: "Start in plank, lower to elbows one at a time, then extend one arm forward.",
+                targetMuscles: ["Core", "Shoulders", "Stability"],
+                tips: "Minimize hip movement and maintain core tension.",
+                restTime: 90
+            },
+            { 
+                name: "Side Plank with Hip Dips", 
+                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/08/hipup-1472221358.gif", 
+                reps: "3 sets × 15 dips each side",
+                difficulty: 5,
+                instructions: "Hold side plank, lower hip toward ground then lift back up repeatedly.",
+                targetMuscles: ["Obliques", "Core", "Glutes"],
+                tips: "Control the movement and keep body aligned.",
+                restTime: 90
             },
             ...cooldownStretches
         ],
@@ -255,142 +304,102 @@ const bicepsWorkouts = {
         Beginner: [
             ...warmupExercises,
             { 
-                name: "Machine Bicep Curls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/123.gif", 
+                name: "Cable Crunches", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/30.gif", 
                 reps: "3 sets × 12-15 reps",
                 difficulty: 2,
-                instructions: "Sit at bicep curl machine, adjust seat height, curl weights up focusing on bicep contraction.",
-                targetMuscles: ["Biceps"],
-                tips: "Machine provides stability - perfect for beginners to learn movement.",
-                restTime: 75
+                instructions: "Kneel facing cable machine, hold rope attachment, crunch down bringing elbows to knees.",
+                targetMuscles: ["Upper Abs", "Core"],
+                tips: "Focus on core flexion, not arm pull.",
+                restTime: 60
             },
             { 
-                name: "Seated Dumbbell Curls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/102.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 2,
-                instructions: "Sit on bench, curl dumbbells up with control, focusing on bicep squeeze at top.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "Seated position eliminates momentum. Keep elbows at sides.",
-                restTime: 75
-            },
-            { 
-                name: "Seated Dumbbell Hammer Curls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/98.gif", 
-                reps: "3 sets × 12-15 reps",
-                difficulty: 2,
-                instructions: "Seated hammer curls with neutral grip, targets different part of bicep and forearms.",
-                targetMuscles: ["Biceps", "Brachialis", "Forearms"],
-                tips: "Neutral grip reduces wrist stress and targets brachialis muscle.",
-                restTime: 75
-            },
-            { 
-                name: "Standing Cable Curls (EZ Bar)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/114.gif", 
-                reps: "3 sets × 12-15 reps",
+                name: "Hanging Knee Raises", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/398.gif", 
+                reps: "3 sets × 8-12 reps",
                 difficulty: 3,
-                instructions: "Stand at cable machine, curl EZ bar attachment focusing on constant tension.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "Cable provides constant tension throughout entire range of motion.",
-                restTime: 75
+                instructions: "Hang from pull-up bar, raise knees toward chest, lower with control.",
+                targetMuscles: ["Lower Abs", "Hip Flexors"],
+                tips: "Don't swing. Use core to lift knees.",
+                restTime: 90
+            },
+            { 
+                name: "Ab Wheel Rollouts (Assisted)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/142.gif", 
+                reps: "3 sets × 8-10 reps",
+                difficulty: 4,
+                instructions: "Kneel holding ab wheel, roll forward maintaining straight line, return to start.",
+                targetMuscles: ["Full Core", "Shoulders"],
+                tips: "Start with partial range of motion.",
+                restTime: 90
             },
             ...cooldownStretches
         ],
         Intermediate: [
             ...warmupExercises,
             { 
-                name: "Standing Barbell Curls (EZ Bar)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/100.gif", 
-                reps: "3 sets × 8-10 reps",
+                name: "Weighted Crunches", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/31.gif", 
+                reps: "3 sets × 10-12 reps",
                 difficulty: 3,
-                instructions: "Standing EZ bar curls with proper form, focusing on bicep peak contraction.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "EZ bar is easier on wrists than straight bar. Avoid swinging.",
-                restTime: 90
+                instructions: "Hold weight plate on chest, perform crunches with added resistance.",
+                targetMuscles: ["Upper Abs", "Core"],
+                tips: "Control the weight and focus on core contraction.",
+                restTime: 75
             },
             { 
-                name: "Incline Dumbbell Curls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/104.gif", 
-                reps: "3 sets × 10-12 reps",
+                name: "Cable Wood Chops", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/450.gif", 
+                reps: "3 sets × 12 reps each side",
                 difficulty: 4,
-                instructions: "Lie on incline bench, curl dumbbells up from stretched position for maximum range.",
-                targetMuscles: ["Biceps", "Long Head"],
-                tips: "Incline position provides greater stretch and targets long head of bicep.",
-                restTime: 90
+                instructions: "Stand sideways to cable, pull across body from high to low in chopping motion.",
+                targetMuscles: ["Obliques", "Core", "Rotation"],
+                tips: "Rotate through core, not just arms.",
+                restTime: 75
             },
             { 
-                name: "Cable Hammer Curls (Rope)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/106.gif", 
+                name: "Decline Sit-ups", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/26.gif", 
                 reps: "3 sets × 12-15 reps",
-                difficulty: 3,
-                instructions: "Use rope attachment for hammer curls, focus on squeezing at the top.",
-                targetMuscles: ["Biceps", "Brachialis", "Forearms"],
-                tips: "Rope allows for natural hand position and good forearm activation.",
-                restTime: 75
-            },
-            { 
-                name: "Concentration Curls (Dumbbell)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/103.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 3,
-                instructions: "Sit on bench, brace elbow against inner thigh, perform isolated bicep curls.",
-                targetMuscles: ["Biceps"],
-                tips: "Pure isolation exercise. Focus on peak contraction and control.",
-                restTime: 75
+                difficulty: 4,
+                instructions: "On decline bench, perform sit-ups against gravity for increased difficulty.",
+                targetMuscles: ["Full Core", "Hip Flexors"],
+                tips: "Control the movement, don't use momentum.",
+                restTime: 90
             },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
             { 
-                name: "Standing Barbell Curls (Straight Bar)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/99.gif", 
-                reps: "4 sets × 6-8 reps",
-                difficulty: 4,
-                instructions: "Heavy straight bar curls focusing on strength and progressive overload.",
-                targetMuscles: ["Biceps", "Forearms"],
-                tips: "Straight bar is harder on wrists but allows heavier weight. Use proper form.",
+                name: "Dragon Flags", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/188.gif", 
+                reps: "3 sets × 5-8 reps",
+                difficulty: 5,
+                instructions: "Lie on bench, hold behind head, lift entire body keeping it straight, lower slowly.",
+                targetMuscles: ["Full Core", "Lower Abs"],
+                tips: "Extremely advanced. Start with negatives only.",
                 restTime: 120
             },
             { 
-                name: "Preacher Curls (EZ Bar)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/101.gif", 
+                name: "Weighted Hanging Leg Raises", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/399.gif", 
                 reps: "3 sets × 8-10 reps",
-                difficulty: 4,
-                instructions: "Use preacher bench to isolate biceps, preventing momentum and ensuring strict form.",
-                targetMuscles: ["Biceps", "Short Head"],
-                tips: "Preacher position targets short head of bicep. Don't fully extend at bottom.",
-                restTime: 90
-            },
-            { 
-                name: "High Cable Curls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/110.gif", 
-                reps: "3 sets × 12-15 reps",
-                difficulty: 4,
-                instructions: "Stand between cables set high, curl handles toward head in crucifix position.",
-                targetMuscles: ["Biceps", "Peak"],
-                tips: "Unique angle targets bicep peak. Great for finishing move.",
-                restTime: 75
-            },
-            { 
-                name: "Weighted Chin-Ups", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/229.gif", 
-                reps: "3 sets × 5-8 reps",
                 difficulty: 5,
-                instructions: "Perform chin-ups with additional weight via belt or vest for increased resistance.",
-                targetMuscles: ["Biceps", "Lats", "Back"],
-                tips: "Master bodyweight chin-ups first. Add weight gradually.",
-                restTime: 150
+                instructions: "Hang from bar with ankle weights, raise legs to 90 degrees.",
+                targetMuscles: ["Lower Abs", "Hip Flexors"],
+                tips: "Control the swing and use core strength.",
+                restTime: 120
             },
             { 
-                name: "Reverse Barbell Curls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/109.gif", 
+                name: "Ab Wheel Rollouts (Full)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/143.gif", 
                 reps: "3 sets × 10-12 reps",
-                difficulty: 3,
-                instructions: "Overhand grip barbell curls targeting brachialis and forearm extensors.",
-                targetMuscles: ["Brachialis", "Forearms", "Biceps"],
-                tips: "Great for building forearm strength and overall arm size.",
-                restTime: 90
+                difficulty: 5,
+                instructions: "Full range ab wheel rollouts from knees or standing position.",
+                targetMuscles: ["Full Core", "Shoulders", "Back"],
+                tips: "Master kneeling version before attempting standing.",
+                restTime: 120
             },
             ...cooldownStretches
         ],
@@ -399,34 +408,34 @@ const bicepsWorkouts = {
 
 // ======================== ACHIEVEMENTS SYSTEM ========================
 const achievements = [
-    { id: 1, name: "First Flex", description: "Complete your first biceps workout", icon: "💪", unlocked: false },
-    { id: 2, name: "Curl Master", description: "Complete 5 biceps workouts", icon: "🏋️", unlocked: false },
-    { id: 3, name: "Steel Guns", description: "Complete 10 biceps workouts", icon: "🔫", unlocked: false },
+    { id: 1, name: "First Burn", description: "Complete your first abs workout", icon: "🔥", unlocked: false },
+    { id: 2, name: "Core Warrior", description: "Complete 5 abs workouts", icon: "⚡", unlocked: false },
+    { id: 3, name: "Steel Core", description: "Complete 10 abs workouts", icon: "🛡️", unlocked: false },
     { id: 4, name: "Beast Mode", description: "Complete a Hard level workout", icon: "🦍", unlocked: false },
-    { id: 5, name: "Iron Will", description: "Workout for 30+ minutes", icon: "⚡", unlocked: false },
-    { id: 6, name: "Bicep King", description: "Complete 20 biceps workouts", icon: "👑", unlocked: false },
+    { id: 5, name: "Iron Will", description: "Workout for 30+ minutes", icon: "💪", unlocked: false },
+    { id: 6, name: "Core Master", description: "Complete 20 abs workouts", icon: "👑", unlocked: false },
 ];
 
 // ======================== MAIN COMPONENT ========================
-const Biceps = () => {
+const Abs = () => {
     // ======================== STATE MANAGEMENT ========================
     const [workoutType, setWorkoutType] = useState('Home');
     const [level, setLevel] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [audio] = useState(new Audio(motivationalSound));
-    const [isSoundEnabled, setIsSoundEnabled] = useState(() => getStorageItem('bicepsSoundEnabled', true));
+    const [isSoundEnabled, setIsSoundEnabled] = useState(() => getStorageItem('absSoundEnabled', true));
     const [timer, setTimer] = useState(0);
     const [restTimer, setRestTimer] = useState(0);
     const [isResting, setIsResting] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
-    const [workoutHistory, setWorkoutHistory] = useState(() => getStorageItem('bicepsWorkoutHistory', []));
-    const [userAchievements, setUserAchievements] = useState(() => getStorageItem('bicepsUserAchievements', achievements));
-    const [theme, setTheme] = useState(() => getStorageItem('bicepsTheme', 'dark'));
+    const [workoutHistory, setWorkoutHistory] = useState(() => getStorageItem('absWorkoutHistory', []));
+    const [userAchievements, setUserAchievements] = useState(() => getStorageItem('absUserAchievements', achievements));
+    const [theme, setTheme] = useState(() => getStorageItem('absTheme', 'dark'));
     const [showStats, setShowStats] = useState(false);
     const [completedSets, setCompletedSets] = useState(0);
     const [totalSets, setTotalSets] = useState(0);
-    const [lastWorkoutInfo, setLastWorkoutInfo] = useState(() => getStorageItem('lastBicepsWorkout', null));
+    const [lastWorkoutInfo, setLastWorkoutInfo] = useState(() => getStorageItem('lastAbsWorkout', null));
     const [newAchievement, setNewAchievement] = useState(null);
 
     const intervalRef = useRef(null);
@@ -434,11 +443,11 @@ const Biceps = () => {
 
     // ======================== EFFECTS ========================
     useEffect(() => {
-        setStorageItem('bicepsSoundEnabled', isSoundEnabled);
+        setStorageItem('absSoundEnabled', isSoundEnabled);
     }, [isSoundEnabled]);
 
     useEffect(() => {
-        setStorageItem('bicepsTheme', theme);
+        setStorageItem('absTheme', theme);
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
@@ -447,11 +456,11 @@ const Biceps = () => {
     }, [theme]);
 
     useEffect(() => {
-        setStorageItem('bicepsWorkoutHistory', workoutHistory);
+        setStorageItem('absWorkoutHistory', workoutHistory);
     }, [workoutHistory]);
 
     useEffect(() => {
-        setStorageItem('bicepsUserAchievements', userAchievements);
+        setStorageItem('absUserAchievements', userAchievements);
     }, [userAchievements]);
 
     // Audio Effect
@@ -544,7 +553,7 @@ const Biceps = () => {
 
     const calculateTotalSets = useCallback(() => {
         if (!workoutType || !level) return 0;
-        const workout = bicepsWorkouts[workoutType]?.[level];
+        const workout = absWorkouts[workoutType]?.[level];
         if (!workout) return 0;
         
         return workout.filter(exercise => exercise.reps && exercise.reps.includes('sets')).length;
@@ -552,8 +561,8 @@ const Biceps = () => {
 
     // ======================== WORKOUT FUNCTIONS ========================
     const startWorkout = (lvl) => {
-        if (!bicepsWorkouts[workoutType]?.[lvl]?.length) {
-            alert(`No ${lvl} biceps workouts available for ${workoutType}.`);
+        if (!absWorkouts[workoutType]?.[lvl]?.length) {
+            alert(`No ${lvl} abs workouts available for ${workoutType}.`);
             return;
         }
         
@@ -598,14 +607,14 @@ const Biceps = () => {
             const newHistory = [workoutData, ...workoutHistory.slice(0, 9)];
             setWorkoutHistory(newHistory);
             setLastWorkoutInfo(workoutData);
-            setStorageItem("lastBicepsWorkout", workoutData);
+            setStorageItem("lastAbsWorkout", workoutData);
             
             checkAchievements(workoutData);
         }
     };
 
     const nextExercise = () => {
-        const currentWorkoutList = bicepsWorkouts[workoutType]?.[level];
+        const currentWorkoutList = absWorkouts[workoutType]?.[level];
         if (!currentWorkoutList) return;
 
         const currentExercise = currentWorkoutList[currentIndex];
@@ -675,8 +684,8 @@ const Biceps = () => {
         };
     };
 
-    const currentExercise = isRunning && workoutType && level && bicepsWorkouts[workoutType]?.[level]
-        ? bicepsWorkouts[workoutType][level][currentIndex]
+    const currentExercise = isRunning && workoutType && level && absWorkouts[workoutType]?.[level]
+        ? absWorkouts[workoutType][level][currentIndex]
         : null;
 
     const stats = getWorkoutStats();
@@ -718,10 +727,10 @@ const Biceps = () => {
             <motion.h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
                 <span className={`bg-gradient-to-r ${
                     theme === 'dark' 
-                        ? 'from-blue-400 to-cyan-600' 
-                        : 'from-blue-600 to-cyan-800'
+                        ? 'from-orange-400 to-red-600' 
+                        : 'from-orange-600 to-red-800'
                 } bg-clip-text text-transparent`}>
-                    💪 Biceps Builder Pro
+                    🔥 Core Sculptor Pro
                 </span>
             </motion.h1>
             
@@ -733,8 +742,8 @@ const Biceps = () => {
                     onClick={() => setShowStats(!showStats)}
                     className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                         theme === 'dark'
-                            ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                            : 'bg-blue-500 hover:bg-blue-600 text-white'
+                            ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                            : 'bg-orange-500 hover:bg-orange-600 text-white'
                     }`}
                 >
                     📊 Stats
@@ -773,28 +782,28 @@ const Biceps = () => {
             >
                 <h3 className={`text-xl font-bold mb-4 text-center ${
                     theme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>📈 Your Biceps Progress</h3>
+                }`}>📈 Your Core Progress</h3>
                 
                 {workoutHistory.length === 0 ? (
                     <div className="text-center py-8">
-                        <div className="text-6xl mb-4">💪</div>
+                        <div className="text-6xl mb-4">🔥</div>
                         <div className={`text-xl font-semibold mb-2 ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>Ready to Flex?</div>
+                        }`}>Ready to Burn?</div>
                         <div className={`${
                             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                        }`}>Complete your first biceps workout to see statistics here!</div>
+                        }`}>Complete your first abs workout to see statistics here!</div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-blue-500">{stats.totalWorkouts}</div>
+                            <div className="text-2xl font-bold text-orange-500">{stats.totalWorkouts}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Total Workouts</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-cyan-500">{stats.totalTime}</div>
+                            <div className="text-2xl font-bold text-red-500">{stats.totalTime}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Total Time</div>
@@ -818,7 +827,7 @@ const Biceps = () => {
                 <div className="mt-6">
                     <h4 className={`text-lg font-semibold mb-3 ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
-                    }`}>🏆 Biceps Achievements</h4>
+                    }`}>🏆 Core Achievements</h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                         {userAchievements.map(achievement => (
                             <div 
@@ -826,8 +835,8 @@ const Biceps = () => {
                                 className={`p-3 rounded-lg text-center transition-all duration-300 border ${
                                     achievement.unlocked 
                                         ? theme === 'dark'
-                                            ? 'bg-blue-600 bg-opacity-30 border-blue-500'
-                                            : 'bg-blue-100 border-blue-400'
+                                            ? 'bg-orange-600 bg-opacity-30 border-orange-500'
+                                            : 'bg-orange-100 border-orange-400'
                                         : theme === 'dark'
                                             ? 'bg-gray-600 bg-opacity-30 border-gray-500'
                                             : 'bg-gray-100 border-gray-400'
@@ -875,7 +884,7 @@ const Biceps = () => {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="font-bold text-blue-500">{formatTime(workout.duration)}</div>
+                                        <div className="font-bold text-orange-500">{formatTime(workout.duration)}</div>
                                         <div className={`text-xs ${
                                             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                                         }`}>{workout.setsCompleted || 0} sets</div>
@@ -897,22 +906,22 @@ const Biceps = () => {
                 variants={itemVariants}
                 className={`mb-8 backdrop-blur-md p-4 rounded-xl border ${
                     theme === 'dark'
-                        ? 'bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border-blue-500/30'
-                        : 'bg-gradient-to-r from-blue-100/70 to-cyan-100/70 border-blue-400/50'
+                        ? 'bg-gradient-to-r from-orange-900/30 to-red-900/30 border-orange-500/30'
+                        : 'bg-gradient-to-r from-orange-100/70 to-red-100/70 border-orange-400/50'
                 }`}
             >
                 <div className="flex items-center justify-between">
                     <div>
                         <h3 className={`font-semibold ${
-                            theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
-                        }`}>🎯 Last Biceps Workout</h3>
+                            theme === 'dark' ? 'text-orange-400' : 'text-orange-600'
+                        }`}>🎯 Last Abs Workout</h3>
                         <p className={`text-sm ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
                         }`}>
                             {lastWorkoutInfo.type} - {lastWorkoutInfo.level} • {formatTime(lastWorkoutInfo.duration)} • {lastWorkoutInfo.date}
                         </p>
                     </div>
-                    <div className="text-2xl">💪</div>
+                    <div className="text-2xl">🔥</div>
                 </div>
             </motion.div>
         );
@@ -926,7 +935,7 @@ const Biceps = () => {
                 variants={itemVariants}
                 className="flex justify-center gap-4 mb-10"
             >
-                {Object.keys(bicepsWorkouts).map((type) => (
+                {Object.keys(absWorkouts).map((type) => (
                     <motion.button
                         key={type}
                         variants={buttonVariants}
@@ -936,8 +945,8 @@ const Biceps = () => {
                         className={`px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300 ${
                             workoutType === type
                                 ? theme === 'dark'
-                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg transform scale-105'
-                                    : 'bg-gradient-to-r from-blue-600 to-cyan-700 text-white shadow-lg transform scale-105'
+                                    ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg transform scale-105'
+                                    : 'bg-gradient-to-r from-orange-600 to-red-700 text-white shadow-lg transform scale-105'
                                 : theme === 'dark'
                                     ? 'bg-gray-700 bg-opacity-50 text-gray-300 hover:bg-opacity-80'
                                     : 'bg-gray-300 bg-opacity-70 text-gray-700 hover:bg-opacity-90'
@@ -960,9 +969,9 @@ const Biceps = () => {
                 animate="animate"
                 className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
             >
-                {Object.keys(bicepsWorkouts[workoutType]).map((lvl) => {
-                    const exerciseCount = bicepsWorkouts[workoutType][lvl].length;
-                    const workoutTime = bicepsWorkouts[workoutType][lvl]
+                {Object.keys(absWorkouts[workoutType]).map((lvl) => {
+                    const exerciseCount = absWorkouts[workoutType][lvl].length;
+                    const workoutTime = absWorkouts[workoutType][lvl]
                         .filter(ex => ex.restTime)
                         .reduce((sum, ex) => sum + ex.restTime, 0) + (exerciseCount * 45);
                     
@@ -975,8 +984,8 @@ const Biceps = () => {
                             onClick={() => startWorkout(lvl)}
                             className={`p-6 rounded-xl font-bold text-white transition-all duration-300 transform hover:shadow-2xl ${
                                 workoutType === 'Home'
-                                    ? 'bg-gradient-to-br from-blue-500 via-cyan-600 to-sky-700 hover:from-blue-400 hover:via-cyan-500 hover:to-sky-600'
-                                    : 'bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-600'
+                                    ? 'bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 hover:from-orange-400 hover:via-red-500 hover:to-pink-600'
+                                    : 'bg-gradient-to-br from-purple-500 via-indigo-600 to-blue-700 hover:from-purple-400 hover:via-indigo-500 hover:to-blue-600'
                             }`}
                         >
                             <div className="text-2xl mb-2">
@@ -1002,9 +1011,9 @@ const Biceps = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
             >
-                <div className="bg-gradient-to-br from-blue-900 to-cyan-900 p-8 rounded-2xl text-center max-w-sm mx-4">
+                <div className="bg-gradient-to-br from-orange-900 to-red-900 p-8 rounded-2xl text-center max-w-sm mx-4">
                     <div className="text-6xl mb-4">⏱️</div>
-                    <div className="text-4xl font-bold mb-4 text-blue-400">{formatTime(restTimer)}</div>
+                    <div className="text-4xl font-bold mb-4 text-orange-400">{formatTime(restTimer)}</div>
                     <div className="text-lg mb-6 text-gray-300">Rest Time</div>
                     <div className="flex gap-4">
                         <motion.button
@@ -1063,15 +1072,15 @@ const Biceps = () => {
                         {workoutType} - {level} Level
                     </h2>
                     <p className="text-gray-400 mb-4">
-                        Exercise {currentIndex + 1} of {bicepsWorkouts[workoutType]?.[level]?.length}
+                        Exercise {currentIndex + 1} of {absWorkouts[workoutType]?.[level]?.length}
                     </p>
                     
                     {/* Progress Bar */}
                     <div className="w-full bg-gray-700 rounded-full h-2 mb-6">
                         <div 
-                            className="bg-gradient-to-r from-blue-500 to-cyan-600 h-2 rounded-full transition-all duration-500"
+                            className="bg-gradient-to-r from-orange-500 to-red-600 h-2 rounded-full transition-all duration-500"
                             style={{ 
-                                width: `${((currentIndex + 1) / (bicepsWorkouts[workoutType]?.[level]?.length || 1)) * 100}%` 
+                                width: `${((currentIndex + 1) / (absWorkouts[workoutType]?.[level]?.length || 1)) * 100}%` 
                             }}
                         />
                     </div>
@@ -1119,7 +1128,7 @@ const Biceps = () => {
                             <div className="text-gray-400 mb-2">Target Muscles:</div>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {currentExercise.targetMuscles.map((muscle, idx) => (
-                                    <span key={idx} className="bg-blue-600 bg-opacity-30 px-3 py-1 rounded-full text-sm">
+                                    <span key={idx} className="bg-orange-600 bg-opacity-30 px-3 py-1 rounded-full text-sm">
                                         {muscle}
                                     </span>
                                 ))}
@@ -1135,7 +1144,7 @@ const Biceps = () => {
                         whileHover="hover"
                         whileTap="tap"
                         onClick={toggleInstructions}
-                        className="mb-4 bg-blue-600 bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all"
+                        className="mb-4 bg-orange-600 bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all"
                     >
                         {showInstructions ? '📖 Hide Instructions' : '📖 Show Instructions'}
                     </motion.button>
@@ -1173,9 +1182,9 @@ const Biceps = () => {
                         whileHover="hover"
                         whileTap="tap"
                         onClick={nextExercise}
-                        className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white text-xl px-8 py-4 rounded-xl font-bold shadow-xl hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 w-full"
+                        className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-xl px-8 py-4 rounded-xl font-bold shadow-xl hover:from-orange-600 hover:to-red-700 transition-all duration-300 w-full"
                     >
-                        {currentIndex === (bicepsWorkouts[workoutType]?.[level]?.length || 1) - 1
+                        {currentIndex === (absWorkouts[workoutType]?.[level]?.length || 1) - 1
                             ? "🎉 Finish Workout"
                             : "➡️ Next Exercise"}
                     </motion.button>
@@ -1202,13 +1211,13 @@ const Biceps = () => {
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -100 }}
-                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-600 p-4 rounded-xl shadow-2xl z-50 max-w-sm mx-4"
+                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange-500 to-red-600 p-4 rounded-xl shadow-2xl z-50 max-w-sm mx-4"
             >
                 <div className="text-center">
                     <div className="text-4xl mb-2">{newAchievement.icon}</div>
                     <div className="font-bold text-white mb-1">Achievement Unlocked!</div>
-                    <div className="text-sm text-blue-100">{newAchievement.name}</div>
-                    <div className="text-xs text-blue-200">{newAchievement.description}</div>
+                    <div className="text-sm text-orange-100">{newAchievement.name}</div>
+                    <div className="text-xs text-orange-200">{newAchievement.description}</div>
                 </div>
             </motion.div>
         );
@@ -1222,8 +1231,8 @@ const Biceps = () => {
             animate="animate"
             className={`min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
                 theme === 'dark' 
-                    ? 'bg-gradient-to-br from-gray-900 via-blue-900 to-cyan-900 text-white' 
-                    : 'bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50 text-gray-900'
+                    ? 'bg-gradient-to-br from-gray-900 via-orange-900 to-red-900 text-white' 
+                    : 'bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 text-gray-900'
             }`}
         >
             <div className="max-w-6xl mx-auto">
@@ -1240,4 +1249,4 @@ const Biceps = () => {
     );
 };
 
-export default Biceps;
+export default Abs;

@@ -8,29 +8,32 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// Assuming your firebase.js is in the src/ directory or src/services/
-// Adjust the path if necessary.
+
 import { auth } from "./firebase"; 
 import { onAuthStateChanged } from "firebase/auth";
 
+// dashboard
+import Dashboard from "./Dashboard/Dashboard";
+
 // Import all your page and component files
-import AuthOptions from "./pages/AuthOptions";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import WorkoutHistory from "./components/WorkoutHistory"; // Note: from components folder
-import Chest from "./pages/Chest";
-import Tricep from "./pages/Tricep";
-import Biceps from "./pages/Biceps";
-import Abs from "./pages/Abs";
-import Shoulder from "./pages/Shoulder";
-import Yoga from "./pages/Yoga";
-import Back from "./pages/Back";
-import Leg from "./pages/Leg";
-import Keggle from "./pages/Keggle"; // Assuming you have a Keggle page
-// --- Custom Hook for Auth State ---
-// This hook encapsulates the logic for tracking the current user.
-// It's good practice to keep this here or move it to a `hooks` folder.
+import AuthOptions from "./Auth/AuthOptions";
+import Login from "./Auth/Login";
+import Signup from "./Auth/Signup";
+import Exercise from "./Exercise/Exercise";
+import WorkoutHistory from "./components/WorkoutHistory"; 
+
+import Chest from "./individual-exercises/Chest";
+import Tricep from "./individual-exercises/Tricep";
+import Biceps from "./individual-exercises/Biceps";
+import Abs from "./individual-exercises/Abs";
+import Shoulder from "./individual-exercises/Shoulder";
+import Back from "./individual-exercises/Back";
+import Leg from "./individual-exercises/Leg";
+import Keggle from "./individual-exercises/Keggle";
+import Arm from "./individual-exercises/Arm"; 
+
+import Yoga from "./Yoga/Yoga";
+
 const useAuth = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -89,26 +92,27 @@ const App = () => {
         <Router>
             <Routes>
                 {/* Public routes that are accessible whether the user is logged in or not */}
-                {/* If a user is logged in, they will be redirected to the dashboard */}
-                <Route path="/" element={!user ? <AuthOptions /> : <Navigate to="/dashboard" />} />
-                <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
-                <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/dashboard" />} />
+                {/* If a user is logged in, they will be redirected to the exercise */}
+                <Route path="/" element={!user ? <AuthOptions /> : <Navigate to="/exercise" />} />
+                <Route path="/login" element={!user ? <Login /> : <Navigate to="/exercise" />} />
+                <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/exercise" />} />
 
                 {/* Protected Routes that require a user to be logged in */}
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/exercise" element={<ProtectedRoute><Exercise /></ProtectedRoute>} />
                 <Route path="/history" element={<ProtectedRoute><WorkoutHistory /></ProtectedRoute>} />
                 <Route path="/exercises/chest" element={<ProtectedRoute><Chest /></ProtectedRoute>} />
                 <Route path="/exercises/tricep" element={<ProtectedRoute><Tricep /></ProtectedRoute>} />
                 <Route path="/exercises/bicep" element={<ProtectedRoute><Biceps /></ProtectedRoute>} />
                 <Route path="/exercises/abs" element={<ProtectedRoute><Abs /></ProtectedRoute>} />
                 <Route path="/exercises/shoulder" element={<ProtectedRoute><Shoulder /></ProtectedRoute>} />
-                <Route path="/exercises/yoga" element={<ProtectedRoute><Yoga /></ProtectedRoute>} />
+                <Route path="/yoga" element={<ProtectedRoute><Yoga /></ProtectedRoute>} />
                 <Route path="/exercises/back" element={<ProtectedRoute><Back /></ProtectedRoute>} />
                 <Route path="/exercises/leg" element={<ProtectedRoute><Leg /></ProtectedRoute>} />
                 <Route path="/exercises/keggle" element={<ProtectedRoute><Keggle /></ProtectedRoute>} />
-                {/* A fallback route for any path that doesn't match. */}
-                {/* It redirects to the dashboard if logged in, or the home page if not. */}
-                <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} replace />} />
+                <Route path="/exercises/arm" element={<ProtectedRoute><Arm /></ProtectedRoute>} />
+
+                <Route path="*" element={<Navigate to={user ? "/exercise" : "/"} replace />} />
             </Routes>
         </Router>
     );

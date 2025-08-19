@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import motivationalSound from "../assets/workout_motivation.mp3";
+import motivationalSound from "../assets/sounds/workout_motivation.mp3";
 
 // ======================== HELPER FUNCTIONS ========================
 const formatTime = (totalSeconds) => {
@@ -57,13 +57,13 @@ const warmupExercises = [
         tips: "Focus on controlled movements, don't rush."
     },
     { 
-        name: "Warm-up: Cat-Cow Stretch", 
-        img: "https://www.yogajournal.com/wp-content/uploads/2020/01/cat-cow-1.gif?width=730", 
+        name: "Warm-up: Dynamic Chest Stretch", 
+        img: "https://cdn.jefit.com/assets/img/exercises/gifs/846.gif", 
         duration: "30 seconds",
-        difficulty: 1,
-        instructions: "On hands and knees, alternate between arching back (cow) and rounding spine (cat).",
-        targetMuscles: ["Back", "Core"],
-        tips: "Move slowly and coordinate with your breathing."
+        difficulty: 2,
+        instructions: "Stand tall, stretch arms across chest and pull back dynamically to open chest muscles.",
+        targetMuscles: ["Chest", "Shoulders"],
+        tips: "Don't bounce aggressively, use controlled movements."
     },
     { 
         name: "Warm-up: Torso Twists", 
@@ -74,9 +74,63 @@ const warmupExercises = [
         targetMuscles: ["Core", "Back"],
         tips: "Keep your core engaged throughout the movement."
     },
+    { 
+        name: "Warm-up: Bodyweight Squats", 
+        img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/squat-1585330081.gif", 
+        duration: "30 seconds",
+        difficulty: 2,
+        instructions: "Stand with feet shoulder-width apart, lower into squat position keeping chest up and knees tracking over toes.",
+        targetMuscles: ["Quads", "Glutes", "Hamstrings"],
+        tips: "Perfect for warming up the legs and hips before training."
+    },
+    { 
+        name: "Warm-up: Lunges (Alternating)", 
+        img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/how-to-do-a-lunge-1553612001.gif", 
+        duration: "30 seconds",
+        difficulty: 2,
+        instructions: "Step forward into lunge position, alternate legs. Keep front knee over ankle and back leg straight.",
+        targetMuscles: ["Quads", "Glutes", "Hip Flexors"],
+        tips: "Great for activating hip flexors and preparing for single-leg movements."
+    },
 ];
 
 const cooldownStretches = [
+    { 
+        name: "Cooldown: Hamstring Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", 
+        duration: "30 seconds each leg",
+        difficulty: 1,
+        instructions: "Sit with one leg extended, reach toward toes. Feel stretch in back of thigh.",
+        targetMuscles: ["Hamstrings", "Calves"],
+        tips: "Don't bounce - hold steady stretch and breathe deeply."
+    },
+    { 
+        name: "Cooldown: Quad Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", 
+        duration: "30 seconds each leg",
+        difficulty: 1,
+        instructions: "Stand on one leg, pull other foot toward glutes. Feel stretch in front of thigh.",
+        targetMuscles: ["Quadriceps", "Hip Flexors"],
+        tips: "Hold wall or chair for balance. Keep knees close together."
+    },
+    { 
+        name: "Cooldown: Calf Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", 
+        duration: "30 seconds each leg",
+        difficulty: 1,
+        instructions: "Step back into lunge, keep back leg straight and heel down. Feel stretch in calf muscle.",
+        targetMuscles: ["Calves", "Achilles"],
+        tips: "Press heel firmly into ground for deeper stretch."
+    },
+    { 
+        name: "Cooldown: Hip Flexor Stretch", 
+        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824_Leg_Stretches_1200x628-facebook.jpg", 
+        duration: "30 seconds each side",
+        difficulty: 2,
+        instructions: "Kneel in lunge position, push hips forward to stretch front of hip.",
+        targetMuscles: ["Hip Flexors", "Quads"],
+        tips: "Essential after squats and lunges to maintain hip mobility."
+    },
     { 
         name: "Cooldown: Child's Pose", 
         img: "https://media.post.rvohealth.io/wp-content/uploads/2018/07/Childs-Pose-Balasana.gif", 
@@ -86,175 +140,168 @@ const cooldownStretches = [
         targetMuscles: ["Back", "Shoulders"],
         tips: "Focus on deep breathing and let gravity help you stretch."
     },
-    { 
-        name: "Cooldown: Cobra Stretch", 
-        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/3824-Cobra_Stretch-1200x628-facebook.jpg", 
-        duration: "30 seconds",
-        difficulty: 2,
-        instructions: "Lie face down, place palms under shoulders, slowly push up arching your back.",
-        targetMuscles: ["Chest", "Hip Flexors"],
-        tips: "Keep hips on ground and don't overextend your back."
-    },
-    { 
-        name: "Cooldown: Knees-to-Chest Stretch", 
-        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/8245-Knees_To_Chest_Stretch-1200x628-facebook.jpg", 
-        duration: "30 seconds",
-        difficulty: 1,
-        instructions: "Lie on back, pull both knees toward chest and hold gently.",
-        targetMuscles: ["Lower Back", "Hips"],
-        tips: "Rock gently side to side for added benefit."
-    },
-    { 
-        name: "Cooldown: Standing Forward Bend", 
-        img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/8250_Standing_Forward_Bend-1200x628-facebook.jpg", 
-        duration: "30 seconds",
-        difficulty: 2,
-        instructions: "Stand with feet hip-width apart, fold forward letting arms hang naturally.",
-        targetMuscles: ["Hamstrings", "Calves", "Back"],
-        tips: "Bend knees slightly if hamstrings are tight."
-    },
 ];
 
-const backWorkouts = {
+const legWorkouts = {
     Home: {
         Beginner: [
             ...warmupExercises,
             { 
-                name: "Supermans", 
-                img: "https://www.spotebi.com/wp-content/uploads/2014/10/superman-exercise-illustration.gif", 
+                name: "Bodyweight Squats", 
+                img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/squat-1585330081.gif", 
                 reps: "3 sets × 15-20 reps",
                 difficulty: 2,
-                instructions: "Lie face down, simultaneously lift chest, arms, and legs off ground. Hold briefly, then lower with control.",
-                targetMuscles: ["Lower Back", "Glutes", "Hamstrings"],
-                tips: "Don't lift too high - focus on squeezing your glutes and lower back.",
-                restTime: 45
-            },
-            { 
-                name: "Bird Dog", 
-                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/Bird-Dog-1200x628-facebook.jpg", 
-                reps: "3 sets × 10-12 reps each side",
-                difficulty: 2,
-                instructions: "Start on hands and knees. Extend opposite arm and leg, hold, then return. Switch sides.",
-                targetMuscles: ["Core", "Back", "Glutes"],
-                tips: "Keep hips level and avoid twisting. Focus on stability.",
-                restTime: 45
-            },
-            { 
-                name: "Door Frame Rows (Underhand Grip)", 
-                img: "https://www.nerdfitness.com/wp-content/uploads/2020/04/doorway-row.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 3,
-                instructions: "Hold door frame, lean back and pull body toward door. Use towel if needed for grip.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Ensure door frame is sturdy. Lean back more to increase difficulty.",
+                instructions: "Stand with feet shoulder-width apart. Lower hips back and down as if sitting in chair. Keep chest up and knees tracking over toes.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings", "Core"],
+                tips: "Focus on sitting back with hips, not just bending knees forward.",
                 restTime: 60
             },
             { 
-                name: "Inverted Rows (on sturdy table/chair, low)", 
-                img: "https://i.ytimg.com/vi/jZ_g1xL70p8/maxresdefault.jpg", 
-                reps: "3 sets × 8-10 reps",
+                name: "Lunges (Alternating)", 
+                img: "https://hips.hearstapps.com/ghk.hmg-prod.s3.amazonaws.com/images/how-to-do-a-lunge-1553612001.gif", 
+                reps: "3 sets × 10-12 reps per leg",
                 difficulty: 3,
-                instructions: "Lie under sturdy table, grip edge, pull chest toward table. Keep body straight.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Test furniture stability first. Bend knees to make it easier.",
+                instructions: "Step forward into lunge position, lower back knee toward ground. Push through front heel to return to standing.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings", "Calves"],
+                tips: "Keep front knee over ankle and torso upright throughout movement.",
                 restTime: 75
             },
             { 
-                name: "Band Pull-Aparts", 
-                img: "https://redefiningstrength.com/wp-content/uploads/2015/03/band-pull-apart.gif", 
+                name: "Glute Bridges", 
+                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.12.GluteBridge.gif", 
                 reps: "3 sets × 15-20 reps",
                 difficulty: 2,
-                instructions: "Hold resistance band at chest level, pull apart by squeezing shoulder blades together.",
-                targetMuscles: ["Rear Delts", "Middle Traps", "Rhomboids"],
-                tips: "Focus on squeezing shoulder blades together, not just moving arms.",
+                instructions: "Lie on back with knees bent. Lift hips up by squeezing glutes. Lower with control.",
+                targetMuscles: ["Glutes", "Hamstrings", "Core"],
+                tips: "Squeeze glutes at top and avoid arching lower back excessively.",
+                restTime: 60
+            },
+            { 
+                name: "Calf Raises (Bodyweight)", 
+                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.8.StandingCalfRaise.gif", 
+                reps: "3 sets × 15-20 reps",
+                difficulty: 1,
+                instructions: "Stand tall, rise up onto toes by contracting calf muscles. Lower with control.",
+                targetMuscles: ["Calves", "Achilles"],
+                tips: "Hold onto wall for balance if needed. Focus on full range of motion.",
                 restTime: 45
+            },
+            { 
+                name: "Wall Sit", 
+                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.13.WallSit.gif", 
+                reps: "3 sets × 30-60 seconds",
+                difficulty: 3,
+                instructions: "Lean back against wall, slide down until thighs parallel to ground. Hold position.",
+                targetMuscles: ["Quadriceps", "Glutes", "Core"],
+                tips: "Keep knees at 90 degrees and resist sliding down the wall.",
+                restTime: 90
             },
             ...cooldownStretches
         ],
         Intermediate: [
             ...warmupExercises,
             { 
-                name: "Inverted Rows (on higher surface)", 
-                img: "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2023/03/inverted-row-with-underhand-grip-new.gif?fit=600%2C600&ssl=1", 
-                reps: "3 sets × 10-12 reps",
+                name: "Bulgarian Split Squats (Bodyweight)", 
+                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.4.BulgarianSplitSquat.gif", 
+                reps: "3 sets × 10-12 reps per leg",
                 difficulty: 4,
-                instructions: "Perform inverted rows on higher surface for increased difficulty. Keep body straight throughout.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Higher position = harder exercise. Control both up and down phases.",
+                instructions: "Rear foot elevated on chair or couch. Lower into lunge position on front leg. Push through front heel to return.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings", "Stabilizers"],
+                tips: "Most of weight should be on front leg. Use rear foot only for balance.",
+                restTime: 90
+            },
+            { 
+                name: "Pistol Squat (Assisted)", 
+                img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-assisted-pistol-squats-m1.gif", 
+                reps: "3 sets × 8-10 reps per leg",
+                difficulty: 5,
+                instructions: "Single-leg squat with opposite leg extended forward. Use chair or wall for assistance.",
+                targetMuscles: ["Quadriceps", "Glutes", "Core", "Balance"],
+                tips: "Advanced exercise - use assistance until you build strength and balance.",
+                restTime: 120
+            },
+            { 
+                name: "Single Leg Glute Bridges", 
+                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.14.SingleLegGluteBridge.gif", 
+                reps: "3 sets × 15 reps per leg",
+                difficulty: 4,
+                instructions: "Glute bridge with one leg extended. Lift hips using only one leg while keeping other leg straight.",
+                targetMuscles: ["Glutes", "Hamstrings", "Core"],
+                tips: "Keep hips level and avoid rotating during movement.",
                 restTime: 75
             },
             { 
-                name: "Towel Rows (partner or anchored)", 
-                img: "https://static.strengthlevel.com/images/illustrations/towel-row-1000x1000.jpg", 
-                reps: "3 sets × 12-15 reps",
+                name: "Skater Squats", 
+                img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-skater-squat-m1.gif", 
+                reps: "3 sets × 10-12 reps per leg",
+                difficulty: 4,
+                instructions: "Single-leg squat with free leg behind and across the body. Touch toe behind supporting leg.",
+                targetMuscles: ["Quadriceps", "Glutes", "Core", "Balance"],
+                tips: "Focus on control and balance. Start with partial range of motion.",
+                restTime: 90
+            },
+            { 
+                name: "Standing Calf Raises (Elevated)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/240.gif", 
+                reps: "3 sets × 15-20 reps",
                 difficulty: 3,
-                instructions: "Anchor towel around solid object, grip both ends, lean back and row toward chest.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Ensure anchor point is secure. Squeeze shoulder blades at the top.",
-                restTime: 75
-            },
-            { 
-                name: "Assisted Pull-ups (using sturdy furniture or band)", 
-                img: "https://media2.giphy.com/media/oHk4P8D1uD1v3y2bFp/source.gif", 
-                reps: "3 sets × 5-8 reps",
-                difficulty: 4,
-                instructions: "Use assistance to perform pull-up motion. Focus on proper form over speed.",
-                targetMuscles: ["Lats", "Middle Back", "Biceps"],
-                tips: "Use as little assistance as possible while maintaining good form.",
-                restTime: 90
-            },
-            { 
-                name: "Pike Push-ups (hits upper back)", 
-                img: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/pikepushup-1456956895.gif?resize=640:*", 
-                reps: "3 sets × 8-10 reps",
-                difficulty: 4,
-                instructions: "Start in downward dog position, lower head toward hands by bending elbows.",
-                targetMuscles: ["Shoulders", "Upper Back", "Triceps"],
-                tips: "Focus on moving your head toward your hands, not down to ground.",
-                restTime: 90
+                instructions: "Stand on edge of step with heels hanging off. Rise up onto toes, then lower below step level.",
+                targetMuscles: ["Calves", "Achilles"],
+                tips: "Greater range of motion than floor version. Control the movement.",
+                restTime: 60
             },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
             { 
-                name: "Pull-ups (various grips)", 
-                img: "https://www.verywellfit.com/thmb/MfbjgOZJaqecnhZSvKl8H2YLfvs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/67-3120735-Pullups-GIF-b08bf524e15c4bb2a70c7fc43e1fe9c0.gif", 
-                reps: "3 sets × AMRAP",
+                name: "Pistol Squats (Unassisted)", 
+                img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-pistol-squats-m1.gif", 
+                reps: "3 sets × 5-8 reps per leg",
                 difficulty: 5,
-                instructions: "Hang from bar, pull body up until chin clears bar. Lower with control. Vary grip width.",
-                targetMuscles: ["Lats", "Middle Back", "Biceps"],
-                tips: "Full range of motion. Dead hang at bottom, chin over bar at top.",
+                instructions: "Full single-leg squat without assistance. Lower until thigh parallel to ground, return to standing.",
+                targetMuscles: ["Quadriceps", "Glutes", "Core", "Balance"],
+                tips: "Elite bodyweight exercise. Master assisted version first.",
                 restTime: 120
             },
             { 
-                name: "One-Arm Inverted Rows", 
-                img: "https://i.makeagif.com/media/8-26-2015/yPAHwb.gif", 
-                reps: "3 sets × 6-8 reps each side",
-                difficulty: 5,
-                instructions: "Perform inverted row using only one arm while maintaining body alignment.",
-                targetMuscles: ["Lats", "Middle Back", "Core"],
-                tips: "Advanced exercise - master regular inverted rows first.",
-                restTime: 120
+                name: "Jump Squats", 
+                img: "https://media.post.rvohealth.io/wp-content/uploads/2020/08/GRT-1.11.JumpSquat.gif", 
+                reps: "3 sets × 10-15 reps",
+                difficulty: 4,
+                instructions: "Perform squat, then explode upward jumping as high as possible. Land softly and immediately into next rep.",
+                targetMuscles: ["Quadriceps", "Glutes", "Calves", "Power"],
+                tips: "Land softly to protect knees. Focus on explosive upward movement.",
+                restTime: 90
             },
             { 
-                name: "Weighted Backpack Rows (using furniture)", 
-                img: "https://static.strengthlevel.com/images/exercises/weighted-inverted-row-1000x1000.jpg", 
-                reps: "3 sets × 8-10 reps",
-                difficulty: 5,
-                instructions: "Wear loaded backpack during inverted rows to increase resistance.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Ensure backpack is secure. Start with lighter weight and progress gradually.",
-                restTime: 120
+                name: "Single Leg Romanian Deadlifts (Bodyweight)", 
+                img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-bodyweight-single-leg-deadlift-m1.gif", 
+                reps: "3 sets × 10-12 reps per leg",
+                difficulty: 4,
+                instructions: "Stand on one leg, hinge at hip and reach toward ground while lifting opposite leg behind you.",
+                targetMuscles: ["Hamstrings", "Glutes", "Core", "Balance"],
+                tips: "Keep back straight and focus on hip hinge movement.",
+                restTime: 90
             },
             { 
-                name: "Commando Pull-Ups", 
-                img: "https://dl.beigi.fit/harakat/Lats-muscles/Alt-commando-pullup.gif", 
-                reps: "3 sets × 6-10 reps total",
+                name: "Lateral Lunges", 
+                img: "https://www.bodybuilding.com/images/2020/xdb/partials/user-626x400-bodyweight-side-lunge-m1.gif", 
+                reps: "3 sets × 10-12 reps per leg",
+                difficulty: 3,
+                instructions: "Step out to side and sit back into lunge position. Push off to return to center.",
+                targetMuscles: ["Quadriceps", "Glutes", "Adductors", "Abductors"],
+                tips: "Great for lateral movement patterns. Keep chest up throughout.",
+                restTime: 75
+            },
+            { 
+                name: "Explosive Step-Ups", 
+                img: "https://www.bodybuilding.com/images/2020/xdb/originals/user-626x400-plyo-step-ups-m1.gif", 
+                reps: "3 sets × 8-10 reps per leg",
                 difficulty: 5,
-                instructions: "Pull-up variation bringing head to alternate sides of the bar with each rep.",
-                targetMuscles: ["Lats", "Middle Back", "Core"],
-                tips: "Extremely challenging - requires significant pull-up strength first.",
+                instructions: "Step up explosively onto box or chair, drive knee up forcefully. Step down with control.",
+                targetMuscles: ["Quadriceps", "Glutes", "Calves", "Power"],
+                tips: "Use sturdy surface. Focus on explosive upward drive.",
                 restTime: 120
             },
             ...cooldownStretches
@@ -264,152 +311,172 @@ const backWorkouts = {
         Beginner: [
             ...warmupExercises,
             { 
-                name: "Machine Rows", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/138.gif", 
+                name: "Leg Press (Machine)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/397.gif", 
                 reps: "3 sets × 12-15 reps",
                 difficulty: 2,
-                instructions: "Sit at rowing machine, pull handles to chest while squeezing shoulder blades together.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Keep chest up and avoid using momentum. Focus on squeezing shoulder blades.",
-                restTime: 75
-            },
-            { 
-                name: "Lat Pulldowns (Wide Grip)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/113.gif", 
-                reps: "3 sets × 10-12 reps",
-                difficulty: 3,
-                instructions: "Sit at lat pulldown machine, pull bar to upper chest with wide grip.",
-                targetMuscles: ["Lats", "Middle Back", "Biceps"],
-                tips: "Pull to chest, not behind neck. Lean back slightly and squeeze lats.",
+                instructions: "Sit on leg press machine, place feet shoulder-width apart. Press weight up, lower with control.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings"],
+                tips: "Great beginner exercise - machine provides stability and safety.",
                 restTime: 90
             },
             { 
-                name: "Seated Cable Rows", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/139.gif", 
+                name: "Goblet Squats (Dumbbell/Kettlebell)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/396.gif", 
                 reps: "3 sets × 10-12 reps",
                 difficulty: 3,
-                instructions: "Sit at cable row station, pull handles to torso while maintaining straight back.",
-                targetMuscles: ["Middle Back", "Rear Delts", "Biceps"],
-                tips: "Keep torso upright and pull handles to lower chest/upper abdomen.",
+                instructions: "Hold dumbbell or kettlebell at chest level. Perform squat while keeping weight close to body.",
+                targetMuscles: ["Quadriceps", "Glutes", "Core"],
+                tips: "Weight helps with balance and teaches proper squat form.",
                 restTime: 90
             },
             { 
-                name: "Dumbbell Rows (Supported)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/141.gif", 
-                reps: "3 sets × 12-15 reps each arm",
-                difficulty: 3,
-                instructions: "Support one hand/knee on bench, row dumbbell to hip with opposite arm.",
-                targetMuscles: ["Lats", "Middle Back", "Rear Delts"],
-                tips: "Keep back flat and pull elbow back, not out to side.",
+                name: "Hamstring Curls (Machine, Seated/Lying)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/303.gif", 
+                reps: "3 sets × 12-15 reps",
+                difficulty: 2,
+                instructions: "Curl weight by bending knees, focus on squeezing hamstrings. Lower with control.",
+                targetMuscles: ["Hamstrings"],
+                tips: "Perfect isolation exercise for hamstrings. Adjust machine to fit your body.",
                 restTime: 75
+            },
+            { 
+                name: "Quad Extensions (Machine)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/304.gif", 
+                reps: "3 sets × 12-15 reps",
+                difficulty: 2,
+                instructions: "Extend legs by straightening knees against resistance. Lower with control.",
+                targetMuscles: ["Quadriceps"],
+                tips: "Isolation exercise for quadriceps. Don't use excessive weight.",
+                restTime: 75
+            },
+            { 
+                name: "Seated Calf Raises (Machine)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/242.gif", 
+                reps: "3 sets × 15-20 reps",
+                difficulty: 2,
+                instructions: "Sit with weight on thighs, rise up onto toes. Lower heels below starting position.",
+                targetMuscles: ["Calves"],
+                tips: "Full range of motion is key. Feel the stretch at bottom.",
+                restTime: 60
             },
             ...cooldownStretches
         ],
         Intermediate: [
             ...warmupExercises,
             { 
-                name: "Barbell Rows (Pendlay or Bent-Over)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/140.gif", 
+                name: "Barbell Back Squats", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/11.gif", 
                 reps: "3 sets × 8-10 reps",
                 difficulty: 4,
-                instructions: "Bend at hips, keep back straight, row barbell to lower chest/upper abdomen.",
-                targetMuscles: ["Middle Back", "Lats", "Rear Delts"],
-                tips: "Hinge at hips, not round back. Pull bar to sternum, not belly.",
+                instructions: "Barbell on upper back, squat down until thighs parallel to ground. Drive through heels to stand.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings", "Core"],
+                tips: "King of leg exercises. Proper form is crucial - consider using a spotter.",
                 restTime: 120
             },
             { 
-                name: "Lat Pulldowns (Close Grip)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/112.gif", 
+                name: "Romanian Deadlifts (Barbell/Dumbbell)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/45.gif", 
+                reps: "3 sets × 10-12 reps",
+                difficulty: 4,
+                instructions: "Hip hinge movement, lower weight by pushing hips back. Feel stretch in hamstrings.",
+                targetMuscles: ["Hamstrings", "Glutes", "Lower Back"],
+                tips: "Focus on hip hinge, not knee bend. Keep weight close to body.",
+                restTime: 90
+            },
+            { 
+                name: "Walking Lunges (Dumbbell)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/42.gif", 
+                reps: "3 sets × 10-12 reps per leg",
+                difficulty: 3,
+                instructions: "Hold dumbbells, step forward into lunge, bring back leg to meet front leg. Continue walking.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings", "Stabilizers"],
+                tips: "Great functional movement. Keep torso upright throughout.",
+                restTime: 90
+            },
+            { 
+                name: "Hack Squat (Machine)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/398.gif", 
                 reps: "3 sets × 10-12 reps",
                 difficulty: 3,
-                instructions: "Use close grip attachment, pull to upper chest while squeezing lats.",
-                targetMuscles: ["Lats", "Middle Back", "Biceps"],
-                tips: "Focus on pulling elbows down and back. Feel stretch at top.",
+                instructions: "Stand on hack squat machine, lower weight by squatting down. Press through heels to return.",
+                targetMuscles: ["Quadriceps", "Glutes"],
+                tips: "Machine allows for heavier weight while maintaining safety.",
                 restTime: 90
             },
             { 
-                name: "T-Bar Rows", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/142.gif", 
-                reps: "3 sets × 8-10 reps",
+                name: "Leg Press (Single Leg)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/400.gif", 
+                reps: "3 sets × 10-12 reps per leg",
                 difficulty: 4,
-                instructions: "Straddle T-bar, bent over position, row weight to chest with both hands.",
-                targetMuscles: ["Middle Back", "Lats", "Rear Delts"],
-                tips: "Keep chest up and avoid rounding back. Pull to upper abdomen.",
+                instructions: "Single-leg leg press for unilateral strength and to address imbalances.",
+                targetMuscles: ["Quadriceps", "Glutes", "Stabilizers"],
+                tips: "Use lighter weight than bilateral version. Focus on control.",
                 restTime: 90
-            },
-            { 
-                name: "Face Pulls", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/883.gif", 
-                reps: "3 sets × 15-20 reps",
-                difficulty: 3,
-                instructions: "Pull rope attachment to face level, separating handles at your ears.",
-                targetMuscles: ["Rear Delts", "Middle Traps", "Rhomboids"],
-                tips: "Pull handles apart at face level. Focus on rear delt squeeze.",
-                restTime: 75
-            },
-            { 
-                name: "Pull-ups (Assisted or Bodyweight)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/229.gif", 
-                reps: "3 sets × 8-12 reps",
-                difficulty: 4,
-                instructions: "Hang from bar, pull body up until chin clears bar. Use assistance if needed.",
-                targetMuscles: ["Lats", "Middle Back", "Biceps"],
-                tips: "Full range of motion. Progress from assisted to bodyweight.",
-                restTime: 120
             },
             ...cooldownStretches
         ],
         Hard: [
             ...warmupExercises,
             { 
-                name: "Deadlifts", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/0.gif", 
-                reps: "3-4 sets × 5-8 reps",
+                name: "Heavy Barbell Back Squats", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/11.gif", 
+                reps: "4 sets × 5-8 reps",
                 difficulty: 5,
-                instructions: "Hip hinge movement, lift barbell from ground by driving hips forward. Proper warm-up essential!",
-                targetMuscles: ["Lower Back", "Glutes", "Hamstrings", "Traps"],
-                tips: "Master form with light weight first. Keep bar close to body throughout.",
+                instructions: "Heavy squats focusing on strength development. Use proper warm-up and spotter.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings", "Core"],
+                tips: "Advanced exercise. Proper form is critical with heavy weight.",
                 restTime: 180
             },
             { 
-                name: "Weighted Pull-ups", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/230.gif", 
-                reps: "3 sets × 6-10 reps",
-                difficulty: 5,
-                instructions: "Perform pull-ups with additional weight via belt or vest.",
-                targetMuscles: ["Lats", "Middle Back", "Biceps"],
-                tips: "Master bodyweight pull-ups first. Add weight gradually.",
-                restTime: 150
-            },
-            { 
-                name: "Heavy Barbell Rows", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/140.gif", 
-                reps: "3 sets × 6-8 reps",
-                difficulty: 5,
-                instructions: "Bent-over barbell rows with heavier weight, focusing on strength and power.",
-                targetMuscles: ["Middle Back", "Lats", "Rear Delts"],
-                tips: "Maintain proper form even with heavy weight. Quality over quantity.",
-                restTime: 150
-            },
-            { 
-                name: "Single Arm Dumbbell Rows (Heavy)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/141.gif", 
-                reps: "3 sets × 6-8 reps each arm",
+                name: "Stiff-Leg Deadlifts (Barbell)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/48.gif", 
+                reps: "3 sets × 8-10 reps",
                 difficulty: 4,
-                instructions: "Heavy single-arm rows focusing on strength and muscle building.",
-                targetMuscles: ["Lats", "Middle Back", "Rear Delts"],
-                tips: "Use straps if grip is limiting factor. Focus on lat contraction.",
+                instructions: "More intense hamstring exercise with straighter legs throughout movement.",
+                targetMuscles: ["Hamstrings", "Glutes", "Lower Back"],
+                tips: "Feel deep stretch in hamstrings. Keep slight knee bend for safety.",
                 restTime: 120
             },
             { 
-                name: "Lat Pulldowns (Reverse Grip)", 
-                img: "https://cdn.jefit.com/assets/img/exercises/gifs/111.gif", 
-                reps: "3 sets × 10-12 reps",
+                name: "Leg Press (Heavy)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/397.gif", 
+                reps: "3 sets × 8-10 reps",
                 difficulty: 4,
-                instructions: "Use underhand grip for lat pulldowns to emphasize biceps and lower lats.",
-                targetMuscles: ["Lats", "Biceps", "Middle Back"],
-                tips: "Pull to upper chest and squeeze lats hard at bottom.",
+                instructions: "Heavy leg press for maximum strength development in safe environment.",
+                targetMuscles: ["Quadriceps", "Glutes", "Hamstrings"],
+                tips: "Machine allows for very heavy weights. Control the descent.",
+                restTime: 120
+            },
+            { 
+                name: "Bulgarian Split Squats (Dumbbell)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/36.gif", 
+                reps: "3 sets × 8-10 reps per leg",
+                difficulty: 4,
+                instructions: "Weighted Bulgarian split squats for advanced unilateral leg development.",
+                targetMuscles: ["Quadriceps", "Glutes", "Stabilizers"],
+                tips: "Challenging exercise even with light weight. Focus on front leg.",
                 restTime: 90
+            },
+            { 
+                name: "Hip Thrusts (Barbell)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/237.gif", 
+                reps: "3 sets × 10-15 reps",
+                difficulty: 4,
+                instructions: "Upper back on bench, barbell across hips. Drive hips up by squeezing glutes.",
+                targetMuscles: ["Glutes", "Hamstrings", "Core"],
+                tips: "Excellent for glute development. Squeeze glutes hard at top.",
+                restTime: 90
+            },
+            { 
+                name: "Standing Calf Raises (Smith Machine)", 
+                img: "https://cdn.jefit.com/assets/img/exercises/gifs/241.gif", 
+                reps: "4 sets × 15-20 reps",
+                difficulty: 3,
+                instructions: "Heavy calf raises using Smith machine for additional resistance.",
+                targetMuscles: ["Calves"],
+                tips: "Full range of motion with heavy weight. Squeeze at top.",
+                restTime: 75
             },
             ...cooldownStretches
         ],
@@ -418,34 +485,34 @@ const backWorkouts = {
 
 // ======================== ACHIEVEMENTS SYSTEM ========================
 const achievements = [
-    { id: 1, name: "First Pull", description: "Complete your first back workout", icon: "🎣", unlocked: false },
-    { id: 2, name: "Back Warrior", description: "Complete 5 back workouts", icon: "⚔️", unlocked: false },
-    { id: 3, name: "Steel Spine", description: "Complete 10 back workouts", icon: "🛡️", unlocked: false },
+    { id: 1, name: "First Step", description: "Complete your first leg workout", icon: "👟", unlocked: false },
+    { id: 2, name: "Leg Day Warrior", description: "Complete 5 leg workouts", icon: "🦵", unlocked: false },
+    { id: 3, name: "Tree Trunks", description: "Complete 10 leg workouts", icon: "🌳", unlocked: false },
     { id: 4, name: "Beast Mode", description: "Complete a Hard level workout", icon: "🦍", unlocked: false },
     { id: 5, name: "Iron Will", description: "Workout for 30+ minutes", icon: "⚡", unlocked: false },
-    { id: 6, name: "Back Master", description: "Complete 20 back workouts", icon: "👑", unlocked: false },
+    { id: 6, name: "Leg Master", description: "Complete 20 leg workouts", icon: "👑", unlocked: false },
 ];
 
 // ======================== MAIN COMPONENT ========================
-const Back = () => {
+const Leg = () => {
     // ======================== STATE MANAGEMENT ========================
     const [workoutType, setWorkoutType] = useState('Home');
     const [level, setLevel] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [audio] = useState(new Audio(motivationalSound));
-    const [isSoundEnabled, setIsSoundEnabled] = useState(() => getStorageItem('backSoundEnabled', true));
+    const [isSoundEnabled, setIsSoundEnabled] = useState(() => getStorageItem('legSoundEnabled', true));
     const [timer, setTimer] = useState(0);
     const [restTimer, setRestTimer] = useState(0);
     const [isResting, setIsResting] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
-    const [workoutHistory, setWorkoutHistory] = useState(() => getStorageItem('backWorkoutHistory', []));
-    const [userAchievements, setUserAchievements] = useState(() => getStorageItem('backUserAchievements', achievements));
-    const [theme, setTheme] = useState(() => getStorageItem('backTheme', 'dark'));
+    const [workoutHistory, setWorkoutHistory] = useState(() => getStorageItem('legWorkoutHistory', []));
+    const [userAchievements, setUserAchievements] = useState(() => getStorageItem('legUserAchievements', achievements));
+    const [theme, setTheme] = useState(() => getStorageItem('legTheme', 'dark'));
     const [showStats, setShowStats] = useState(false);
     const [completedSets, setCompletedSets] = useState(0);
     const [totalSets, setTotalSets] = useState(0);
-    const [lastWorkoutInfo, setLastWorkoutInfo] = useState(() => getStorageItem('lastBackWorkout', null));
+    const [lastWorkoutInfo, setLastWorkoutInfo] = useState(() => getStorageItem('lastLegWorkout', null));
     const [newAchievement, setNewAchievement] = useState(null);
 
     const intervalRef = useRef(null);
@@ -453,11 +520,11 @@ const Back = () => {
 
     // ======================== EFFECTS ========================
     useEffect(() => {
-        setStorageItem('backSoundEnabled', isSoundEnabled);
+        setStorageItem('legSoundEnabled', isSoundEnabled);
     }, [isSoundEnabled]);
 
     useEffect(() => {
-        setStorageItem('backTheme', theme);
+        setStorageItem('legTheme', theme);
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
@@ -466,11 +533,11 @@ const Back = () => {
     }, [theme]);
 
     useEffect(() => {
-        setStorageItem('backWorkoutHistory', workoutHistory);
+        setStorageItem('legWorkoutHistory', workoutHistory);
     }, [workoutHistory]);
 
     useEffect(() => {
-        setStorageItem('backUserAchievements', userAchievements);
+        setStorageItem('legUserAchievements', userAchievements);
     }, [userAchievements]);
 
     // Audio Effect
@@ -563,7 +630,7 @@ const Back = () => {
 
     const calculateTotalSets = useCallback(() => {
         if (!workoutType || !level) return 0;
-        const workout = backWorkouts[workoutType]?.[level];
+        const workout = legWorkouts[workoutType]?.[level];
         if (!workout) return 0;
         
         return workout.filter(exercise => exercise.reps && exercise.reps.includes('sets')).length;
@@ -571,8 +638,8 @@ const Back = () => {
 
     // ======================== WORKOUT FUNCTIONS ========================
     const startWorkout = (lvl) => {
-        if (!backWorkouts[workoutType]?.[lvl]?.length) {
-            alert(`No ${lvl} back workouts available for ${workoutType}.`);
+        if (!legWorkouts[workoutType]?.[lvl]?.length) {
+            alert(`No ${lvl} leg workouts available for ${workoutType}.`);
             return;
         }
         
@@ -617,14 +684,14 @@ const Back = () => {
             const newHistory = [workoutData, ...workoutHistory.slice(0, 9)];
             setWorkoutHistory(newHistory);
             setLastWorkoutInfo(workoutData);
-            setStorageItem("lastBackWorkout", workoutData);
+            setStorageItem("lastLegWorkout", workoutData);
             
             checkAchievements(workoutData);
         }
     };
 
     const nextExercise = () => {
-        const currentWorkoutList = backWorkouts[workoutType]?.[level];
+        const currentWorkoutList = legWorkouts[workoutType]?.[level];
         if (!currentWorkoutList) return;
 
         const currentExercise = currentWorkoutList[currentIndex];
@@ -694,8 +761,8 @@ const Back = () => {
         };
     };
 
-    const currentExercise = isRunning && workoutType && level && backWorkouts[workoutType]?.[level]
-        ? backWorkouts[workoutType][level][currentIndex]
+    const currentExercise = isRunning && workoutType && level && legWorkouts[workoutType]?.[level]
+        ? legWorkouts[workoutType][level][currentIndex]
         : null;
 
     const stats = getWorkoutStats();
@@ -737,10 +804,10 @@ const Back = () => {
             <motion.h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
                 <span className={`bg-gradient-to-r ${
                     theme === 'dark' 
-                        ? 'from-purple-400 to-indigo-600' 
-                        : 'from-purple-600 to-indigo-800'
+                        ? 'from-emerald-400 to-green-600' 
+                        : 'from-emerald-600 to-green-800'
                 } bg-clip-text text-transparent`}>
-                    🎣 Back Builder Pro
+                    🦵 Leg Crusher Pro
                 </span>
             </motion.h1>
             
@@ -752,8 +819,8 @@ const Back = () => {
                     onClick={() => setShowStats(!showStats)}
                     className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                         theme === 'dark'
-                            ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                            : 'bg-purple-500 hover:bg-purple-600 text-white'
+                            ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                            : 'bg-emerald-500 hover:bg-emerald-600 text-white'
                     }`}
                 >
                     📊 Stats
@@ -792,28 +859,28 @@ const Back = () => {
             >
                 <h3 className={`text-xl font-bold mb-4 text-center ${
                     theme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>📈 Your Back Progress</h3>
+                }`}>📈 Your Leg Progress</h3>
                 
                 {workoutHistory.length === 0 ? (
                     <div className="text-center py-8">
-                        <div className="text-6xl mb-4">🎣</div>
+                        <div className="text-6xl mb-4">🦵</div>
                         <div className={`text-xl font-semibold mb-2 ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>Ready to Pull?</div>
+                        }`}>Ready to Crush?</div>
                         <div className={`${
                             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                        }`}>Complete your first back workout to see statistics here!</div>
+                        }`}>Complete your first leg workout to see statistics here!</div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-500">{stats.totalWorkouts}</div>
+                            <div className="text-2xl font-bold text-emerald-500">{stats.totalWorkouts}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Total Workouts</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-indigo-500">{stats.totalTime}</div>
+                            <div className="text-2xl font-bold text-green-500">{stats.totalTime}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Total Time</div>
@@ -825,7 +892,7 @@ const Back = () => {
                             }`}>Average Time</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-pink-500">{stats.longestWorkout}</div>
+                            <div className="text-2xl font-bold text-lime-500">{stats.longestWorkout}</div>
                             <div className={`text-sm ${
                                 theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                             }`}>Longest Workout</div>
@@ -837,7 +904,7 @@ const Back = () => {
                 <div className="mt-6">
                     <h4 className={`text-lg font-semibold mb-3 ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
-                    }`}>🏆 Back Achievements</h4>
+                    }`}>🏆 Leg Achievements</h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                         {userAchievements.map(achievement => (
                             <div 
@@ -845,8 +912,8 @@ const Back = () => {
                                 className={`p-3 rounded-lg text-center transition-all duration-300 border ${
                                     achievement.unlocked 
                                         ? theme === 'dark'
-                                            ? 'bg-purple-600 bg-opacity-30 border-purple-500'
-                                            : 'bg-purple-100 border-purple-400'
+                                            ? 'bg-emerald-600 bg-opacity-30 border-emerald-500'
+                                            : 'bg-emerald-100 border-emerald-400'
                                         : theme === 'dark'
                                             ? 'bg-gray-600 bg-opacity-30 border-gray-500'
                                             : 'bg-gray-100 border-gray-400'
@@ -894,7 +961,7 @@ const Back = () => {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="font-bold text-purple-500">{formatTime(workout.duration)}</div>
+                                        <div className="font-bold text-emerald-500">{formatTime(workout.duration)}</div>
                                         <div className={`text-xs ${
                                             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                                         }`}>{workout.setsCompleted || 0} sets</div>
@@ -916,22 +983,22 @@ const Back = () => {
                 variants={itemVariants}
                 className={`mb-8 backdrop-blur-md p-4 rounded-xl border ${
                     theme === 'dark'
-                        ? 'bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border-purple-500/30'
-                        : 'bg-gradient-to-r from-purple-100/70 to-indigo-100/70 border-purple-400/50'
+                        ? 'bg-gradient-to-r from-emerald-900/30 to-green-900/30 border-emerald-500/30'
+                        : 'bg-gradient-to-r from-emerald-100/70 to-green-100/70 border-emerald-400/50'
                 }`}
             >
                 <div className="flex items-center justify-between">
                     <div>
                         <h3 className={`font-semibold ${
-                            theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
-                        }`}>🎯 Last Back Workout</h3>
+                            theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'
+                        }`}>🎯 Last Leg Workout</h3>
                         <p className={`text-sm ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
                         }`}>
                             {lastWorkoutInfo.type} - {lastWorkoutInfo.level} • {formatTime(lastWorkoutInfo.duration)} • {lastWorkoutInfo.date}
                         </p>
                     </div>
-                    <div className="text-2xl">🎣</div>
+                    <div className="text-2xl">🦵</div>
                 </div>
             </motion.div>
         );
@@ -945,7 +1012,7 @@ const Back = () => {
                 variants={itemVariants}
                 className="flex justify-center gap-4 mb-10"
             >
-                {Object.keys(backWorkouts).map((type) => (
+                {Object.keys(legWorkouts).map((type) => (
                     <motion.button
                         key={type}
                         variants={buttonVariants}
@@ -955,8 +1022,8 @@ const Back = () => {
                         className={`px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300 ${
                             workoutType === type
                                 ? theme === 'dark'
-                                    ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg transform scale-105'
-                                    : 'bg-gradient-to-r from-purple-600 to-indigo-700 text-white shadow-lg transform scale-105'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg transform scale-105'
+                                    : 'bg-gradient-to-r from-emerald-600 to-green-700 text-white shadow-lg transform scale-105'
                                 : theme === 'dark'
                                     ? 'bg-gray-700 bg-opacity-50 text-gray-300 hover:bg-opacity-80'
                                     : 'bg-gray-300 bg-opacity-70 text-gray-700 hover:bg-opacity-90'
@@ -979,9 +1046,9 @@ const Back = () => {
                 animate="animate"
                 className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
             >
-                {Object.keys(backWorkouts[workoutType]).map((lvl) => {
-                    const exerciseCount = backWorkouts[workoutType][lvl].length;
-                    const workoutTime = backWorkouts[workoutType][lvl]
+                {Object.keys(legWorkouts[workoutType]).map((lvl) => {
+                    const exerciseCount = legWorkouts[workoutType][lvl].length;
+                    const workoutTime = legWorkouts[workoutType][lvl]
                         .filter(ex => ex.restTime)
                         .reduce((sum, ex) => sum + ex.restTime, 0) + (exerciseCount * 45);
                     
@@ -994,8 +1061,8 @@ const Back = () => {
                             onClick={() => startWorkout(lvl)}
                             className={`p-6 rounded-xl font-bold text-white transition-all duration-300 transform hover:shadow-2xl ${
                                 workoutType === 'Home'
-                                    ? 'bg-gradient-to-br from-purple-500 via-indigo-600 to-blue-700 hover:from-purple-400 hover:via-indigo-500 hover:to-blue-600'
-                                    : 'bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 hover:from-pink-400 hover:via-purple-500 hover:to-indigo-600'
+                                    ? 'bg-gradient-to-br from-emerald-500 via-green-600 to-lime-700 hover:from-emerald-400 hover:via-green-500 hover:to-lime-600'
+                                    : 'bg-gradient-to-br from-teal-500 via-emerald-600 to-green-700 hover:from-teal-400 hover:via-emerald-500 hover:to-green-600'
                             }`}
                         >
                             <div className="text-2xl mb-2">
@@ -1021,9 +1088,9 @@ const Back = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
             >
-                <div className="bg-gradient-to-br from-purple-900 to-indigo-900 p-8 rounded-2xl text-center max-w-sm mx-4">
+                <div className="bg-gradient-to-br from-emerald-900 to-green-900 p-8 rounded-2xl text-center max-w-sm mx-4">
                     <div className="text-6xl mb-4">⏱️</div>
-                    <div className="text-4xl font-bold mb-4 text-purple-400">{formatTime(restTimer)}</div>
+                    <div className="text-4xl font-bold mb-4 text-emerald-400">{formatTime(restTimer)}</div>
                     <div className="text-lg mb-6 text-gray-300">Rest Time</div>
                     <div className="flex gap-4">
                         <motion.button
@@ -1082,15 +1149,15 @@ const Back = () => {
                         {workoutType} - {level} Level
                     </h2>
                     <p className="text-gray-400 mb-4">
-                        Exercise {currentIndex + 1} of {backWorkouts[workoutType]?.[level]?.length}
+                        Exercise {currentIndex + 1} of {legWorkouts[workoutType]?.[level]?.length}
                     </p>
                     
                     {/* Progress Bar */}
                     <div className="w-full bg-gray-700 rounded-full h-2 mb-6">
                         <div 
-                            className="bg-gradient-to-r from-purple-500 to-indigo-600 h-2 rounded-full transition-all duration-500"
+                            className="bg-gradient-to-r from-emerald-500 to-green-600 h-2 rounded-full transition-all duration-500"
                             style={{ 
-                                width: `${((currentIndex + 1) / (backWorkouts[workoutType]?.[level]?.length || 1)) * 100}%` 
+                                width: `${((currentIndex + 1) / (legWorkouts[workoutType]?.[level]?.length || 1)) * 100}%` 
                             }}
                         />
                     </div>
@@ -1138,7 +1205,7 @@ const Back = () => {
                             <div className="text-gray-400 mb-2">Target Muscles:</div>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {currentExercise.targetMuscles.map((muscle, idx) => (
-                                    <span key={idx} className="bg-purple-600 bg-opacity-30 px-3 py-1 rounded-full text-sm">
+                                    <span key={idx} className="bg-emerald-600 bg-opacity-30 px-3 py-1 rounded-full text-sm">
                                         {muscle}
                                     </span>
                                 ))}
@@ -1154,7 +1221,7 @@ const Back = () => {
                         whileHover="hover"
                         whileTap="tap"
                         onClick={toggleInstructions}
-                        className="mb-4 bg-purple-600 bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all"
+                        className="mb-4 bg-emerald-600 bg-opacity-30 hover:bg-opacity-50 px-4 py-2 rounded-lg transition-all"
                     >
                         {showInstructions ? '📖 Hide Instructions' : '📖 Show Instructions'}
                     </motion.button>
@@ -1192,9 +1259,9 @@ const Back = () => {
                         whileHover="hover"
                         whileTap="tap"
                         onClick={nextExercise}
-                        className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xl px-8 py-4 rounded-xl font-bold shadow-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 w-full"
+                        className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-xl px-8 py-4 rounded-xl font-bold shadow-xl hover:from-emerald-600 hover:to-green-700 transition-all duration-300 w-full"
                     >
-                        {currentIndex === (backWorkouts[workoutType]?.[level]?.length || 1) - 1
+                        {currentIndex === (legWorkouts[workoutType]?.[level]?.length || 1) - 1
                             ? "🎉 Finish Workout"
                             : "➡️ Next Exercise"}
                     </motion.button>
@@ -1221,13 +1288,13 @@ const Back = () => {
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -100 }}
-                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-xl shadow-2xl z-50 max-w-sm mx-4"
+                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-green-600 p-4 rounded-xl shadow-2xl z-50 max-w-sm mx-4"
             >
                 <div className="text-center">
                     <div className="text-4xl mb-2">{newAchievement.icon}</div>
                     <div className="font-bold text-white mb-1">Achievement Unlocked!</div>
-                    <div className="text-sm text-purple-100">{newAchievement.name}</div>
-                    <div className="text-xs text-purple-200">{newAchievement.description}</div>
+                    <div className="text-sm text-emerald-100">{newAchievement.name}</div>
+                    <div className="text-xs text-emerald-200">{newAchievement.description}</div>
                 </div>
             </motion.div>
         );
@@ -1241,8 +1308,8 @@ const Back = () => {
             animate="animate"
             className={`min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
                 theme === 'dark' 
-                    ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 text-white' 
-                    : 'bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50 text-gray-900'
+                    ? 'bg-gradient-to-br from-gray-900 via-emerald-900 to-green-900 text-white' 
+                    : 'bg-gradient-to-br from-emerald-50 via-green-50 to-lime-50 text-gray-900'
             }`}
         >
             <div className="max-w-6xl mx-auto">
@@ -1259,4 +1326,4 @@ const Back = () => {
     );
 };
 
-export default Back;
+export default Leg;

@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import motivationalSound from "../assets/workout_motivation.mp3";
-import workoutVideo from "../images/Keggle/keggle.mp4"; // <-- 1. IMPORT YOUR VIDEO HERE
+import motivationalSound from "../assets/sounds/workout_motivation.mp3";
+import workoutVideo from "../assets/images/Keggle/keggle.mp4"; // <-- 1. IMPORT YOUR VIDEO HERE
 
 // Warmup and Cooldown Images
-import deepBreathing from "../images/Keggle/deep-breathing.gif";
-import pelvicTilt from "../images/Keggle/pelvic-tilt.gif";
-import happyBaby from "../images/Keggle/happy-baby-pose.gif";
-import childsPose from "../images/Warmup and stretch/child-pose.jpg";
+import deepBreathing from "../assets/images/Keggle/deep-breathing.gif";
+import pelvicTilt from "../assets/images/Keggle/pelvic-tilt.gif";
+import happyBaby from "../assets/images/Keggle/happy-baby-pose.gif";
+import childsPose from "../assets/images/Warmup and stretch/child-pose.jpg";
 
 // Kegel Exercise Images
-import shortFlicks from "../images/Keggle/short-flicks.gif";
-import longHolds from "../images/Keggle/long-holds.gif";
-import bridgePose from "../images/Keggle/bridge-pose.gif";
-import squatHold from "../images/Keggle/squat-hold.gif";
+import shortFlicks from "../assets/images/Keggle/short-flicks.gif";
+import longHolds from "../assets/images/Keggle/long-holds.gif";
+import bridgePose from "../assets/images/Keggle/bridge-pose.gif";
+import squatHold from "../assets/images/Keggle/squat-hold.gif";
 
 
 // ======================== HELPER FUNCTIONS ========================
