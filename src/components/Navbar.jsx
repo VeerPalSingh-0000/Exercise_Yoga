@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// ✅ 1. Import useLocation hook
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiLogOut, FiSettings, FiChevronDown, FiHome, FiActivity } from 'react-icons/fi';
 import { GiMuscleUp, GiLotus } from 'react-icons/gi';
@@ -7,7 +6,6 @@ import { GiMuscleUp, GiLotus } from 'react-icons/gi';
 const Navbar = ({ currentUser, onLogout }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const navigate = useNavigate();
-    // ✅ 2. Get the current location object, which contains the pathname
     const location = useLocation();
 
     if (!currentUser) return null;
@@ -20,7 +18,6 @@ const Navbar = ({ currentUser, onLogout }) => {
         />
     );
 
-    // Helper to define styles
     const baseLinkClass = "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors";
     const activeLinkClass = "bg-gray-800 text-emerald-400";
     const inactiveLinkClass = "text-gray-300 hover:bg-gray-800 hover:text-white";
@@ -35,7 +32,7 @@ const Navbar = ({ currentUser, onLogout }) => {
                         <h1 className="text-xl font-bold text-gray-100 ml-2">FitPro</h1>
                     </div>
 
-                    {/* ✅ 3. Apply classes dynamically based on the current path */}
+                    {/* Center: Navigation Links (visible on medium screens and up) */}
                     <nav className="hidden md:flex items-center space-x-4">
                         <Link 
                             to="/dashboard" 
@@ -65,14 +62,22 @@ const Navbar = ({ currentUser, onLogout }) => {
                             <FiChevronDown className={`transition-transform text-gray-400 ${dropdownOpen ? 'rotate-180' : ''}`} />
                         </button>
                         {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-64 bg-gray-800 border border-gray-700 rounded-lg shadow-xl py-2">
-                                <div className="px-4 py-2 border-b border-gray-700">
+                            <div className="absolute right-0 mt-2 w-64 bg-gray-800 border border-gray-700 rounded-lg shadow-xl py-1">
+                                <div className="px-4 py-2 border-b border-gray-700 mb-1">
                                     <p className="text-sm font-semibold text-white truncate">{currentUser.displayName || "Fitness Enthusiast"}</p>
                                     <p className="text-xs text-gray-400 truncate">{currentUser.email}</p>
                                 </div>
-                                <nav className="mt-2">
-                                    <button onClick={() => { /* Navigate to settings */ setDropdownOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiSettings className="mr-2" /> Settings</button>
-                                    <button onClick={onLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 flex items-center mt-2"><FiLogOut className="mr-2" /> Logout</button>
+                                <nav>
+                                    {/* ✅ ADDED NAVIGATION LINKS */}
+                                    <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiHome className="mr-3" /> Dashboard</Link>
+                                    <Link to="/exercise" onClick={() => setDropdownOpen(false)} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiActivity className="mr-3" /> Exercise</Link>
+                                    <Link to="/yoga" onClick={() => setDropdownOpen(false)} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><GiLotus className="mr-3" /> Yoga</Link>
+                                    
+                                    {/* Separator */}
+                                    <div className="border-t border-gray-700 my-1"></div>
+
+                                    <button onClick={() => { /* Navigate to settings */ setDropdownOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiSettings className="mr-3" /> Settings</button>
+                                    <button onClick={onLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 flex items-center"><FiLogOut className="mr-3" /> Logout</button>
                                 </nav>
                             </div>
                         )}
