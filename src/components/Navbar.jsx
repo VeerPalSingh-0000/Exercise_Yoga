@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiLogOut, FiSettings, FiChevronDown, FiHome, FiActivity } from 'react-icons/fi';
+// ✅ 1. Import FiClock for the new history link
+import { FiLogOut, FiSettings, FiChevronDown, FiHome, FiActivity, FiClock } from 'react-icons/fi';
 import { GiMuscleUp, GiLotus } from 'react-icons/gi';
 
 const Navbar = ({ currentUser, onLogout }) => {
@@ -21,6 +22,12 @@ const Navbar = ({ currentUser, onLogout }) => {
     const baseLinkClass = "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors";
     const activeLinkClass = "bg-gray-800 text-emerald-400";
     const inactiveLinkClass = "text-gray-300 hover:bg-gray-800 hover:text-white";
+
+    // ✅ 2. A new handler to navigate to the history page
+    const handleNavigate = (path) => {
+        navigate(path);
+        setDropdownOpen(false);
+    };
 
     return (
         <header className="fixed top-0 left-0 right-0 bg-gray-950/80 backdrop-blur-lg border-b border-gray-700 z-30">
@@ -68,16 +75,19 @@ const Navbar = ({ currentUser, onLogout }) => {
                                     <p className="text-xs text-gray-400 truncate">{currentUser.email}</p>
                                 </div>
                                 <nav>
-                                    {/* ✅ ADDED NAVIGATION LINKS */}
                                     <Link to="/dashboard" onClick={() => setDropdownOpen(false)} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiHome className="mr-3" /> Dashboard</Link>
                                     <Link to="/exercise" onClick={() => setDropdownOpen(false)} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiActivity className="mr-3" /> Exercise</Link>
                                     <Link to="/yoga" onClick={() => setDropdownOpen(false)} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><GiLotus className="mr-3" /> Yoga</Link>
                                     
-                                    {/* Separator */}
                                     <div className="border-t border-gray-700 my-1"></div>
 
-                                    <button onClick={() => { /* Navigate to settings */ setDropdownOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center"><FiSettings className="mr-3" /> Settings</button>
-                                    <button onClick={onLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 flex items-center"><FiLogOut className="mr-3" /> Logout</button>
+                                    {/* ✅ 3. Updated the button to "Workout History" */}
+                                    <button onClick={() => handleNavigate('/history')} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center">
+                                        <FiClock className="mr-3" /> Workout History
+                                    </button>
+                                    <button onClick={onLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 flex items-center">
+                                        <FiLogOut className="mr-3" /> Logout
+                                    </button>
                                 </nav>
                             </div>
                         )}

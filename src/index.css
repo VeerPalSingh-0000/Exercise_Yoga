@@ -1,4 +1,37 @@
 @import "tailwindcss";
 
 
-  
+/* index.css */
+body {
+  background-color: #0c111d; /* Deep slate background */
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(29, 78, 216, 0.15), transparent 40%),
+              radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.15), transparent 40%),
+              radial-gradient(circle at 80% 30%, rgba(234, 88, 12, 0.15), transparent 40%);
+  animation: grain 8s steps(10) infinite, aurora 20s linear infinite;
+  z-index: -1;
+}
+
+@keyframes aurora {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(10%, -10%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1f2937; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.6); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 1); }  
