@@ -402,7 +402,7 @@ const Exercise = () => {
                         transition={{ duration: 0.6 }}
                         className="text-center mb-16"
                     >
-                        <h1 className="text-5xl sm:text-7xl font-bold mb-4 bg-gradient-to-r from-emerald-400 via-sky-400 to-purple-500 bg-clip-text text-transparent">
+                        <h1 className="p-4 text-5xl sm:text-7xl font-bold mb-4 bg-gradient-to-r from-emerald-400 via-sky-400 to-purple-500 bg-clip-text text-transparent">
                             Today's Fitness Journey
                         </h1>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
