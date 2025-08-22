@@ -93,9 +93,9 @@ const App = () => {
             <Routes>
                 {/* Public routes that are accessible whether the user is logged in or not */}
                 {/* If a user is logged in, they will be redirected to the exercise */}
-                <Route path="/" element={!user ? <AuthOptions /> : <Navigate to="/exercise" />} />
-                <Route path="/login" element={!user ? <Login /> : <Navigate to="/exercise" />} />
-                <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/exercise" />} />
+                <Route path="/" element={!user ? <AuthOptions /> : <Navigate to="/dashboard" />} />
+                <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
+                <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/dashboard" />} />
 
                 {/* Protected Routes that require a user to be logged in */}
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
