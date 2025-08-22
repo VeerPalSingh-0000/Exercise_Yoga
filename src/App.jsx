@@ -21,6 +21,7 @@ import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
 import Exercise from "./Exercise/Exercise";
 import WorkoutHistory from "./components/WorkoutHistory"; 
+import NutritionHistory from './components/NutritionHistory';
 
 import Chest from "./individual-exercises/Chest";
 import Tricep from "./individual-exercises/Tricep";
@@ -101,6 +102,7 @@ const App = () => {
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/exercise" element={<ProtectedRoute><Exercise /></ProtectedRoute>} />
                 <Route path="/history" element={<ProtectedRoute><WorkoutHistory /></ProtectedRoute>} />
+                <Route path="/nutrition-history" element={<ProtectedRoute><NutritionHistory /></ProtectedRoute>} />
                 <Route path="/exercises/chest" element={<ProtectedRoute><Chest /></ProtectedRoute>} />
                 <Route path="/exercises/tricep" element={<ProtectedRoute><Tricep /></ProtectedRoute>} />
                 <Route path="/exercises/bicep" element={<ProtectedRoute><Biceps /></ProtectedRoute>} />

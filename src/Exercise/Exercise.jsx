@@ -15,13 +15,47 @@ import Footer from "../components/Footer";
 // Configuration & Constants
 const TOAST_TYPES = { SUCCESS: 'success', ERROR: 'error', INFO: 'info' };
 const AVAILABLE_EXERCISES = ["chest", "bicep", "tricep", "leg", "shoulder", "back", "abs", "yoga", "running", "cardio", "stretching", "arm", "keggle"];
-const COMMON_FOODS = [
-    { name: 'Chicken Breast (100g)', calories: 165, protein: 31, carbs: 0, fats: 3.6, icon: '🍗' },
-    { name: 'Brown Rice (1 cup)', calories: 216, protein: 5, carbs: 45, fats: 1.8, icon: '🍚' },
-    { name: 'Banana (1 medium)', calories: 105, protein: 1.3, carbs: 27, fats: 0.4, icon: '🍌' },
-    { name: 'Salmon (100g)', calories: 208, protein: 20, carbs: 0, fats: 13, icon: '🍣' },
-    { name: 'Broccoli (1 cup)', calories: 25, protein: 3, carbs: 5, fats: 0.3, icon: '🥦' },
-];
+const FOOD_CATEGORIES = {
+    "Indian Meals": [
+        { name: 'Dal Tadka (1 bowl)', calories: 198, protein: 11, carbs: 28, fats: 5, icon: '🍲' },
+        { name: 'Paneer Tikka (100g)', calories: 263, protein: 18, carbs: 6, fats: 17, icon: '🧀' },
+        { name: 'Rajma (1 bowl)', calories: 210, protein: 8, carbs: 34, fats: 4, icon: '🥣' },
+        { name: 'Chole (1 bowl)', calories: 220, protein: 10, carbs: 35, fats: 5, icon: '🍛' },
+        { name: 'Chicken Curry (100g)', calories: 180, protein: 20, carbs: 4, fats: 9, icon: '🍗' },
+        { name: 'Roti (1 medium)', calories: 80, protein: 3, carbs: 15, fats: 1, icon: '🥙' },
+        { name: 'Rice (1 cup cooked)', calories: 206, protein: 4, carbs: 45, fats: 0.4, icon: '🍚' },
+        { name: 'Aloo Gobi (1 bowl)', calories: 150, protein: 4, carbs: 20, fats: 6, icon: '🥦' },
+        { name: 'Palak Paneer (1 bowl)', calories: 265, protein: 13, carbs: 12, fats: 18, icon: '🥬' },
+        { name: 'Dosa (1 plain)', calories: 133, protein: 3, carbs: 18, fats: 5, icon: '🥞' },
+        { name: 'Aaloo Paratha (1 medium)', calories: 210, protein: 5, carbs: 35, fats: 7, icon: '🥔' },
+        { name: 'Dahi (1 cup)', calories: 98, protein: 5, carbs: 7, fats: 4, icon: '🥛' },
+    ],
+    Fruits: [
+        { name: 'Banana (1 medium)', calories: 105, protein: 1.3, carbs: 27, fats: 0.4, icon: '🍌' },
+        { name: 'Apple (1 medium)', calories: 95, protein: 0.5, carbs: 25, fats: 0.3, icon: '🍎' },
+        { name: 'Orange (1 medium)', calories: 62, protein: 1.2, carbs: 15.4, fats: 0.2, icon: '🍊' },
+        { name: 'Papaya (1 cup)', calories: 59, protein: 0.9, carbs: 15, fats: 0.2, icon: '🍈' },
+        { name: 'Mango (1 medium)', calories: 150, protein: 1.4, carbs: 38, fats: 0.6, icon: '🥭' },
+        { name: 'Grapes (1 cup)', calories: 62, protein: 0.6, carbs: 16, fats: 0.3, icon: '🍇' },
+        { name: 'Pomegranate (1 medium)', calories: 234, protein: 4.7, carbs: 53, fats: 3.3, icon: '🍎' },
+        { name: 'Watermelon (1 cup)', calories: 46, protein: 0.9, carbs: 12, fats: 0.2, icon: '🍉' },
+        { name: 'Guava (1 medium)', calories: 37, protein: 1.4, carbs: 8, fats: 0.5, icon: '🥝' },
+        { name: 'Pineapple (1 cup)', calories: 82, protein: 0.9, carbs: 22, fats: 0.2, icon: '🍍' }
+    ],
+    Sprouts: [
+        { name: 'Moong Sprouts (1 cup)', calories: 31, protein: 3, carbs: 6, fats: 0.2, icon: '🌱' },
+        { name: 'Chana Sprouts (1 cup)', calories: 105, protein: 7, carbs: 18, fats: 1.5, icon: '🌰' },
+        { name: 'Alfalfa Sprouts (1 cup)', calories: 8, protein: 1.3, carbs: 0.7, fats: 0.2, icon: '🌿' },
+        { name: 'Lentil Sprouts (1 cup)', calories: 82, protein: 7, carbs: 17, fats: 0.5, icon: '🥜' },
+        { name: 'Soybean Sprouts (1 cup)', calories: 85, protein: 9, carbs: 7, fats: 4, icon: '🌾' },
+        { name: 'Radish Sprouts (1 cup)', calories: 16, protein: 1.6, carbs: 3, fats: 0.2, icon: '🥗' },
+        { name: 'Broccoli Sprouts (1 cup)', calories: 35, protein: 2.3, carbs: 5, fats: 0.5, icon: '🥦' },
+        { name: 'Pea Sprouts (1 cup)', calories: 26, protein: 2.5, carbs: 4.8, fats: 0.2, icon: '🌱' },
+        { name: 'Sunflower Sprouts (1 cup)', calories: 190, protein: 8, carbs: 16, fats: 13, icon: '🌻' },
+        { name: 'Wheat Sprouts (1 cup)', calories: 60, protein: 2, carbs: 13, fats: 0.5, icon: '🌾' }
+    ]
+};
+
 
 // Utility Functions
 const formatDateToUTCDayString = (dateObj) => {
@@ -252,47 +286,68 @@ const RepTrackingForm = memo(({ onSubmit, isSubmitting }) => {
 });
 
 const NutritionForm = memo(({ onSubmit, isSubmitting }) => {
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedFood, setSelectedFood] = useState('');
     const [quantity, setQuantity] = useState(1);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const food = COMMON_FOODS.find(f => f.name === selectedFood);
+        if (!selectedFood) return;
+        const food = FOOD_CATEGORIES[selectedCategory].find(f => f.name === selectedFood);
         if (!food) return;
         const qty = parseFloat(quantity) || 1;
-        const nutritionData = {
+        onSubmit({
             name: `${food.name} x${qty}`,
             calories: Math.round(food.calories * qty),
             protein: Math.round(food.protein * qty * 10) / 10,
             carbs: Math.round(food.carbs * qty * 10) / 10,
             fats: Math.round(food.fats * qty * 10) / 10
-        };
-        onSubmit(nutritionData);
-        setSelectedFood(''); setQuantity(1);
+        });
+        setSelectedCategory('');
+        setSelectedFood('');
+        setQuantity(1);
     };
 
-    const selectedFoodData = useMemo(() => COMMON_FOODS.find(f => f.name === selectedFood), [selectedFood]);
+    const foodsInCategory = selectedCategory ? FOOD_CATEGORIES[selectedCategory] : [];
+
+    const selectedFoodData = foodsInCategory.find(f => f.name === selectedFood);
 
     return (
         <FormCard>
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Food Selection */}
+                {/* Category selection */}
                 <div>
-                    <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center"><FaSeedling className="mr-2 text-green-400" /> Select Food</label>
-                    <select value={selectedFood} onChange={(e) => setSelectedFood(e.target.value)}
+                    <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center"><FaSeedling className="mr-2 text-green-400" /> Food Category</label>
+                    <select value={selectedCategory} onChange={(e) => { setSelectedCategory(e.target.value); setSelectedFood(''); }}
                         className="w-full form-select rounded-xl bg-slate-800/60 border-slate-700 text-gray-100 py-3 px-4 focus:border-green-400 focus:ring-green-400"
                         required disabled={isSubmitting}>
-                        <option value="">Choose a food item...</option>
-                        {COMMON_FOODS.map(f => <option key={f.name} value={f.name}>{f.icon} {f.name}</option>)}
+                        <option value="">Choose category...</option>
+                        {Object.keys(FOOD_CATEGORIES).map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
                     </select>
                 </div>
-                {/* Quantity */}
-                <div>
-                    <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center"><FiTarget className="mr-2 text-sky-400" /> Quantity/Servings</label>
-                    <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)}
-                        className="w-full form-input rounded-xl bg-slate-800/60 border-slate-700 text-gray-100 py-3 px-4 focus:border-sky-400 focus:ring-sky-400"
-                        min="0.1" step="0.1" required disabled={isSubmitting} />
-                </div>
+                {/* Food selection */}
+                {selectedCategory && (
+                    <div>
+                        <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center"><FaSeedling className="mr-2 text-green-400" /> Select Food</label>
+                        <select value={selectedFood} onChange={(e) => setSelectedFood(e.target.value)}
+                            className="w-full form-select rounded-xl bg-slate-800/60 border-slate-700 text-gray-100 py-3 px-4 focus:border-green-400 focus:ring-green-400"
+                            required disabled={isSubmitting || !selectedCategory}>
+                            <option value="">Choose a food item...</option>
+                            {foodsInCategory.map(f => <option key={f.name} value={f.name}>{f.icon} {f.name}</option>)}
+                        </select>
+                    </div>
+                )}
+                {/* Quantity selection */}
+                {selectedFood && (
+                    <div>
+                        <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center"><FiTarget className="mr-2 text-sky-400" /> Quantity/Servings</label>
+                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)}
+                            className="w-full form-input rounded-xl bg-slate-800/60 border-slate-700 text-gray-100 py-3 px-4 focus:border-sky-400 focus:ring-sky-400"
+                            min="0.1" step="0.1" required disabled={isSubmitting} />
+                    </div>
+                )}
                 {/* Nutrition Preview */}
                 <AnimatePresence>
                     {selectedFoodData && (
@@ -308,15 +363,19 @@ const NutritionForm = memo(({ onSubmit, isSubmitting }) => {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <motion.button type="submit" disabled={isSubmitting}
-                    className="w-full flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-500/20"
-                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }} whileTap={{ scale: 0.98 }}>
-                    {isSubmitting ? <><FiLoader className="mr-3 animate-spin" /> Adding...</> : <><FiCheckCircle className="mr-3" /> Add to Log</>}
-                </motion.button>
+                {/* Submit */}
+                {selectedFood && (
+                    <motion.button type="submit" disabled={isSubmitting}
+                        className="w-full flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-500/20"
+                        whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        {isSubmitting ? <><FiLoader className="mr-3 animate-spin" /> Adding...</> : <><FiCheckCircle className="mr-3" /> Add to Log</>}
+                    </motion.button>
+                )}
             </form>
         </FormCard>
     );
 });
+
 
 // --- Main Page Component ---
 
