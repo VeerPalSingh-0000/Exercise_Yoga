@@ -25,11 +25,14 @@ import {
   FiTrendingUp,
   FiClock,
   FiTarget,
+  
 } from "react-icons/fi";
 import { FaWalking, FaSeedling, FaFire } from "react-icons/fa";
 import { FaDumbbell } from "react-icons/fa6";
 import { HiSparkles } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
+
+
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -77,6 +80,8 @@ const FOOD_CATEGORIES = {
     { name: "Lauki ki Sabji (1 bowl)", calories: 60, protein: 2, carbs: 9, fats: 2, icon: "🥒" },
     { name: "Gajar Matar (1 bowl)", calories: 80, protein: 2, carbs: 16, fats: 2, icon: "🥕" },
     { name: "Tinda Masala (1 bowl)", calories: 65, protein: 2, carbs: 12, fats: 2, icon: "🍈" },
+    {name: "Chandliya ki Sabji (1 bowl)",calories: 45,protein: 3,carbs: 7,fats: 0.5,icon: "🌿"},
+
   ],
   Fruits: [
     { name: "Banana (1 medium)", calories: 105, protein: 1.3, carbs: 27, fats: 0.4, icon: "🍌" },
@@ -88,7 +93,22 @@ const FOOD_CATEGORIES = {
     { name: "Pomegranate (1 medium)", calories: 234, protein: 4.7, carbs: 53, fats: 3.3, icon: "🍎" },
     { name: "Watermelon (1 cup)", calories: 46, protein: 0.9, carbs: 12, fats: 0.2, icon: "🍉" },
     { name: "Guava (1 medium)", calories: 37, protein: 1.4, carbs: 8, fats: 0.5, icon: "🥝" },
-    { name: "Pineapple (1 cup)", calories: 82, protein: 0.9, carbs: 22, fats: 0.2, icon: "🍍" }
+    { name: "Pineapple (1 cup)", calories: 82, protein: 0.9, carbs: 22, fats: 0.2, icon: "🍍" },
+    { name: "Strawberries (1 cup)", calories: 49, protein: 1, carbs: 12, fats: 0.5, icon: "🍓" },
+    { name: "Kiwi (1 medium)", calories: 42, protein: 0.8, carbs: 10, fats: 0.4, icon: "🥝" },
+    { name: "Chiku (1 medium)", calories: 141, protein: 0.7, carbs: 34, fats: 1.1, icon: "🥭" },
+    { name: "Litchi (1 cup)", calories: 125, protein: 1.3, carbs: 31, fats: 0.5, icon: "🍒" },
+    { name: "Custard Apple (1 medium)", calories: 250, protein: 2.1, carbs: 57, fats: 1.6, icon: "🍏" },
+    { name: "Jackfruit (1 cup)", calories: 155, protein: 2.5, carbs: 40, fats: 0.5, icon: "🍈" },
+    { name: "Plum (1 medium)", calories: 30, protein: 0.5, carbs: 8, fats: 0.2, icon: "🍑" },
+    { name: "Peach (1 medium)", calories: 59, protein: 1.4, carbs: 14, fats: 0.4, icon: "🍑" },
+    { name: "Apricot (1 medium)", calories: 17, protein: 0.5, carbs: 4, fats: 0.1, icon: "🍑" },
+    { name: "Cherry (1 cup)", calories: 97, protein: 2, carbs: 25, fats: 0.3, icon: "🍒" },
+    { name: "Fig (1 medium)", calories: 37, protein: 0.4, carbs: 10, fats: 0.2, icon: "🍈" },
+    { name: "Dates (1 medjool)", calories: 66, protein: 0.4, carbs: 18, fats: 0.1, icon: "🌴" },
+    { name: "Raspberry (1 cup)", calories: 64, protein: 1.5, carbs: 15, fats: 0.8, icon: "🍓" },
+    { name: "Blueberry (1 cup)", calories: 85, protein: 1.1, carbs: 21, fats: 0.5, icon: "" },
+
   ],
   Sprouts: [
     { name: "Moong Sprouts (1 cup)", calories: 31, protein: 3, carbs: 6, fats: 0.2, icon: "🌱" },
@@ -100,7 +120,8 @@ const FOOD_CATEGORIES = {
     { name: "Broccoli Sprouts (1 cup)", calories: 35, protein: 2.3, carbs: 5, fats: 0.5, icon: "🥦" },
     { name: "Pea Sprouts (1 cup)", calories: 26, protein: 2.5, carbs: 4.8, fats: 0.2, icon: "🌱" },
     { name: "Sunflower Sprouts (1 cup)", calories: 190, protein: 8, carbs: 16, fats: 13, icon: "🌻" },
-    { name: "Wheat Sprouts (1 cup)", calories: 60, protein: 2, carbs: 13, fats: 0.5, icon: "🌾" }
+    { name: "Wheat Sprouts (1 cup)", calories: 60, protein: 2, carbs: 13, fats: 0.5, icon: "🌾" },
+
   ],
   Vegetables: [
     { name: "Carrot (1 medium)", calories: 25, protein: 0.6, carbs: 6, fats: 0.1, icon: "🥕" },
@@ -125,8 +146,32 @@ const FOOD_CATEGORIES = {
     { name: "Avocado (1 medium)", calories: 234, protein: 3, carbs: 12, fats: 21, icon: "🥑" },
     { name: "Coconut Oil (1 tbsp)", calories: 117, protein: 0, carbs: 0, fats: 14, icon: "🥥" },
     { name: "Sunflower Seeds (1 oz)", calories: 165, protein: 5.5, carbs: 7, fats: 14.5, icon: "🌻" }
+  ],
+  "High Protein":[
+    { name: "Chicken Breast (100g)", calories: 165, protein: 31, carbs: 0, fats: 3.6, icon: "🍗" },
+    { name: "Egg (1 large)", calories: 70, protein: 6, carbs: 0.6, fats: 5, icon: "🥚" },
+    { name: "Greek Yogurt (1 cup)", calories: 100, protein: 10, carbs: 6, fats: 0.7, icon: "🥛" },
+    { name: "Cottage Cheese (100g)", calories: 98, protein: 11, carbs: 3.4, fats: 4.3, icon: "🧀" },
+    { name: "Tofu (100g)", calories: 76, protein: 8, carbs: 1.9, fats: 4.8, icon: "🌱" },
+    { name: "Lentils (1 cup cooked)", calories: 230, protein: 18, carbs: 40, fats: 0.8, icon: "🥣" },
+    { name: "Chickpeas (1 cup cooked)", calories: 269, protein: 15, carbs: 45, fats: 4.2, icon: "🥗" },
+    { name: "Quinoa (1 cup cooked)", calories: 222, protein: 8, carbs: 39, fats: 3.6, icon: "🍚" },
+    { name: "Salmon (100g)", calories: 206, protein: 22, carbs: 0, fats: 12, icon: "🐟" },
+    { name: "Tuna (100g)", calories: 132, protein: 28, carbs: 0, fats: 1.3, icon: "🐟" },
+    { name: "Turkey Breast (100g)", calories: 135, protein: 30, carbs: 0, fats: 1.5, icon: "🍗" },
+    { name: "Edamame (1 cup)", calories: 188, protein: 18.5, carbs: 14.5, fats: 8.1, icon: "🌱" },
+    { name: "Pumpkin Seeds (1 oz)", calories: 151, protein: 7, carbs: 5, fats: 13, icon: "🎃" },
+    { name: "Hemp Seeds (1 oz)", calories: 166, protein: 9.5, carbs: 2.6, fats: 14.6, icon: "🌿" },
+    { name: "Tempeh (100g)", calories: 195, protein: 19, carbs: 9.4, fats: 11.4, icon: "🌱" },
+    { name: "Seitan (100g)", calories: 120, protein: 21, carbs: 4, fats: 2, icon: "🌾" },
+    { name: "Black Beans (1 cup cooked)", calories: 227, protein: 15.2, carbs: 40.8, fats: 0.9, icon: "🥣" },
+    { name: "Peas (1 cup cooked)", calories: 118, protein: 8, carbs: 21, fats: 0.6, icon: "🫘" },
+    { name: "Almonds (1 oz)", calories: 164, protein: 6, carbs: 6, fats: 14, icon: "🌰" },
+    { name: "Chia Seeds (1 oz)", calories: 137, protein: 4.4, carbs: 12, fats: 8.6, icon: "🌱" },
+
   ]
 };
+
 
 
 
@@ -468,6 +513,7 @@ const RepTrackingForm = memo(({ onSubmit, isSubmitting }) => {
 });
 
 const NutritionForm = memo(({ onSubmit, isSubmitting }) => {
+   const [foodSearch, setFoodSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedFood, setSelectedFood] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -530,20 +576,35 @@ const NutritionForm = memo(({ onSubmit, isSubmitting }) => {
             <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center">
               <FaSeedling className="mr-2 text-green-400" /> Select Food
             </label>
-            <select
-              value={selectedFood}
-              onChange={(e) => setSelectedFood(e.target.value)}
-              className="w-full form-select rounded-xl bg-slate-800/60 border-slate-700 text-gray-100 py-3 px-4 focus:border-green-400 focus:ring-green-400"
-              required
-              disabled={isSubmitting || !selectedCategory}
-            >
-              <option value="">Choose a food item...</option>
-              {foodsInCategory.map((f) => (
-                <option key={f.name} value={f.name}>
-                  {f.icon} {f.name}
-                </option>
-              ))}
-            </select>
+<input
+  type="text"
+  value={foodSearch}
+  onChange={(e) => {
+      setFoodSearch(e.target.value);
+      setSelectedFood(""); // Clear previous selection
+  }}
+  placeholder="Search food item..."
+  className="w-full form-input rounded-xl bg-slate-800/60 border-slate-700 text-gray-100 py-3 px-4 focus:border-green-400 focus:ring-green-400"
+  disabled={isSubmitting || !selectedCategory}
+/>
+<div className="max-h-56 overflow-y-auto mt-2 space-y-1">
+  {foodsInCategory
+    .filter(f => f.name.toLowerCase().includes(foodSearch.toLowerCase()))
+    .map(f => (
+      <div
+        key={f.name}
+        onClick={() => {
+          setSelectedFood(f.name);
+          setFoodSearch(f.name);
+        }}
+        className={`cursor-pointer px-3 py-2 rounded-lg ${selectedFood === f.name ? "bg-emerald-500/20 text-emerald-300" : "hover:bg-slate-700/80"}`}
+      >
+        {f.icon} <span className="font-medium">{f.name}</span>
+      </div>
+    ))
+  }
+</div>
+
           </div>
         )}
         {/* Quantity selection */}
@@ -640,6 +701,7 @@ const NutritionForm = memo(({ onSubmit, isSubmitting }) => {
 // --- Main Page Component ---
 
 const Exercise = () => {
+
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(auth.currentUser);
   const { toasts, addToast } = useToast();
