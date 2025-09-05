@@ -26,7 +26,7 @@ import NutritionHistory from './components/NutritionHistory';
 import Chest from "./individual-exercises/Chest";
 import Tricep from "./individual-exercises/Tricep";
 import Biceps from "./individual-exercises/Biceps";
-import Abs from "./individual-exercises/Abs";
+import Abs from "./individual-exercises/Abs/Abs";
 import Shoulder from "./individual-exercises/Shoulder";
 import Back from "./individual-exercises/Back";
 import Leg from "./individual-exercises/Leg";
