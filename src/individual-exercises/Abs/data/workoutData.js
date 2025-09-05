@@ -1,32 +1,32 @@
 
 // phase-1
-import plank from '../../../assets/images/abs/plank.webp';
-import deadbug from '../../../assets/images/abs/dead-bug.gif';
-import glute_bridge from '../../../assets/images/abs/glute_bridge.gif';
-import basic_crunches from '../../../assets/images/abs/basic_crunches.gif';
+import plank from '../images/plank.webp';
+import deadbug from '../images/dead-bug.gif';
+import glute_bridge from '../images/glute_bridge.gif';
+import basic_crunches from '../images/basic_crunches.gif';
 // phase-2
-import bicycle_crunches from '../../../assets/images/Abs/bicycle_crunches.gif';
-import leg_raises from '../../../assets/images/Abs/leg_raises.gif';
-import russian_twist from '../../../assets/images/Abs/russian_twist.gif';
-import side_plank from '../../../assets/images/Abs/side_plank.avif';
+import bicycle_crunches from '../images/bicycle_crunches.gif';
+import leg_raises from '../images/leg_raises.gif';
+import russian_twist from '../images/russian_twist.gif';
+import side_plank from '../images/side_plank.avif';
 // phase-3
-import hanging_knee_raises from '../../../assets/images/Abs/hanging_knee_raises.webp';
-import weighted_crunches from '../../../assets/images/Abs/weighted-situps.webp';
-import cable_high_to_low from '../../../assets/images/Abs/cable_high_to_low.webp';
-import weighted_plank from '../../../assets/images/Abs/plank_weighted.avif';
+import hanging_knee_raises from '../images/hanging_knee_raises.webp';
+import weighted_crunches from '../images/weighted-situps.webp';
+import cable_high_to_low from '../images/cable_high_to_low.webp';
+import weighted_plank from '../images/plank_weighted.avif';
 //phase-4
-import HangingLegRaises from '../../../assets/images/Abs/Hanging Leg Raises.gif';
-import abwheelrollout from '../../../assets/images/Abs/ab-wheel-rollout.gif';
-import dragon_flang from '../../../assets/images/Abs/dragon-flangs.webp';
-import l_sit from '../../../assets/images/Abs/l-sit.webp';
+import HangingLegRaises from '../images/Hanging Leg Raises.gif';
+import abwheelrollout from '../images/ab-wheel-rollout.gif';
+import dragon_flang from '../images/dragon-flangs.webp';
+import l_sit from '../images/l-sit.webp';
 // Cooldown
-import child_pose from '../../../assets/images/abs/child_pose.gif';
-import cobra_stretch from '../../../assets/images/abs/cobra_stretch.jpg';
-import knees_to_chest from '../../../assets/images/abs/knees_to_chest_stretch.png';
+import child_pose from '../images/child_pose.gif';
+import cobra_stretch from '../images/cobra_stretch.jpg';
+import knees_to_chest from '../images/knees_to_chest_stretch.png';
 // warmup
-import jumping_jack from '../../../assets/images/Abs/jumping_jack.gif';
-import torso_twist from '../../../assets/images/Abs/torso_twist.gif';
-import cat_cow from '../../../assets/images/Abs/cat-cow.webp';
+import jumping_jack from '../images/jumping_jack.gif';
+import torso_twist from '../images/torso_twist.gif';
+import cat_cow from '../images/cat-cow.webp';
 
 const warmupExercises = [
     { name: "Warm-up: Jumping Jacks", img: jumping_jack, duration: "60 seconds", difficulty: 2, instructions: "Stand upright with feet together, arms at sides. Jump while spreading legs shoulder-width apart and raising arms overhead. Return to starting position.", targetMuscles: ["Full Body", "Cardio"] },
