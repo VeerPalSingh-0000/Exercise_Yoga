@@ -27,11 +27,12 @@ import Chest from "./individual-exercises/Chest";
 import Tricep from "./individual-exercises/Tricep";
 import Biceps from "./individual-exercises/Biceps";
 import Abs from "./individual-exercises/Abs/Abs";
+import Forearm from "./individual-exercises/Forearm/Forearm";
 import Shoulder from "./individual-exercises/Shoulder";
 import Back from "./individual-exercises/Back";
 import Leg from "./individual-exercises/Leg";
 import Keggle from "./individual-exercises/Keggle";
-import Arm from "./individual-exercises/Arm"; 
+
 
 import Yoga from "./Yoga/Yoga";
 
@@ -112,7 +113,7 @@ const App = () => {
                 <Route path="/exercises/back" element={<ProtectedRoute><Back /></ProtectedRoute>} />
                 <Route path="/exercises/leg" element={<ProtectedRoute><Leg /></ProtectedRoute>} />
                 <Route path="/exercises/keggle" element={<ProtectedRoute><Keggle /></ProtectedRoute>} />
-                <Route path="/exercises/arm" element={<ProtectedRoute><Arm /></ProtectedRoute>} />
+                <Route path="/exercises/arm" element={<ProtectedRoute><Forearm /></ProtectedRoute>} />
 
                 <Route path="*" element={<Navigate to={user ? "/exercise" : "/"} replace />} />
             </Routes>
