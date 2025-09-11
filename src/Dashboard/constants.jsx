@@ -18,6 +18,7 @@ export const AVAILABLE_EXERCISES = [
   "stretching",
   "arm",
   "keggle",
+  "jawline",
 ];
 
 export const DEFAULT_WEEKLY_SCHEDULE = [

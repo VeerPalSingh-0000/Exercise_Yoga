@@ -32,7 +32,7 @@ import Shoulder from "./individual-exercises/Shoulder";
 import Back from "./individual-exercises/Back";
 import Leg from "./individual-exercises/Leg";
 import Keggle from "./individual-exercises/Keggle";
-
+import Jawline from "./individual-exercises/Jawline/Jawline";
 
 import Yoga from "./Yoga/Yoga";
 
@@ -114,7 +114,7 @@ const App = () => {
                 <Route path="/exercises/leg" element={<ProtectedRoute><Leg /></ProtectedRoute>} />
                 <Route path="/exercises/keggle" element={<ProtectedRoute><Keggle /></ProtectedRoute>} />
                 <Route path="/exercises/arm" element={<ProtectedRoute><Forearm /></ProtectedRoute>} />
-
+                <Route path="/exercises/jawline" element={<ProtectedRoute><Jawline /></ProtectedRoute>} />
                 <Route path="*" element={<Navigate to={user ? "/exercise" : "/"} replace />} />
             </Routes>
         </Router>

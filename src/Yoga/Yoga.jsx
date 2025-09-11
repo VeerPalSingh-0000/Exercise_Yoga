@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+// Removed useLocalStorage as we are now using Firestore
 import { weeklyYogaRoutine, meditationTracks } from "./data/yogaData";
 import RoutineView from "./components/RoutineView";
 import MeditationView from "./components/MeditationView";
 import StatsView from "./components/StatsView";
 import SettingsView from "./components/SettingsView";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
+// --- Firebase Imports ---
+import { auth, db } from "../firebase"; // Assuming you export 'db' from your firebase config
+import { signOut } from "firebase/auth";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
+// --- End Firebase Imports ---
+
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -16,26 +20,87 @@ const Yoga = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
+  // --- State Management ---
+  // Replaced useLocalStorage with useState. Firestore is now the source of truth.
+  const [completedExercises, setCompletedExercises] = useState({});
+  const [favorites, setFavorites] = useState({});
+  const [editableRoutine, setEditableRoutine] = useState(weeklyYogaRoutine); // This can remain local or be moved to Firestore if you want users to customize routines.
+
+  // No changes to UI or audio state
+  const [currentView, setCurrentView] = useState("routine");
+  const [volume, setVolume] = useState(0.5);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState(null);
+  const [audioLoading, setAudioLoading] = useState(false);
+  const audioRef = useRef(null);
+  
+  // A ref to prevent writing initial empty state back to Firestore before data is loaded
+  const isInitialLoad = useRef(true);
+
+  // --- Authentication Effect ---
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setCurrentUser(user);
       } else {
-        navigate("/"); 
+        // If no user, navigate to login page
+        navigate("/");
       }
     });
+    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [navigate]);
-  
-  const [currentView, setCurrentView] = useState("routine");
-  const [editableRoutine, setEditableRoutine] = useLocalStorage("editableRoutine", weeklyYogaRoutine);
-  const [completedExercises, setCompletedExercises] = useLocalStorage("completedExercises", {});
-  const [favorites, setFavorites] = useLocalStorage("favorites", {});
-  const [volume, setVolume] = useLocalStorage("volume", 0.5);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(null);
-  const [audioLoading, setAudioLoading] = useState(false);
-  const audioRef = useRef(null);
+
+  // --- Firestore Data Fetching Effect (Real-time) ---
+  useEffect(() => {
+    // Don't run if there's no logged-in user
+    if (!currentUser) return;
+
+    // Create a reference to the user's document in the 'users' collection
+    const userDocRef = doc(db, 'users', currentUser.uid);
+    isInitialLoad.current = true; // Set to true on user change
+
+    // onSnapshot listens for real-time updates to the document
+    const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        // If the document exists, get the data
+        const data = docSnap.data();
+        setCompletedExercises(data.completedExercises || {});
+        setFavorites(data.favorites || {});
+      } else {
+        // If the document doesn't exist (e.g., new user), create it with default empty data
+        setDoc(userDocRef, {
+          completedExercises: {},
+          favorites: {}
+        }).catch(error => console.error("Error creating user document:", error));
+      }
+      // Mark initial data load as complete
+      setTimeout(() => { isInitialLoad.current = false; }, 500);
+    });
+
+    // Cleanup the listener when the component unmounts or the user changes
+    return () => unsubscribe();
+  }, [currentUser]);
+
+  // --- Firestore Data Saving Effect ---
+  useEffect(() => {
+    // Don't save data if there's no user or if it's the initial data load
+    if (!currentUser || isInitialLoad.current) return;
+
+    const userDocRef = doc(db, 'users', currentUser.uid);
+    
+    // Create a payload with the current state
+    const dataToSave = {
+      completedExercises,
+      favorites
+    };
+
+    // Use setDoc with { merge: true } to update the document without overwriting other fields
+    setDoc(userDocRef, dataToSave, { merge: true })
+      .catch(error => console.error("Error saving user data:", error));
+
+  }, [completedExercises, favorites, currentUser]); // This effect runs whenever these state variables change
+
 
   const handleLogout = async () => {
     try {
@@ -48,9 +113,6 @@ const Yoga = () => {
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
-  }, []);
-
-  useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
     }
@@ -80,19 +142,21 @@ const Yoga = () => {
   }, [currentTrack, isPlaying]);
 
   const pauseMusic = useCallback(() => {
-    audioRef.current.pause();
-    setIsPlaying(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
   }, []);
   
   const toggleComplete = useCallback((type, day, index) => {
     const key = `${type}-${day}-${index}`;
     setCompletedExercises((prev) => ({ ...prev, [key]: !prev[key] }));
-  }, [setCompletedExercises]);
+  }, []);
 
   const toggleFavorite = useCallback((type, day, index) => {
     const key = `${type}-${day}-${index}`;
     setFavorites((prev) => ({ ...prev, [key]: !prev[key] }));
-  }, [setFavorites]);
+  }, []);
 
   const stats = useMemo(() => {
     const totalCompleted = Object.values(completedExercises).filter(Boolean).length;
@@ -115,10 +179,18 @@ const Yoga = () => {
   }, [completedExercises, favorites, editableRoutine]);
 
   const resetAllData = useCallback(() => {
-    setCompletedExercises({});
-    setFavorites({});
-    setEditableRoutine(weeklyYogaRoutine);
-  }, [setCompletedExercises, setFavorites, setEditableRoutine]);
+    if (!currentUser) return;
+    if (window.confirm("Are you sure you want to reset all your progress? This action cannot be undone.")) {
+      const userDocRef = doc(db, 'users', currentUser.uid);
+      const defaultData = {
+          completedExercises: {},
+          favorites: {}
+      };
+      // Overwrite the Firestore document with default empty data
+      setDoc(userDocRef, defaultData)
+        .catch(error => console.error("Error resetting data:", error));
+    }
+  }, [currentUser]);
 
   const renderView = () => {
     switch (currentView) {
@@ -163,10 +235,8 @@ const Yoga = () => {
       
       <Navbar currentUser={currentUser} onLogout={handleLogout} />
 
-      {/* Main content area with padding top to account for the fixed navbar */}
       <div className="flex-1 overflow-y-auto pt-16">
         
-        {/* New Unified Page Header */}
         <header className="text-center py-8 px-4">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">
@@ -193,13 +263,11 @@ const Yoga = () => {
           </nav>
         </header>
 
-        {/* Main Content View */}
         <main className="max-w-5xl mx-auto px-4 py-6 pb-24">
           {renderView()}
         </main>
       </div>
 
-      {/* Mobile Nav (No changes needed here) */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-lg border-t border-slate-700 p-2">
         <div className="flex justify-around">
           {navItems.map(({ view, label }) => (

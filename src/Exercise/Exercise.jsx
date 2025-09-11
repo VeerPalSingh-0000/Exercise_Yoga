@@ -53,6 +53,7 @@ const AVAILABLE_EXERCISES = [
   "stretching",
   "arm",
   "keggle",
+  "jawline"
 ];
 const FOOD_CATEGORIES = {
   "Indian Meals": [

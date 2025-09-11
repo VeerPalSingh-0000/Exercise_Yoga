@@ -1,0 +1,89 @@
+/* General theme for the calendar container */
+.react-calendar-theme {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+}
+
+/* Style for the navigation bar (month/year) */
+.react-calendar-theme .react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 1em;
+}
+
+.react-calendar-theme .react-calendar__navigation button {
+    min-width: 44px;
+    background: #4a5568; /* gray-700 */
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.react-calendar-theme .react-calendar__navigation button:hover {
+    background: #2d3748; /* gray-800 */
+}
+
+.react-calendar-theme .react-calendar__navigation__label {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #f6ad55; /* orange-400 */
+}
+
+/* Style for the days of the week header (Sun, Mon, etc.) */
+.react-calendar-theme .react-calendar__month-view__weekdays__weekday {
+    padding: 0.5em;
+    text-align: center;
+    font-weight: bold;
+    color: #a0aec0; /* gray-500 */
+    text-decoration: none; /* remove underline */
+}
+
+/* General tile styling (for each day) */
+.react-calendar-theme .react-calendar__tile {
+    max-width: 100%;
+    padding: 10px 6.6667px;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: background-color 0.2s, border-color 0.2s;
+    color: #e2e8f0; /* gray-300 */
+}
+
+/* Hover and focus styles */
+.react-calendar-theme .react-calendar__tile:enabled:hover,
+.react-calendar-theme .react-calendar__tile:enabled:focus {
+    background-color: #2d3748; /* gray-800 */
+    border-color: #4a5568; /* gray-700 */
+}
+
+/* Style for the current day */
+.react-calendar-theme .react-calendar__tile--now {
+    background: #dd6b20; /* orange-600 */
+    color: white;
+}
+.react-calendar-theme .react-calendar__tile--now:enabled:hover {
+    background: #c05621; /* orange-700 */
+}
+
+/* Style for tiles that are not in the current month */
+.react-calendar-theme .react-calendar__tile--neighboringMonth {
+    color: #718096; /* gray-600 */
+}
+
+/* THIS IS THE KEY STYLE FOR OUR WORKOUT DAYS */
+.workout-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #ed8936; /* orange-500 */
+    border-radius: 50%;
+    margin: 4px auto 0;
+    box-shadow: 0 0 5px #ed8936;
+}
